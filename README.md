@@ -1,1 +1,1 @@
-# KabGo-General
+# KabGo

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service DriverInfomations {
+  	rpc find(DriverId) returns (DriverInfomation) {}
+}
+
+message DriverId {
+	string id = 1;
+}
+
+message DriverInfomation {
+  	string id = 1;
+  	string firstname = 2;
+	string lastname = 3;
+}

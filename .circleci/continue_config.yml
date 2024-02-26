@@ -1,0 +1,231 @@
+version: 2.1
+
+orbs:
+    node: circleci/node@5.2.0
+
+parameters:
+    run-build-supply-service-job:
+        type: boolean
+        default: false
+    run-build-demand-service-job:
+        type: boolean
+        default: false
+    run-build-all-server-service-job:
+        type: boolean
+        default: false
+
+jobs:
+    # SUPPLY CI/CD
+
+    supply-init-service:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - checkout
+
+            - node/install-packages:
+                  app-dir: ~/KabGo/servers/supply
+                  cache-path: node_modules
+                  override-ci-command: npm ci
+
+            - run:
+                  name: Format & clean code
+                  command: |
+                      cd servers/supply
+                      cp -r ../grpc ./
+                      cp -r ../package*.json ./grpc
+                      npm run format-fix
+
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
+
+    supply-check-lint:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - run:
+                  name: Check code standard
+                  command: |
+                      cd servers/supply
+                      npm run lint-check
+
+    supply-build-test-publish-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - setup_remote_docker
+
+            - run:
+                  name: Build supply service
+                  command: |
+                      cd docker-compose
+                      docker system prune -a -f
+                      docker network create proxy
+                      docker-compose -f docker-compose-prod.yml build supply-service --pull
+
+            - run:
+                  name: Health check supply service
+                  command: |
+                      cd docker-compose
+                      docker-compose -f docker-compose-prod.yml up supply-service -d
+                      docker-compose -f docker-compose-prod.yml run supply-service npm run test
+
+            - run:
+                  name: Publish supply-service to docker hub
+                  command: |
+                      cd docker-compose
+                      docker login -u ${DOCKER_ACCOUNT} -p ${DOCKER_TOKEN}
+                      docker-compose -f docker-compose-prod.yml push supply-service
+
+    supply-deploy-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - add_ssh_keys:
+                  fingerprints:
+                      - ${VPS_FINGERPRINT}
+
+            - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service supply-service --service-path servers/supply"
+
+    # DEMAND CI/CD
+
+    demand-init-service:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - checkout
+
+            - node/install-packages:
+                  app-dir: ~/KabGo/servers/demand
+                  cache-path: node_modules
+                  override-ci-command: npm ci
+
+            - run:
+                  name: Format & clean code
+                  command: |
+                      cd servers/demand
+                      cp -r ../grpc ./
+                      cp -r ../package*.json ./grpc
+                      npm run format-fix
+
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
+
+    demand-check-lint:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - run:
+                  name: Check code standard
+                  command: |
+                      cd servers/demand
+                      npm run lint-check
+
+    demand-build-test-publish-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - setup_remote_docker
+
+            - run:
+                  name: Build demand service
+                  command: |
+                      cd docker-compose
+                      docker system prune -a -f
+                      docker network create proxy
+                      docker-compose -f docker-compose-prod.yml build demand-service --pull
+
+            - run:
+                  name: Health check demand service
+                  command: |
+                      cd docker-compose
+                      docker-compose -f docker-compose-prod.yml up demand-service -d
+                      docker-compose -f docker-compose-prod.yml run demand-service npm run test
+
+            - run:
+                  name: Publish demand-service to docker hub
+                  command: |
+                      cd docker-compose
+                      docker login -u ${DOCKER_ACCOUNT} -p ${DOCKER_TOKEN}
+                      docker-compose -f docker-compose-prod.yml push demand-service
+
+    demand-deploy-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - add_ssh_keys:
+                  fingerprints:
+                      - ${VPS_FINGERPRINT}
+
+            - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service demand-service --service-path servers/demand"
+
+workflows:
+    build-publish-deploy-supply-service:
+        when:
+            or:
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-supply-service-job >>,
+                      ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-server-service-job >>,
+                      ]
+        jobs:
+            - supply-init-service
+            - supply-check-lint:
+                  requires:
+                      - supply-init-service
+            - supply-build-test-publish-service:
+                  requires:
+                      - supply-check-lint
+            - supply-deploy-service:
+                  requires:
+                      - supply-build-test-publish-service
+
+    build-publish-deploy-demand-service:
+        when:
+            or:
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-demand-service-job >>,
+                      ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-server-service-job >>,
+                      ]
+        jobs:
+            - demand-init-service
+            - demand-check-lint:
+                  requires:
+                      - demand-init-service
+            - demand-build-test-publish-service:
+                  requires:
+                      - demand-check-lint
+            - demand-deploy-service:
+                  requires:
+                      - demand-build-test-publish-service

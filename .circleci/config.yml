@@ -1,0 +1,19 @@
+version: 2.1
+
+setup: true
+
+orbs:
+    path-filtering: circleci/path-filtering@0.1.1
+
+workflows:
+    detect-commit-changes:
+        jobs:
+            - path-filtering/filter:
+                  name: check-updated-files
+                  mapping: |
+                      servers/supply/.* run-build-supply-service-job true
+                      servers/demand/.* run-build-demand-service-job true
+                      servers/grpc/.* run-build-all-server-service-job true
+                  base-revision: main
+                  config-path: .circleci/continue_config.yml
+

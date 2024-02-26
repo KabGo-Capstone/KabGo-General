@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service CustomerInfomations {
+  	rpc find (CustomerId) returns (CustomerInfomation) {}
+}
+
+message CustomerId {
+	string id = 1;
+}
+
+message CustomerInfomation {
+  	string id = 1;
+  	string firstname = 2;
+	string lastname = 3;
+}   
