@@ -81,6 +81,7 @@ services:
         build:
             context: ../clients/admin
             dockerfile: Dockerfile.prod
+        image: wgmin/admin-client
         container_name: admin-client
         hostname: localhost
         networks:
