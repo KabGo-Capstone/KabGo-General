@@ -1,8 +1,8 @@
 version: "3"
 
 networks:
-    proxy:
-        external: true
+    kabgo-network:
+        driver: bridge
 
 services:
     # nginx:
@@ -36,7 +36,7 @@ services:
             - "5001:5001"
             - "50051:50051"
         networks:
-            - proxy
+            - kabgo-network
         volumes:
             - ../servers:/usr/src
             - ../servers/grpc:/usr/src/grpc
@@ -57,13 +57,30 @@ services:
             - "5002:5002"
             - "50052:50052"
         networks:
-            - proxy
+            - kabgo-network
         volumes:
             - ../servers:/usr/src
             - ../servers/grpc:/usr/src/grpc
             - ../servers/supply:/usr/src/app
         environment:
             DEMAND_GRPC_CLIENT: "demand-service"
+            FORCE_COLOR: 1
+            DEBUG_COLORS: "true"
+            TERM: xterm-256color
+            COLORTERM: truecolor
+
+    admin-client:
+        build:
+            context: ../clients/admin
+        container_name: admin-client
+        hostname: localhost
+        ports:
+            - "3003:3003"
+        networks:
+            - kabgo-network
+        volumes:
+            - ../clients/admin:/usr/src/app
+        environment:
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
