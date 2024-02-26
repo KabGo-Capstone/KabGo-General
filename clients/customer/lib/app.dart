@@ -60,6 +60,7 @@ class App extends ConsumerWidget {
     //   if (isAuth) {
     //     login(authState.value!, ref);
     //   }
+    //
     //   currentPage = const HomeScreen();
     // }
 
