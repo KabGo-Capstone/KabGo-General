@@ -9,7 +9,6 @@ void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   // await Notifications().initNotifications();
-  // await Permission.location.request();
   runApp(
     const ProviderScope(
       child: App(),
