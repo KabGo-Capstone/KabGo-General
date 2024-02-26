@@ -77,6 +77,30 @@ services:
             - traefik.http.routers.supply-service.tls.certresolver=letsencrypt
         restart: unless-stopped
 
+    admin-client:
+        build:
+            context: ../clients/admin
+            dockerfile: Dockerfile.prod
+        container_name: admin-client
+        hostname: localhost
+        networks:
+            - proxy
+        ports:
+            - "3003:80"
+        environment:
+            FORCE_COLOR: 1
+            DEBUG_COLORS: "true"
+            TERM: xterm-256color
+            COLORTERM: truecolor
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=proxy
+            - traefik.http.routers.admin-client.rule=Host(`kabgo-admin.mtech.id.vn`)
+            - traefik.http.routers.admin-client.entrypoints=websecure
+            - traefik.http.routers.admin-client.tls=true
+            - traefik.http.routers.admin-client.tls.certresolver=letsencrypt
+        restart: unless-stopped
+
     # rabbitmq:
     #   image: rabbitmq:3-management-alpine
     #   container_name: 'kabgo-rabbitmq'

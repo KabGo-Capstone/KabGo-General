@@ -179,6 +179,56 @@ jobs:
 
             - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service demand-service --service-path servers/demand"
 
+    # ADMIN CLIENT CI/CD
+
+    admin-init-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - checkout
+
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
+
+    admin-build-test-publish-client:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - setup_remote_docker
+
+            - run:
+                  name: Build admin client
+                  command: |
+                      cd docker-compose
+                      docker system prune -a -f
+                      docker network create proxy
+                      docker-compose -f docker-compose-prod.yml build admin-client --pull
+
+            - run:
+                  name: Publish admin-client to docker hub
+                  command: |
+                      cd docker-compose
+                      docker login -u ${DOCKER_ACCOUNT} -p ${DOCKER_TOKEN}
+                      docker-compose -f docker-compose-prod.yml push admin-client
+
+    admin-deploy-client:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - add_ssh_keys:
+                  fingerprints:
+                      - ${VPS_FINGERPRINT}
+
+            - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service admin-client --service-path clients/admin"
+
 workflows:
     build-publish-deploy-supply-service:
         when:
@@ -229,3 +279,14 @@ workflows:
             - demand-deploy-service:
                   requires:
                       - demand-build-test-publish-service
+
+    build-publish-deploy-admin-client:
+        when: << pipeline.parameters.run-build-admin-client-job >>
+        jobs:
+            - admin-init-client
+            - admin-build-test-publish-client:
+                  requires:
+                      - admin-init-client
+            - admin-deploy-client:
+                  requires:
+                      - admin-build-test-publish-client
