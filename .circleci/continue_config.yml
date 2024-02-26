@@ -10,6 +10,9 @@ parameters:
     run-build-demand-service-job:
         type: boolean
         default: false
+    run-build-admin-client-job:
+        type: boolean
+        default: false
     run-build-all-server-service-job:
         type: boolean
         default: false
