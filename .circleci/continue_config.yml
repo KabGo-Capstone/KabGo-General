@@ -184,7 +184,7 @@ jobs:
 
     # ADMIN CLIENT CI/CD
 
-    admin-init-service:
+    admin-init-client:
         docker:
             - image: cimg/base:current-22.04
         working_directory: ~/KabGo
