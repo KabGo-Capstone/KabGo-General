@@ -80,7 +80,7 @@ services:
     admin-service:
         build:
             context: ../servers/admin
-            dockerfile: Dockerfile.prod
+            dockerfile: Dockerfile.production
         image: wgmin/admin-service
         container_name: admin-service
         hostname: localhost
