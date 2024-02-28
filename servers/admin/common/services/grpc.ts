@@ -1,9 +1,7 @@
 import { Server, ServerCredentials } from '@grpc/grpc-js'
 import chalk from 'chalk'
 
-import { CustomerInfomations } from '../protos/customers.proto'
 import Logger from '../utils/logger'
-import { CustomerInfomationsService } from '../../../grpc/proto_pb/demand/demand_grpc_pb'
 
 class GrpcServer {
     private static instance: GrpcServer
@@ -19,22 +17,22 @@ class GrpcServer {
     }
 
     private loadProtos() {
-        this.server.addService(
-            CustomerInfomationsService,
-            new CustomerInfomations()
-        )
+        // this.server.addService(
+        //     CustomerInfomationsService,
+        //     new CustomerInfomations()
+        // )
     }
 
     public start() {
         const credentials = ServerCredentials.createInsecure()
 
         this.server.bindAsync(
-            `0.0.0.0:${process.env.gRPC_PORT ?? 50051}`,
+            `0.0.0.0:${process.env.gRPC_PORT ?? 50053}`,
             credentials,
             () => {
                 Logger.info(
                     chalk.green(
-                        `gRPC server is running on port ${chalk.cyan(process.env.gRPC_PORT ?? 50051)}`
+                        `gRPC server is running on port ${chalk.cyan(process.env.gRPC_PORT ?? 50053)}`
                     )
                 )
             }
