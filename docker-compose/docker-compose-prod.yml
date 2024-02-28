@@ -81,6 +81,7 @@ services:
         build:
             context: ../servers/admin
             dockerfile: Dockerfile.prod
+        image: wgmin/admin-service
         container_name: admin-service
         hostname: localhost
         ports:

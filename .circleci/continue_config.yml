@@ -13,6 +13,9 @@ parameters:
     run-build-admin-client-job:
         type: boolean
         default: false
+    run-build-admin-service-job:
+        type: boolean
+        default: false
     run-build-all-server-service-job:
         type: boolean
         default: false
@@ -232,6 +235,88 @@ jobs:
 
             - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service admin-client --service-path clients/admin"
 
+    # ADMIN SERVICE CI/CD
+
+    admin-init-service:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - checkout
+
+            - node/install-packages:
+                  app-dir: ~/KabGo/servers/admin
+                  cache-path: node_modules
+                  override-ci-command: npm ci
+
+            - run:
+                  name: Format & clean code
+                  command: |
+                      cd servers/admin
+                      cp -r ../grpc ./
+                      cp -r ../package*.json ./grpc
+                      npm run format-fix
+
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
+
+    admin-check-lint:
+        executor: node/default
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - run:
+                  name: Check code standard
+                  command: |
+                      cd servers/admin
+                      npm run lint-check
+
+    admin-build-test-publish-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - attach_workspace:
+                  at: .
+
+            - setup_remote_docker
+
+            - run:
+                  name: Build admin service
+                  command: |
+                      cd docker-compose
+                      docker system prune -a -f
+                      docker network create proxy
+                      docker-compose -f docker-compose-prod.yml build admin-service --pull
+
+            - run:
+                  name: Health check admin service
+                  command: |
+                      cd docker-compose
+                      docker-compose -f docker-compose-prod.yml up admin-service -d
+                      docker-compose -f docker-compose-prod.yml run admin-service npm run test
+
+            - run:
+                  name: Publish admin-service to docker hub
+                  command: |
+                      cd docker-compose
+                      docker login -u ${DOCKER_ACCOUNT} -p ${DOCKER_TOKEN}
+                      docker-compose -f docker-compose-prod.yml push admin-service
+
+    admin-deploy-service:
+        docker:
+            - image: cimg/base:current-22.04
+        working_directory: ~/KabGo
+        steps:
+            - add_ssh_keys:
+                  fingerprints:
+                      - ${VPS_FINGERPRINT}
+
+            - run: ssh -o StrictHostKeyChecking=no -v root@mtech.id.vn -p 24700 "chmod +x ~/KabGo/scripts/deploy.sh && ~/KabGo/scripts/deploy.sh --service admin-service --service-path servers/admin"
+
 workflows:
     build-publish-deploy-supply-service:
         when:
@@ -293,3 +378,28 @@ workflows:
             - admin-deploy-client:
                   requires:
                       - admin-build-test-publish-client
+
+    build-publish-deploy-admin-service:
+        when:
+            or:
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-admin-service-job >>,
+                      ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-server-service-job >>,
+                      ]
+        jobs:
+            - admin-init-service
+            - admin-check-lint:
+                  requires:
+                      - admin-init-service
+            - admin-build-test-publish-service:
+                  requires:
+                      - admin-check-lint
+            - admin-deploy-service:
+                  requires:
+                      - admin-build-test-publish-service
