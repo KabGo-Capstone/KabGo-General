@@ -19,6 +19,9 @@ parameters:
     run-build-all-server-service-job:
         type: boolean
         default: false
+    run-build-all-service-job:
+        type: boolean
+        default: false
 
 jobs:
     # SUPPLY CI/CD
@@ -331,6 +334,11 @@ workflows:
                           true,
                           << pipeline.parameters.run-build-all-server-service-job >>,
                       ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-service-job >>,
+                      ]
         jobs:
             - supply-init-service
             - supply-check-lint:
@@ -356,6 +364,11 @@ workflows:
                           true,
                           << pipeline.parameters.run-build-all-server-service-job >>,
                       ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-service-job >>,
+                      ]
         jobs:
             - demand-init-service
             - demand-check-lint:
@@ -369,7 +382,18 @@ workflows:
                       - demand-build-test-publish-service
 
     build-publish-deploy-admin-client:
-        when: << pipeline.parameters.run-build-admin-client-job >>
+        when:
+            or:
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-admin-client-job >>,
+                      ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-service-job >>,
+                      ]
         jobs:
             - admin-init-client
             - admin-build-test-publish-client:
@@ -391,6 +415,11 @@ workflows:
                       [
                           true,
                           << pipeline.parameters.run-build-all-server-service-job >>,
+                      ]
+                - equal:
+                      [
+                          true,
+                          << pipeline.parameters.run-build-all-service-job >>,
                       ]
         jobs:
             - admin-init-service
