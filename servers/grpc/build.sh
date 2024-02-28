@@ -26,9 +26,9 @@ PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts_proto"
 
 npx grpc_tools_node_protoc \
     --grpc_out="grpc_js:${SOURCE_DIR}" \
-    --js_out=import_style=commonjs,binary:${SOURCE_DIR} \
+    --js_out="import_style=commonjs,binary:${SOURCE_DIR}" \
     --ts_out="grpc_js:${SOURCE_DIR}"  \
-    -I ./${PROTO_DIR} ${PROTO_DIR}/*.proto
+    -I "./${PROTO_DIR}" "${PROTO_DIR}/*.proto"
 
 # npx grpc_tools_node_protoc \
 #     --grpc_out="grpc_js:${SOURCE_DIR}" \
@@ -40,12 +40,12 @@ npx grpc_tools_node_protoc \
 #Iterate over each file in the source directory
 for file in "$SOURCE_DIR"/*; do
     if [[ -f "$file" ]]; then
-        filename=$(basename -- "$file")
+        filename="$(basename -- "$file")"
         extension="${filename##*.}"
         filename_no_ext="${filename%.*}"
         folder="${filename%%_*}"  
 
-        mkdir -p $SOURCE_DIR/$folder
+        mkdir -p "$SOURCE_DIR/$folder"
 
         if [[ $filename == *_grpc_pb.* ]]; then
             mv "$file" "$SOURCE_DIR/$folder/${filename_no_ext}.${extension}"

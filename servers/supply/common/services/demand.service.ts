@@ -21,7 +21,7 @@ class DemandStub {
         deadline.setSeconds(deadline.getSeconds() + 20)
         this.demandsStub.waitForReady(deadline, (error?: Error) => {
             if (error) {
-                console.log(`Client connect error: ${error.message}`)
+                Logger.error(`Supply stub connect error: ${error.message}`)
             } else {
                 Logger.info(
                     chalk.green('Connect to demand grpc server successfully')
