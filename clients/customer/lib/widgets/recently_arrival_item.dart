@@ -9,16 +9,20 @@ class RecentlyArrivalItem extends StatelessWidget {
   final LocationModel data;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
+    return Container(
+      padding: const EdgeInsets.only(bottom: 11, top: 12, left: 6, right: 5),
+      decoration: const BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+                  width: 1, color: Color.fromARGB(255, 220, 220, 220)))),
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Image.asset(
-            'lib/assets/arrival_icon.png',
-            width: 24,
+            'lib/assets/images/arrival_icon.png',
+            width: 25,
           ),
           const SizedBox(
             width: 16,
@@ -38,20 +42,20 @@ class RecentlyArrivalItem extends StatelessWidget {
                 height: 4,
               ),
               SizedBox(
-                width: 295,
+                width: 300,
                 child: Text(
                   '${data.structuredFormatting!.mainText.toString()}, ${data.structuredFormatting!.secondaryText.toString()}',
                   style: Theme.of(context).textTheme.headlineSmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          const SizedBox(
-            width: 20,
-          ),
+          const Spacer(),
           const FaIcon(
             FontAwesomeIcons.arrowRight,
-            color: Color.fromARGB(255, 166, 166, 166),
+            color: Color.fromARGB(255, 70, 70, 70),
             size: 18,
           ),
         ],

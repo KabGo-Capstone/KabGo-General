@@ -1,11 +1,4 @@
 import 'dart:ui';
-
-import 'package:customer/screens/menu_screen/account_information/account_information.dart';
-import 'package:customer/screens/menu_screen/booking_history/booking_history.dart';
-import 'package:customer/screens/menu_screen/discount/discount.dart';
-import 'package:customer/screens/menu_screen/notification/notification.dart';
-import 'package:customer/screens/menu_screen/payment_method/payment_method.dart';
-import 'package:customer/screens/menu_screen/prefer_location/prefer_location.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -39,7 +32,7 @@ List<LocationModel> recentlyArrivalData = [
           mainText: 'Bệnh Viện Đại Học Y Dược TP.HCM',
           secondaryText:
               '215 Hồng Bàng, phường 11, quận 5, TP. HCM 215 Hồng Bàng, phường 11, quận 5, TP. HCM')),
-                LocationModel(
+  LocationModel(
       placeId: '',
       structuredFormatting: StructuredFormatting(
           mainText: 'Trường Đại Học Khoa Học Tự Nhiên',
@@ -66,7 +59,6 @@ List<LocationModel> recentlyArrivalData = [
           mainText: 'Bệnh Viện Đại Học Y Dược TP.HCM',
           secondaryText:
               '215 Hồng Bàng, phường 11, quận 5, TP. HCM 215 Hồng Bàng, phường 11, quận 5, TP. HCM')),
-              
 ];
 
 List<Map<String, Object>> favoriteLocationData = [
@@ -75,7 +67,7 @@ List<Map<String, Object>> favoriteLocationData = [
       FontAwesomeIcons.house,
       color: Color(0xff4891FE),
     ),
-    'title': 'Home',
+    'title': 'Nhà',
     'location': LocationModel(
       placeId: 'ChIJEzDP7kYldTERmF-E3bGdo6w',
       structuredFormatting: StructuredFormatting(
@@ -88,7 +80,7 @@ List<Map<String, Object>> favoriteLocationData = [
       FontAwesomeIcons.briefcase,
       color: Color(0xffF8C647),
     ),
-    'title': 'Office',
+    'title': 'Văn phòng',
     'location': LocationModel(
       placeId: 'ChIJEQnz-MIndTERzRrJ-HNQrDY',
       structuredFormatting: StructuredFormatting(
@@ -103,7 +95,7 @@ List<Map<String, Object>> favoriteLocationData = [
       FontAwesomeIcons.school,
       color: Color(0xffFF2E2E),
     ),
-    'title': 'School',
+    'title': 'Trường học',
     'location': LocationModel(
       placeId: 'ChIJ3eH0BhwvdTERPZpT1PEAOQQ',
       structuredFormatting: StructuredFormatting(
@@ -115,10 +107,10 @@ List<Map<String, Object>> favoriteLocationData = [
   },
   {
     'icon': const FaIcon(
-      FontAwesomeIcons.heart,
+      FontAwesomeIcons.solidHeart,
       color: Color(0xffFC77FF),
     ),
-    'title': 'Favor',
+    'title': 'Điểm đến yêu thích',
     'location': LocationModel(
       placeId: 'ChIJybh1lrcvdTERAVt6EpkLlEE',
       structuredFormatting: StructuredFormatting(
@@ -127,29 +119,36 @@ List<Map<String, Object>> favoriteLocationData = [
       postion: const LatLng(10.7586445, 106.6775209),
     )
   },
+  {
+    'icon': const FaIcon(
+      FontAwesomeIcons.plus,
+      size: 28,
+      color: Color(0xff6A6A6A),
+    ),
+  },
 ];
 
 List<Map<String, String>> listCarCard = [
   {
-    'image': 'lib/assets/motorbike_1.png',
+    'image': 'lib/assets/images/motorbike_1.png',
     'name': 'Xe máy',
     'description': 'Tối đa 1 chỗ ngồi',
     'price/m': '5.5',
   },
   {
-    'image': 'lib/assets/motorbike_2.png',
+    'image': 'lib/assets/images/motorbike_2.png',
     'name': 'Xe tay ga',
     'description': 'Tối đa 1 chỗ ngồi',
     'price/m': '6.3',
   },
   {
-    'image': 'lib/assets/oto_mini.png',
+    'image': 'lib/assets/images/oto_mini.png',
     'name': 'Xe Ô tô con',
     'description': 'Từ 2 - 4 chỗ ngồi',
     'price/m': '11.8',
   },
   {
-    'image': 'lib/assets/oto.png',
+    'image': 'lib/assets/images/oto.png',
     'name': 'Xe Ô tô',
     'description': 'Từ 7 - 9 chỗ ngồi',
     'price/m': '13.8',
@@ -158,17 +157,17 @@ List<Map<String, String>> listCarCard = [
 
 List<Map<String, String>> paymentMethodList = [
   {
-    'image': 'lib/assets/cash_icon.png',
+    'image': 'lib/assets/images/cash_icon.png',
     'name': 'Tiền mặt',
     'description': 'Mặc định',
   },
   {
-    'image': 'lib/assets/master_card_icon.png',
+    'image': 'lib/assets/images/master_card_icon.png',
     'name': 'Thẻ ngân hàng',
     'description': '',
   },
   {
-    'image': 'lib/assets/zalo_pay_icon.png',
+    'image': 'lib/assets/images/zalo_pay_icon.png',
     'name': 'Ví điện tử ZaloPay',
     'description': '',
   },
@@ -205,40 +204,35 @@ List<Map<String, String>> discountList = [
   }
 ];
 
-    const menu_item = [
-      {
-        'page': AccountInformation(),
-        'icon': FontAwesomeIcons.solidCircleUser,
-        'title': 'Thông tin tài khoản',
-      },
-      {
-        'page': PreferLocation(),
-        'icon': FontAwesomeIcons.solidHeart,
-        'title': 'Điểm đến yêu thích',
-      },
-      {
-        'page': PaymentMethod(),
-        'icon': FontAwesomeIcons.moneyCheckDollar,
-        'title': 'Phương thức thanh toán',
-      },
-      {
-        'page': Discount(),
-        'icon': FontAwesomeIcons.tags,
-        'title': 'Khuyến mãi',
-      },
-      {
-        'page': NotificationPage(),
-        'icon': FontAwesomeIcons.solidBell,
-        'title': 'Thông báo',
-      },
-      {
-        'page': BookingHistory(),
-        'icon': FontAwesomeIcons.clockRotateLeft,
-        'title': 'Lịch sử đi xe',
-      },
-      {
-        'page': null,
-        'icon': FontAwesomeIcons.leftLong,
-        'title': 'Đăng xuất',
-      },
-    ];
+const bottomNavs = [
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/circle-location-arrow.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/circle-location-arrow.svg',
+    'width': 22,
+    'title': 'Trang chủ',
+  },
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/bell.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/bell.svg',
+    'width': 20,
+    'title': 'Thông báo',
+  },
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/badge-percent.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/badge-percent.svg',
+    'width': 22,
+    'title': 'Ưu đãi',
+  },
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/money-check-dollar-pen.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/money-check-dollar-pen.svg',
+    'width': 25,
+    'title': 'Thanh toán',
+  },
+  {
+    'solid-icon': 'lib/assets/nav_icons/solid/circle-user.svg',
+    'regular-icon': 'lib/assets/nav_icons/regular/circle-user.svg',
+    'width': 22,
+    'title': 'Tài khoản',
+  }
+];

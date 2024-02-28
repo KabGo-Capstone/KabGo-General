@@ -63,6 +63,7 @@ dependencies:
   permission_handler: ^11.3.0
   lottie: ^3.0.0
   flutter_animarker: ^3.2.0
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +96,13 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/assets/
+    - lib/assets/jsons/
+    - lib/assets/images/
+    - lib/assets/svgs/
+    - lib/assets/fonts/
+    - lib/assets/nav_icons/solid/
+    - lib/assets/nav_icons/regular/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

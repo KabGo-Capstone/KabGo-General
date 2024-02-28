@@ -12,6 +12,7 @@ class FavoriteLocationItem extends StatelessWidget {
         Container(
           // height: 70,
           width: 82,
+          padding: const EdgeInsets.symmetric(horizontal: 6),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 249, 249, 249),
             border: Border.all(
@@ -29,9 +30,11 @@ class FavoriteLocationItem extends StatelessWidget {
               ),
               Text(
                 data['title'].toString(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                  fontSize: 13,
                   color: const Color.fromARGB(255, 106, 106, 106),
                 ),
               ),
