@@ -43,9 +43,7 @@ class _AnimatedTextState extends State<AnimatedText> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Bạn đang muốn đi đâu?',
-      style: Theme.of(context).textTheme.titleMedium,
-    );
+    return Text(_strings[_currentIndex].substring(0, _currentCharIndex),
+        style: Theme.of(context).textTheme.titleMedium!);
   }
 }

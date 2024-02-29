@@ -1,22 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:customer/models/location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../models/location_model.dart';
-
-class RecentlyArrivalItem extends StatelessWidget {
-  const RecentlyArrivalItem({
-    Key? key,
-    required this.data,
-    required this.padding,
-  }) : super(key: key);
-
+class SuggestiionArrivalItem extends StatelessWidget {
+  const SuggestiionArrivalItem({Key? key, required this.data})
+      : super(key: key);
   final LocationModel data;
-  final double padding;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 15, top: 16, left: padding, right: 5),
+      padding: const EdgeInsets.only(bottom: 15, top: 16, left: 14, right: 5),
       decoration: const BoxDecoration(
           border: Border(
               bottom: BorderSide(
@@ -34,7 +27,7 @@ class RecentlyArrivalItem extends StatelessWidget {
                 shape: BoxShape.circle, color: Color(0xffFE8248)),
             child: const FaIcon(
               // FontAwesomeIcons.locationDot,
-              FontAwesomeIcons.solidClock,
+              FontAwesomeIcons.locationDot,
               size: 14,
               color: Colors.white,
             ),

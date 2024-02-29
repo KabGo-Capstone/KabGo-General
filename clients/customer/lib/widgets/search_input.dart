@@ -1,10 +1,7 @@
 import 'package:customer/functions/networkUtility.dart';
 import 'package:customer/models/location_model.dart';
 import 'package:customer/models/place_auto_complate_response.dart';
-import 'package:customer/providers/departureLocationProvider.dart';
-import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/utils/Google_Api_Key.dart';
-import 'package:customer/widgets/suggestion_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -12,27 +9,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchInput extends StatefulWidget {
   const SearchInput(
-      {Key? key,
+      {super.key,
       required this.placeHolder,
       required this.value,
       required this.autoFocus,
       required this.search,
-      required this.suggestionList})
-      : super(key: key);
+      required this.suggestionList,
+      required this.icon,
+      required this.focus});
 
   final String placeHolder;
   final String value;
   final bool autoFocus;
+  final Widget icon;
+  final Function(bool) focus;
   final Function(bool) search;
   final Function(List<LocationModel>) suggestionList;
 
   @override
+  // ignore: library_private_types_in_public_api
   _InputSearchState createState() => _InputSearchState();
 }
 
 class _InputSearchState extends State<SearchInput> {
   final inputController = TextEditingController();
   String? _value;
+  FocusNode _searchFocus = FocusNode();
 
   Future<List<LocationModel>> placeAutoComplete(String query) async {
     List<LocationModel> placePredictions = [];
@@ -62,7 +64,19 @@ class _InputSearchState extends State<SearchInput> {
   void initState() {
     _value = widget.value;
     inputController.text = widget.value;
+    _searchFocus.addListener(_onFocusChange);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchFocus.removeListener(_onFocusChange);
+    _searchFocus.dispose();
+  }
+
+  void _onFocusChange() {
+    widget.focus(_searchFocus.hasFocus);
   }
 
   @override
@@ -82,16 +96,23 @@ class _InputSearchState extends State<SearchInput> {
             style: Theme.of(context).textTheme.bodyMedium,
             onChanged: (value) {
               if (value.length <= 1) {
-                if(value.length==1){
+                if (value.length == 1) {
                   widget.search(true);
                 }
-                if(value.isEmpty){
+                if (value.isEmpty) {
                   widget.search(false);
                 }
                 setState(() {});
               }
             },
+            focusNode: _searchFocus,
             decoration: InputDecoration(
+              prefixIcon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.icon,
+                ],
+              ),
               suffixIcon: inputController.text.isNotEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +135,7 @@ class _InputSearchState extends State<SearchInput> {
                     ),
               hintText: widget.placeHolder,
               hintStyle: Theme.of(context).textTheme.labelSmall,
-              contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+              contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
               fillColor: const Color.fromARGB(255, 249, 249, 249),
               filled: true,
               isDense: true,

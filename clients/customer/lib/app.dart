@@ -1,17 +1,8 @@
-import 'dart:convert';
-
-import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/screens/home/home.dart';
-import 'package:customer/screens/search/search.dart';
-import 'package:customer/screens/splash/index.dart';
-import 'package:customer/utils/Google_Api_Key.dart';
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'models/customer_model.dart';
 
 class App extends ConsumerWidget {
   const App({Key? key}) : super(key: key);

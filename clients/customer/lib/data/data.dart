@@ -65,7 +65,8 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.house,
-      color: Color(0xff4891FE),
+      color: Color.fromARGB(255, 255, 108, 40),
+      size: 18,
     ),
     'title': 'Nhà',
     'location': LocationModel(
@@ -78,7 +79,8 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.briefcase,
-      color: Color(0xffF8C647),
+      color: Color.fromARGB(255, 255, 108, 40),
+      size: 18,
     ),
     'title': 'Văn phòng',
     'location': LocationModel(
@@ -93,7 +95,8 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.school,
-      color: Color(0xffFF2E2E),
+      color: Color.fromARGB(255, 255, 108, 40),
+      size: 18,
     ),
     'title': 'Trường học',
     'location': LocationModel(
@@ -108,7 +111,8 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.solidHeart,
-      color: Color(0xffFC77FF),
+      color: Color.fromARGB(255, 255, 108, 40),
+      size: 18,
     ),
     'title': 'Điểm đến yêu thích',
     'location': LocationModel(
@@ -122,8 +126,8 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.plus,
-      size: 28,
-      color: Color(0xff6A6A6A),
+      size: 18,
+      color: Color.fromARGB(255, 255, 108, 40),
     ),
   },
 ];

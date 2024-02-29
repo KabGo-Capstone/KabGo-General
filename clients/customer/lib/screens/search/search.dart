@@ -2,6 +2,7 @@ import 'package:customer/data/data.dart';
 import 'package:customer/models/location_model.dart';
 import 'package:customer/widgets/recently_arrival_item.dart';
 import 'package:customer/widgets/search_input.dart';
+import 'package:customer/widgets/suggestiion_arrival_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,6 +20,7 @@ class _SearchState extends State<Search> {
   final _scrollController = ScrollController();
   bool scrollToBottom = false;
   bool searchState = false;
+  bool keyboardAppearance = false;
   List<LocationModel> suggestionLocationList = [];
 
   @override
@@ -58,194 +60,205 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Chọn địa điểm',
-            style: Theme.of(context).textTheme.titleLarge),
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        scrolledUnderElevation: 0.0,
-        centerTitle: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const FaIcon(
-            FontAwesomeIcons.arrowLeft,
-            color: Color(0xffFE8248),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size.zero, // Set this
-                shape: const StadiumBorder(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 9,
-                ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                // ref
-                //     .read(mapProvider.notifier)
-                //     .setMapAction('LOCATION_PICKER');
-                // ref.read(stepProvider.notifier).setStep('location_picker');
-                // ref
-                //     .read(pickerLocationProvider.notifier)
-                //     .setPickerLocation(ref.read(departureLocationProvider));
-              },
-              icon: const FaIcon(
-                FontAwesomeIcons.mapLocationDot,
+      // resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
                 color: Colors.white,
-                size: 18,
+                boxShadow: [
+                  BoxShadow(
+                    color: scrollToBottom
+                        ? const Color.fromARGB(255, 114, 114, 114)
+                            .withOpacity(0.2)
+                        : Colors.white,
+                    spreadRadius: 0,
+                    blurRadius: 10,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
               ),
-              label: const Text(
-                'Bản đồ',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: scrollToBottom
-                      ? const Color.fromARGB(255, 114, 114, 114)
-                          .withOpacity(0.2)
-                      : Colors.white,
-                  spreadRadius: 0,
-                  blurRadius: 10,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'lib/assets/images/departure_icon.png',
-                      width: 36,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    padding: const EdgeInsets.only(right: 10),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const FaIcon(
+                      FontAwesomeIcons.arrowLeft,
+                      color: Color(0xffFE8248),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SearchInput(
-                        autoFocus: false,
-                        placeHolder: 'Nhập điểm đón...',
-                        value: 'Vị trí hiện tại',
-                        search: (p0) {},
-                        suggestionList: (p0) {},
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Image.asset(
-                      'lib/assets/images/arrival_icon.png',
-                      width: 36,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SearchInput(
-                        autoFocus: true,
-                        placeHolder: 'Nhập điểm đến...',
-                        value: '',
-                        search: (p0) {
-                          setState(() {
-                            searchState = p0;
-                          });
-                        },
-                        suggestionList: (p0) {
-                          setState(() {
-                            suggestionLocationList = p0;
-                          });
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: searchState
-                    ? suggestionLocationList.isNotEmpty
-                        ? Column(
-                            children: [
-                              ...suggestionLocationList.map((e) {
-                                e.structuredFormatting!.formatSecondaryText();
-                                return InkWell(
-                                  onTap: () {
-                                    // ref
-                                    //     .read(arrivalLocationProvider.notifier)
-                                    //     .setArrivalLocation(e);
-                                    // chooseArrival();
-                                  },
-                                  child: e.structuredFormatting!.secondaryText!
-                                          .contains('TP.HCM')
-                                      ? RecentlyArrivalItem(
-                                          data: e,
-                                        )
-                                      : const SizedBox(),
-                                );
-                              })
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Không tìm thấy',
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ],
-                          )
-                    : Column(
-                        children: [
-                          ...recentlyArrivalData.map(
-                            (e) => InkWell(
-                              onTap: () {
-                                // ref
-                                //     .read(arrivalLocationProvider.notifier)
-                                //     .setArrivalLocation(e);
-                                // chooseArrival();
-                              },
-                              child: RecentlyArrivalItem(
-                                data: e,
-                              ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SearchInput(
+                          focus: (p0) {
+                            Future.delayed(const Duration(milliseconds: 200), () {
+                              keyboardAppearance = p0;
+                              setState(() {});
+                            });
+                          },
+                          icon: Container(
+                            width: 18,
+                            height: 18,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
                             ),
-                          )
-                        ],
-                      ),
+                            child: const FaIcon(
+                              FontAwesomeIcons.solidCircleDot,
+                              size: 16,
+                              color: Color(0xff4F96FF),
+                            ),
+                          ),
+                          autoFocus: false,
+                          placeHolder: 'Nhập điểm đón...',
+                          value: 'Vị trí hiện tại',
+                          search: (p0) {},
+                          suggestionList: (p0) {},
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SearchInput(
+                          focus: (p0) {
+                            Future.delayed(const Duration(milliseconds: 200), () {
+                              keyboardAppearance = p0;
+                              setState(() {});
+                            });
+                          },
+                          icon: Container(
+                            width: 18,
+                            height: 18,
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const FaIcon(
+                              FontAwesomeIcons.solidCircleDot,
+                              size: 16,
+                              color: Color(0xffFF5858),
+                            ),
+                          ),
+                          autoFocus: true,
+                          placeHolder: 'Nhập điểm đến...',
+                          value: '',
+                          search: (p0) {
+                            setState(() {
+                              searchState = p0;
+                            });
+                          },
+                          suggestionList: (p0) {
+                            setState(() {
+                              suggestionLocationList = p0;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: searchState
+                      ? suggestionLocationList.isNotEmpty
+                          ? Column(
+                              children: [
+                                ...suggestionLocationList.map((e) {
+                                  e.structuredFormatting!.formatSecondaryText();
+                                  return InkWell(
+                                    onTap: () {
+                                      // ref
+                                      //     .read(arrivalLocationProvider.notifier)
+                                      //     .setArrivalLocation(e);
+                                      // chooseArrival();
+                                    },
+                                    child: e.structuredFormatting!
+                                            .secondaryText!
+                                            .contains('TP.Hồ Chí Minh')
+                                        ? SuggestiionArrivalItem(
+                                            data: e,
+                                          )
+                                        : const SizedBox(),
+                                  );
+                                })
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Không tìm thấy',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            )
+                      : Column(
+                          children: [
+                            ...recentlyArrivalData.map(
+                              (e) => InkWell(
+                                onTap: () {
+                                  // ref
+                                  //     .read(arrivalLocationProvider.notifier)
+                                  //     .setArrivalLocation(e);
+                                  // chooseArrival();
+                                },
+                                child: RecentlyArrivalItem(
+                                  padding: 14,
+                                  data: e,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.only(bottom: keyboardAppearance ? 10 : 40, top: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: const Color.fromARGB(255, 216, 216, 216).withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            )
+          ],
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(
+              FontAwesomeIcons.mapLocationDot,
+              color: Colors.black,
+              size: 16,
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Text(
+              'Chọn từ bản đồ',
+              style: TextStyle(color: Colors.black),
+            )
+          ],
+        ),
       ),
     );
   }

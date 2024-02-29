@@ -65,10 +65,10 @@ class StructuredFormatting {
 
     if (secondaryText!.endsWith("Thành phố Hồ Chí Minh, Việt Nam")) {
       secondaryText = secondaryText!
-          .replaceAll("Thành phố Hồ Chí Minh, Việt Nam", "TP.HCM");
+          .replaceAll("Thành phố Hồ Chí Minh, Việt Nam", "TP.Hồ Chí Minh");
     } else if (secondaryText!.endsWith("Thành phố Hồ Chí Minh")) {
       secondaryText =
-          secondaryText!.replaceAll("Thành phố Hồ Chí Minh", "TP.HCM");
+          secondaryText!.replaceAll("Thành phố Hồ Chí Minh", "TP.Hồ Chí Minh");
     }
   }
 }
