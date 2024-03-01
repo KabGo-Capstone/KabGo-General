@@ -101,6 +101,7 @@ flutter:
     - lib/assets/fonts/
     - lib/assets/nav_icons/solid/
     - lib/assets/nav_icons/regular/
+    - lib/assets/hot_location_images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

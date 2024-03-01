@@ -65,7 +65,7 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.house,
-      color: Color.fromARGB(255, 255, 108, 40),
+      color: Color(0xffEF773F),
       size: 18,
     ),
     'title': 'Nhà',
@@ -79,10 +79,10 @@ List<Map<String, Object>> favoriteLocationData = [
   {
     'icon': const FaIcon(
       FontAwesomeIcons.briefcase,
-      color: Color.fromARGB(255, 255, 108, 40),
+      color: Color(0xffEF773F),
       size: 18,
     ),
-    'title': 'Văn phòng',
+    'title': 'Cơ quan',
     'location': LocationModel(
       placeId: 'ChIJEQnz-MIndTERzRrJ-HNQrDY',
       structuredFormatting: StructuredFormatting(
@@ -94,27 +94,11 @@ List<Map<String, Object>> favoriteLocationData = [
   },
   {
     'icon': const FaIcon(
-      FontAwesomeIcons.school,
-      color: Color.fromARGB(255, 255, 108, 40),
-      size: 18,
-    ),
-    'title': 'Trường học',
-    'location': LocationModel(
-      placeId: 'ChIJ3eH0BhwvdTERPZpT1PEAOQQ',
-      structuredFormatting: StructuredFormatting(
-          mainText:
-              'Trường Đại học Khoa học Tự nhiên - Đại học Quốc gia TP.HCM',
-          secondaryText: 'Đường Nguyễn Văn Cừ, phường 4, Quận 5, TP.HCM'),
-      postion: const LatLng(10.7628356, 106.6824824),
-    )
-  },
-  {
-    'icon': const FaIcon(
       FontAwesomeIcons.solidHeart,
-      color: Color.fromARGB(255, 255, 108, 40),
+      color: Color(0xffEF773F),
       size: 18,
     ),
-    'title': 'Điểm đến yêu thích',
+    'title': 'Cà phê',
     'location': LocationModel(
       placeId: 'ChIJybh1lrcvdTERAVt6EpkLlEE',
       structuredFormatting: StructuredFormatting(
@@ -125,10 +109,11 @@ List<Map<String, Object>> favoriteLocationData = [
   },
   {
     'icon': const FaIcon(
-      FontAwesomeIcons.plus,
+      FontAwesomeIcons.solidHeart,
       size: 18,
-      color: Color.fromARGB(255, 255, 108, 40),
+      color: Color(0xffEF773F),
     ),
+    'title': 'Mới'
   },
 ];
 
@@ -239,4 +224,57 @@ const bottomNavs = [
     'width': 22,
     'title': 'Tài khoản',
   }
+];
+
+const hotLocation = [
+  {
+    'name': 'Chợ Bến Thành',
+    'location': {'lat': 10.772601107458549, 'long': 106.69802079568974},
+    'image': 'lib/assets/hot_location_images/hot_location_1.jpeg',
+  },
+  {
+    'name': 'Dinh Độc Lập',
+    'location': {'lat': 10.777089045802247, 'long': 106.69531282452509},
+    'image': 'lib/assets/hot_location_images/hot_location_2.jpeg',
+  },
+  {
+    'name': 'Nhà thờ Đức Bà',
+    'location': {'lat': 10.77991196343021, 'long': 106.69896525151267},
+    'image': 'lib/assets/hot_location_images/hot_location_3.webp',
+  },
+  {
+    'name': 'Bảo tàng Lịch sử Thành phố Hồ Chí Minh',
+    'location': {'lat': 10.788174095262406, 'long': 106.7047193668545},
+    'image': 'lib/assets/hot_location_images/hot_location_4.jpeg',
+  },
+  {
+    'name': 'Địa đạo Củ Chi',
+    'location': {'lat': 11.141982794238555, 'long': 106.46245525016892},
+    'image': 'lib/assets/hot_location_images/hot_location_5.jpeg',
+  },
+  {
+    'name': 'Phố đi bộ Nguyễn Huệ',
+    'location': {'lat': 10.774022543913913, 'long': 106.70359725151263},
+    'image': 'lib/assets/hot_location_images/hot_location_6.webp',
+  },
+  {
+    'name': 'Thảo Cầm Viên',
+    'location': {'lat': 10.787764713225958, 'long': 106.70526913801908},
+    'image': 'lib/assets/hot_location_images/hot_location_7.jpeg',
+  },
+  {
+    'name': 'Artinus 3D Art Museum',
+    'location': {'lat': 10.743198938077613, 'long': 106.6947052956893},
+    'image': 'lib/assets/hot_location_images/hot_location_8.jpeg',
+  },
+  {
+    'name': 'Tòa Nhà BITEXCO',
+    'location': {'lat': 10.771715747500199, 'long': 106.70433012452519},
+    'image': 'lib/assets/hot_location_images/hot_location_9.jpeg',
+  },
+  {
+    'name': 'Công viên nước Đầm Sen',
+    'location': {'lat': 10.76905239610597, 'long': 106.63657292306297},
+    'image': 'lib/assets/hot_location_images/hot_location_10.jpeg',
+  },
 ];

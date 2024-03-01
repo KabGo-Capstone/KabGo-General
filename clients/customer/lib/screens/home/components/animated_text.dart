@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AnimatedText extends StatefulWidget {
   const AnimatedText({Key? key}) : super(key: key);
@@ -44,6 +45,9 @@ class _AnimatedTextState extends State<AnimatedText> {
   @override
   Widget build(BuildContext context) {
     return Text(_strings[_currentIndex].substring(0, _currentCharIndex),
-        style: Theme.of(context).textTheme.titleMedium!);
+        style: GoogleFonts.montserrat(
+            color: const Color.fromARGB(255, 80, 80, 80),
+            fontWeight: FontWeight.w600,
+            fontSize: 16));
   }
 }

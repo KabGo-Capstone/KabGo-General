@@ -12,7 +12,6 @@ class SearchInput extends StatefulWidget {
       {super.key,
       required this.placeHolder,
       required this.value,
-      required this.autoFocus,
       required this.search,
       required this.suggestionList,
       required this.icon,
@@ -20,7 +19,6 @@ class SearchInput extends StatefulWidget {
 
   final String placeHolder;
   final String value;
-  final bool autoFocus;
   final Widget icon;
   final Function(bool) focus;
   final Function(bool) search;
@@ -91,9 +89,16 @@ class _InputSearchState extends State<SearchInput> {
       builder: (context, ref, child) {
         return TypeAheadFormField(
           textFieldConfiguration: TextFieldConfiguration(
-            autofocus: widget.autoFocus,
             controller: inputController,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: _searchFocus.hasFocus
+                ? Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.black, fontWeight: FontWeight.w700)
+                : Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.black),
             onChanged: (value) {
               if (value.length <= 1) {
                 if (value.length == 1) {
@@ -106,6 +111,7 @@ class _InputSearchState extends State<SearchInput> {
               }
             },
             focusNode: _searchFocus,
+            cursorColor: Colors.black,
             decoration: InputDecoration(
               prefixIcon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -113,41 +119,51 @@ class _InputSearchState extends State<SearchInput> {
                   widget.icon,
                 ],
               ),
-              suffixIcon: inputController.text.isNotEmpty
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            inputController.clear();
-                            widget.search(false);
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.xmark,
-                            color: Color.fromARGB(255, 106, 106, 106),
-                            size: 21,
-                          ),
+              suffixIcon:
+                  inputController.text.isNotEmpty && _searchFocus.hasFocus
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                inputController.clear();
+                                widget.search(false);
+                              },
+                              child: Container(
+                                width: 18,
+                                height: 18,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(255, 191, 191, 191),
+                                ),
+                                child: const FaIcon(
+                                  FontAwesomeIcons.xmark,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          width: 1,
                         ),
-                      ],
-                    )
-                  : Container(
-                      width: 1,
-                    ),
               hintText: widget.placeHolder,
               hintStyle: Theme.of(context).textTheme.labelSmall,
-              contentPadding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
+              contentPadding: const EdgeInsets.all(0),
               fillColor: const Color.fromARGB(255, 249, 249, 249),
               filled: true,
               isDense: true,
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(6),
                 borderSide: const BorderSide(
                   width: 1,
                   color: Color.fromARGB(255, 242, 242, 242),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(6),
                 borderSide: const BorderSide(
                   width: 1,
                   color: Color.fromARGB(255, 242, 242, 242),
@@ -164,7 +180,6 @@ class _InputSearchState extends State<SearchInput> {
           suggestionsCallback: (pattern) async {
             List<LocationModel> matches = await placeAutoComplete(pattern);
             widget.suggestionList(matches);
-            print(matches.length);
             return matches;
           },
         );

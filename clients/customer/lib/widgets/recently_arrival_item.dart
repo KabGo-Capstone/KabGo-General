@@ -31,7 +31,7 @@ class RecentlyArrivalItem extends StatelessWidget {
             width: 24,
             alignment: Alignment.center,
             decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: Color(0xffFE8248)),
+                shape: BoxShape.circle, color: Color(0xffEF773F)),
             child: const FaIcon(
               // FontAwesomeIcons.locationDot,
               FontAwesomeIcons.solidClock,
@@ -46,7 +46,7 @@ class RecentlyArrivalItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 295,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   data.structuredFormatting!.mainText.toString(),
                   style: Theme.of(context).textTheme.headlineMedium,
@@ -57,7 +57,7 @@ class RecentlyArrivalItem extends StatelessWidget {
                 height: 4,
               ),
               SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   '${data.structuredFormatting!.mainText.toString()}, ${data.structuredFormatting!.secondaryText.toString()}',
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -71,7 +71,7 @@ class RecentlyArrivalItem extends StatelessWidget {
           const FaIcon(
             FontAwesomeIcons.arrowRight,
             color: Color.fromARGB(255, 70, 70, 70),
-            size: 18,
+            size: 14,
           ),
         ],
       ),

@@ -50,13 +50,14 @@ class App extends ConsumerWidget {
                   fontWeight: FontWeight.w600,
                   fontSize: 18),
               titleMedium: GoogleFonts.montserrat(
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w500,
+                  color: const Color.fromARGB(255, 50, 50, 50),
+                  fontWeight: FontWeight.w700,
                   fontSize: 16),
               titleSmall: GoogleFonts.montserrat(
                   color: const Color(0xff6A6A6A),
                   fontWeight: FontWeight.w600,
                   fontSize: 18),
+
               bodySmall: GoogleFonts.montserrat(
                   color: const Color(0xff6A6A6A),
                   fontWeight: FontWeight.w700,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:customer/data/data.dart';
 import 'package:customer/models/location_model.dart';
 import 'package:customer/widgets/recently_arrival_item.dart';
@@ -96,70 +98,76 @@ class _SearchState extends State<Search> {
                   Expanded(
                     child: Column(
                       children: [
-                        SearchInput(
-                          focus: (p0) {
-                            Future.delayed(const Duration(milliseconds: 200), () {
-                              keyboardAppearance = p0;
-                              setState(() {});
-                            });
-                          },
-                          icon: Container(
-                            width: 18,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                        SizedBox(
+                          height: 45,
+                          child: SearchInput(
+                            focus: (p0) {
+                              Future.delayed(const Duration(milliseconds: 200),
+                                  () {
+                                keyboardAppearance = p0;
+                                setState(() {});
+                              });
+                            },
+                            icon: Container(
+                              width: 18,
+                              height: 18,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const FaIcon(
+                                FontAwesomeIcons.solidCircleDot,
+                                size: 16,
+                                color: Color(0xff4F96FF),
+                              ),
                             ),
-                            child: const FaIcon(
-                              FontAwesomeIcons.solidCircleDot,
-                              size: 16,
-                              color: Color(0xff4F96FF),
-                            ),
+                            placeHolder: 'Nhập điểm đón...',
+                            value: 'Vị trí hiện tại',
+                            search: (p0) {},
+                            suggestionList: (p0) {},
                           ),
-                          autoFocus: false,
-                          placeHolder: 'Nhập điểm đón...',
-                          value: 'Vị trí hiện tại',
-                          search: (p0) {},
-                          suggestionList: (p0) {},
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        SearchInput(
-                          focus: (p0) {
-                            Future.delayed(const Duration(milliseconds: 200), () {
-                              keyboardAppearance = p0;
-                              setState(() {});
-                            });
-                          },
-                          icon: Container(
-                            width: 18,
-                            height: 18,
-                            alignment: Alignment.center,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                        SizedBox(
+                          height: 45,
+                          child: SearchInput(
+                            focus: (p0) {
+                              Future.delayed(const Duration(milliseconds: 200),
+                                  () {
+                                keyboardAppearance = p0;
+                                setState(() {});
+                              });
+                            },
+                            icon: Container(
+                              width: 18,
+                              height: 18,
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const FaIcon(
+                                FontAwesomeIcons.solidCircleDot,
+                                size: 16,
+                                color: Color(0xffED6C66),
+                              ),
                             ),
-                            child: const FaIcon(
-                              FontAwesomeIcons.solidCircleDot,
-                              size: 16,
-                              color: Color(0xffFF5858),
-                            ),
+                            placeHolder: 'Nhập điểm đến...',
+                            value: '',
+                            search: (p0) {
+                              setState(() {
+                                searchState = p0;
+                              });
+                            },
+                            suggestionList: (p0) {
+                              setState(() {
+                                suggestionLocationList = p0;
+                              });
+                            },
                           ),
-                          autoFocus: true,
-                          placeHolder: 'Nhập điểm đến...',
-                          value: '',
-                          search: (p0) {
-                            setState(() {
-                              searchState = p0;
-                            });
-                          },
-                          suggestionList: (p0) {
-                            setState(() {
-                              suggestionLocationList = p0;
-                            });
-                          },
                         ),
                       ],
                     ),
@@ -171,7 +179,7 @@ class _SearchState extends State<Search> {
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 50),
                   child: searchState
                       ? suggestionLocationList.isNotEmpty
                           ? Column(
@@ -201,7 +209,8 @@ class _SearchState extends State<Search> {
                               children: [
                                 Text(
                                   'Không tìm thấy',
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                               ],
                             )
@@ -230,7 +239,13 @@ class _SearchState extends State<Search> {
         ),
       ),
       bottomSheet: Container(
-        padding: EdgeInsets.only(bottom: keyboardAppearance ? 10 : 40, top: 10),
+        padding: EdgeInsets.only(
+            bottom: keyboardAppearance
+                ? 10
+                : Platform.isIOS
+                    ? 40
+                    : 20,
+            top: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [

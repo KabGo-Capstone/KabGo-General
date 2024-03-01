@@ -9,7 +9,7 @@ class SuggestiionArrivalItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 15, top: 16, left: 14, right: 5),
+      padding: const EdgeInsets.only(bottom: 11, top: 12, left: 14, right: 5),
       decoration: const BoxDecoration(
           border: Border(
               bottom: BorderSide(
@@ -39,7 +39,7 @@ class SuggestiionArrivalItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 295,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   data.structuredFormatting!.mainText.toString(),
                   style: Theme.of(context).textTheme.headlineMedium,
@@ -50,7 +50,7 @@ class SuggestiionArrivalItem extends StatelessWidget {
                 height: 4,
               ),
               SizedBox(
-                width: 300,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Text(
                   '${data.structuredFormatting!.mainText.toString()}, ${data.structuredFormatting!.secondaryText.toString()}',
                   style: Theme.of(context).textTheme.headlineSmall,
@@ -64,7 +64,7 @@ class SuggestiionArrivalItem extends StatelessWidget {
           const FaIcon(
             FontAwesomeIcons.arrowRight,
             color: Color.fromARGB(255, 70, 70, 70),
-            size: 18,
+            size: 14,
           ),
         ],
       ),

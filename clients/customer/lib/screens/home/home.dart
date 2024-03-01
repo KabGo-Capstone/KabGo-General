@@ -3,24 +3,25 @@ import 'package:customer/data/data.dart';
 import 'package:customer/functions/determinePosition.dart';
 import 'package:customer/functions/setAddressByPosition.dart';
 import 'package:customer/models/location_model.dart';
-import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
-import 'package:customer/screens/home/animated_text.dart';
-import 'package:customer/screens/home/bottom_navigation.dart';
-import 'package:customer/screens/search/search.dart';
-import 'package:customer/widgets/favorite_location_item.dart';
-import 'package:customer/widgets/recently_arrival_item.dart';
+import 'package:customer/screens/home/components/bottom_navigation.dart';
+import 'package:customer/screens/home/components/favorite_location.dart';
+import 'package:customer/screens/home/components/find_arrival_button.dart';
+import 'package:customer/screens/home/components/hot_location.dart';
+import 'package:customer/screens/home/components/map_picker.dart';
+import 'package:customer/screens/home/components/more_way_to_move.dart';
+import 'package:customer/screens/home/components/recently_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Home extends ConsumerStatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeState createState() => _HomeState();
 }
 
@@ -79,7 +80,6 @@ class _HomeState extends ConsumerState<Home> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _scrollController.removeListener(_scrollListener);
   }
@@ -134,252 +134,32 @@ class _HomeState extends ConsumerState<Home> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SafeArea(
-                  child: Container(
-                    height: 165,
-                    padding: const EdgeInsets.only(left: 15, top: 10),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Xin chào,',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 15),
-                              child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 255, 232, 223),
-                                  minimumSize: Size.zero, // Set this
-                                  shape: const StadiumBorder(),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 15,
-                                    vertical: 9,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  // ref
-                                  //     .read(mapProvider.notifier)
-                                  //     .setMapAction('LOCATION_PICKER');
-                                  // ref.read(stepProvider.notifier).setStep('location_picker');
-                                  // ref
-                                  //     .read(pickerLocationProvider.notifier)
-                                  //     .setPickerLocation(ref.read(departureLocationProvider));
-                                },
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.mapLocationDot,
-                                  color: Colors.black,
-                                  size: 18,
-                                ),
-                                label: const Text(
-                                  'Bản đồ',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Đinh Nguyễn Duy Khang',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16),
-                            ),
-                            Image.asset(
-                              'lib/assets/images/home_page_background.png',
-                              height: 100,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const MapPicker(),
                 Container(
                   color: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Column(
-                        children: [
-                          ...recentlyArrivalData.take(3).map(
-                                (e) => InkWell(
-                                  onTap: () {
-                                    // ref
-                                    //     .read(arrivalLocationProvider.notifier)
-                                    //     .setArrivalLocation(e);
-                                    // chooseArrival();
-                                  },
-                                  child: RecentlyArrivalItem(
-                                    padding: 16,
-                                    data: e,
-                                  ),
-                                ),
-                              )
-                        ],
-                      ),
+                      const SizedBox(height: 20),
+                      const RecentlyLocation(),
                       if (recentlyArrivalData.isNotEmpty)
-                        const SizedBox(
-                          height: 28,
-                        ),
-                      Text(
-                        'Các địa điểm yêu thích',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 100,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: favoriteLocationData.length,
-                            itemBuilder: (context, index) {
-                              return index != favoriteLocationData.length - 1
-                                  ? InkWell(
-                                      onTap: () {
-                                        ref
-                                            .read(arrivalLocationProvider
-                                                .notifier)
-                                            .setArrivalLocation(
-                                                favoriteLocationData[index]
-                                                        ['location']
-                                                    as LocationModel);
-                                        chooseArrival();
-                                      },
-                                      child: FavoriteLocationItem(
-                                        data: favoriteLocationData[index],
-                                      ),
-                                    )
-                                  : Column(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          height: 56,
-                                          width: 56,
-                                          decoration: const BoxDecoration(
-                                            color: Color.fromARGB(
-                                                255, 255, 245, 239),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: favoriteLocationData[index]
-                                              ['icon'] as Widget,
-                                        ),
-                                      ],
-                                    );
-                            }),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                        const SizedBox(height: 28),
+                      const HotLocation(),
+                      const SizedBox(height: 28),
+                      const MoreWayToMove(),
+                      const SizedBox(height: 28),
+                      const FavoriteLocation(),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 ),
               ],
             ),
             Positioned(
-              top: Platform.isIOS ? 200 : 160,
+              top: Platform.isIOS ? 200 : 165,
               width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 300),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const Search(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(0, 1);
-                            const end = Offset(0, 0);
-
-                            final tween = Tween(begin: begin, end: end);
-                            return SlideTransition(
-                              position: tween.animate(animation),
-                              child: child,
-                            );
-                          },
-                        ));
-                  },
-                  child: Container(
-                    height: 56,
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 73, 73, 73)
-                              .withOpacity(0.2),
-                          spreadRadius: 0,
-                          blurRadius: 10,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 18,
-                          height: 18,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const FaIcon(
-                            FontAwesomeIcons.solidCircleDot,
-                            size: 16,
-                            color: Color(0xffFF5858),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 13,
-                        ),
-                        const AnimatedText()
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              child: const FindArrivalButton(),
             ),
           ],
         ),
