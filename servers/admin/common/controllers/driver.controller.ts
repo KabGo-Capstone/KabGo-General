@@ -12,7 +12,7 @@ import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
 import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
-import SupplyStub from 'common/services/supply.service'
+import SupplyStub from '../services/supply.service'
 
 let serviceApprovalData = DummyData.serviceApprovals
 const supplyClient = SupplyStub.client()

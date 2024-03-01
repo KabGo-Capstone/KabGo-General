@@ -191,7 +191,7 @@ class Application {
 
             gRPC.start()
 
-            SupplyStub.connect()
+            SupplyStub.client()
 
             socketIO.init(server)
 
