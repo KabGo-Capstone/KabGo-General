@@ -7,9 +7,8 @@ class FavoriteLocationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 56,
-      margin: const EdgeInsets.only(right: 24),
       child: Column(
         children: [
           Container(
@@ -31,8 +30,8 @@ class FavoriteLocationItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.montserrat(
               fontWeight: FontWeight.w500,
-              fontSize: 13,
-              color: const Color.fromARGB(255, 106, 106, 106),
+              fontSize: 12,
+              color: const Color.fromARGB(255, 0, 0, 0),
             ),
           ),
         ],
