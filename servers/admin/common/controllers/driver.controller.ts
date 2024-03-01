@@ -22,7 +22,7 @@ class DriverController implements IController {
     constructor() {
         this.router.get(
             '/',
-            catchAsync(this.getDriver)
+            catchAsync(this.getServiceApprovals)
         )
         this.router.post(
             '/verify/:id',
@@ -38,7 +38,7 @@ class DriverController implements IController {
         )
     }
 
-    private async getDriver(req: Request, res: Response, next: NextFunction) {
+    private async getServiceApprovals (req: Request, res: Response, next: NextFunction) {
         return res.status(200).json({ data: data })
     }
 
