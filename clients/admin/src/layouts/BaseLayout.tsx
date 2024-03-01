@@ -29,7 +29,7 @@ const BaseLayout: React.FC = () => {
       <Sidebar />
       <Layout style={{ marginLeft: 200 }}>
         <NavBar />
-        <ContentComponent />
+        <Edit />
       </Layout>
     </Layout>
   );
