@@ -1,152 +1,156 @@
 import React from "react";
-import { Layout, theme } from "antd";
+import { Button, Layout, theme } from "antd";
 
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
+import axiosClient from "~/utils/axiosClient";
 
 const { Content } = Layout;
 
 interface DataType {
-  key: string;
-  name: string;
-  age: number;
+  id: string;
+  gender: string;
+  email:string;
+  password: string;
+  dob: string;
+  verified: boolean;
+  avatar: string;
+  first_name: string;
+  last_name: string;
   address: string;
-  tags: string[];
 }
 
 const columns: TableProps<DataType>["columns"] = [
   {
+    title: "STT",
+    dataIndex: "id",
+    key: "id",
+  },
+  {
     title: "Name",
     dataIndex: "name",
     key: "name",
-    render: (text) => <a>{text}</a>,
+    render: (_, record) => (
+      <Space size="middle">
+        <a>{record.first_name} {record.last_name}</a>
+      </Space>
+    ),
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    width: "15%",
   },
   {
     title: "Address",
     dataIndex: "address",
     key: "address",
+    width: "23%",
+  },
+  
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    render: (_, record) => (
+      <span className={record.verified ? 'text-green-500' : 'text-red-500'}>
+        {record.verified ? "Đã duyệt" : "Chờ xử lý"}
+      </span>
+    )
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: "Action",
+    title: "Actions",
     key: "action",
     render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
+      <div className="!flex gap-2">
+        {record.verified ? <Button className="!min-w-80" onClick={()=>{
+          // axiosClient.post(record.id);
+        }}>
+          Hủy
+        </Button> : <Button className="!min-w-80" onClick={()=>{
+          // axiosClient.post(record.id);
+        }}>
+          Duyệt
+        </Button>}
+        
+        <Button className="!bg-red-500 !text-white !hover:bg-red-700" onClick={()=>{
+          // axiosClient.post(record.id);
+        }}>
+          Xóa
+        </Button>
+
+        <Button onClick={()=>{
+          // axiosClient.post(record.id);
+        }}>
+          Chi tiết
+        </Button>
+      </div>
     ),
   },
 ];
 
 const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
+    {
+    id: '1',
+    first_name: "Minh",
+    last_name: "Nguyen",
+    password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+    dob: "2002-10-15",
+    gender: "male",
+    address: "25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM",  
+    verified: false,
+    avatar: 'https://example.com',
+    email: "nguyenducminh@gmail.com"
   },
   {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
+    id: '2',
+    first_name: "Khoa",
+    last_name: "Nguyen",
+    password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+    dob: "2002-4-14",
+    gender: "male",
+    address: "1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM",  
+    verified: true,
+    avatar: 'https://example.com',
+    email: "khoanguyen@gmail.com"
+
+  },  
+  {
+    id: '3',
+    first_name: "Huy",
+    last_name: "Nguyen",
+    password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+    dob: "2002-10-15",
+    gender: "male",
+    address: "22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM",  
+    verified: false,
+    avatar: 'https://example.com',
+    email: "huynguyen@gmail.com"
   },
   {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+     id: '4',
+     first_name: "Khang",
+     last_name: "Dinh",
+     password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+     dob: "2002-4-21",
+     gender: "male",
+     address: "22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM",  
+     verified: true,
+     avatar: 'https://example.com',
+     email: "khangdinh@gmail.com"
   },
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
-  },
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+     id: '5',
+     first_name: "Thanh",
+     last_name: "Bui",
+     password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+     dob: "2002-10-15",
+     gender: "male",
+     address: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+     verified: true,
+     avatar: 'https://example.com',
+     email: "thanhbui@gmail.com"
   },
 ];
 

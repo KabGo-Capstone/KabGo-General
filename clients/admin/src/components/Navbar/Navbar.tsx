@@ -55,7 +55,7 @@ const NavBar: React.FC = () => {
           <Button className="!w-8 !h-8 !flex !items-center !justify-center !bg-gray-200 !hover:bg-gray-400 !mr-2 !rounded-full">
             <SettingOutlined />
           </Button>
-          <Button className="!w-auto !h-auto  !flex !items-center !justify-center !p-0 !mr-2 !rounded-full">
+          <Button className="!w-auto !h-auto !flex !items-center !justify-center !p-0 !mr-2 !rounded-full">
             <LogOutSvgIcon />
           </Button>
         </div>
