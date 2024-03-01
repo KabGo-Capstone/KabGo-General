@@ -1,11 +1,11 @@
 {
-    "name": "kabgo-demand",
+    "name": "kabgo-admin",
     "version": "1.0.0",
     "description": "Welcome to KabGo, the revolutionary on-demand transportation platform that brings convenience and efficiency to your everyday commute. With KabGo, we're reshaping the way you travel, providing a seamless experience that's similar to Grab but with some unique features to enhance your journey.",
     "main": "common/app.ts",
     "scripts": {
         "start:dev": "nodemon server.ts",
-        "start": "node dist/server.js",
+        "start": "node dist/app/server.js",
         "build:prod": "npm run ts-check && rimraf dist && tsc && cp -r common/templates dist",
         "build": "npm run ts-check && rimraf dist && cp -r ../protos ./ && tsc && cp -r common/templates dist",
         "add-build": "git add dist",
