@@ -1,9 +1,9 @@
+import { CustomerInfomationsService } from './../../../grpc/models/demand'
 import { Server, ServerCredentials } from '@grpc/grpc-js'
 import chalk from 'chalk'
 
 import { CustomerInfomations } from '../protos/customers.proto'
 import Logger from '../utils/logger'
-import { CustomerInfomationsService } from '../../../grpc/proto_pb/demand/demand_grpc_pb'
 
 class GrpcServer {
     private static instance: GrpcServer

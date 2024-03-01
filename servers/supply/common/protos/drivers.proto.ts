@@ -1,41 +1,72 @@
 import {
-    DriverId,
-    DriverInfomation,
-} from '../../../grpc/proto_pb/supply/supply_pb'
-import { IDriverInfomationsServer } from '../../../grpc/proto_pb/supply/supply_grpc_pb'
+    DriverID,
+    DriverInformation,
+    DriverList,
+    DriverServer,
+    DriverEmptyRequest,
+} from './../../../grpc/models/supply'
 import * as grpc from '@grpc/grpc-js'
+import { supplies as DRIVERS } from '../dummy_data/dummy_data'
 
-const DRIVERS = [
-    {
-        id: 'driver-1002',
-        firstname: 'Minh',
-        lastname: 'Nguyen',
-    },
-    {
-        id: 'driver-1003',
-        firstname: 'Khang',
-        lastname: 'Dinh',
-    },
-]
-
-class DriverInfomations implements IDriverInfomationsServer {
+class DriverService implements DriverServer {
     [name: string]: grpc.UntypedHandleCall
 
     public find(
-        call: grpc.ServerUnaryCall<DriverId, DriverInfomation>,
-        callback: grpc.sendUnaryData<DriverInfomation>
+        call: grpc.ServerUnaryCall<DriverEmptyRequest, DriverList>,
+        callback: grpc.sendUnaryData<DriverList>
     ) {
-        const driver = DRIVERS.find(
-            (driver) => driver.id === call.request.getId()
-        )
+        const driver = DRIVERS
+
+        if (driver && driver.length > 0) {
+            callback(
+                null,
+                DriverList.create({
+                    drivers: DRIVERS,
+                })
+            )
+        } else {
+            callback(
+                {
+                    message: 'can not find any drivers',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+    }
+
+    public findById(
+        call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
+        callback: grpc.sendUnaryData<DriverInformation>
+    ) {
+        const driver = DRIVERS.find((driver) => driver.id === call.request.id)
 
         if (driver) {
-            const driverInfo = new DriverInfomation()
-                .setId(driver.id)
-                .setFirstname(driver.firstname)
-                .setLastname(driver.lastname)
+            callback(null, DriverInformation.create(driver))
+        } else {
+            callback(
+                {
+                    message: 'driver not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+    }
 
-            callback(null, driverInfo)
+    public verify(
+        call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
+        callback: grpc.sendUnaryData<DriverInformation>
+    ) {
+        const driverIndex = DRIVERS.findIndex(
+            (driver) => driver.id === call.request.id
+        )
+
+        const driver = DRIVERS[driverIndex]
+        driver.verified = true
+
+        if (driverIndex !== -1) {
+            callback(null, DriverInformation.create(driver))
         } else {
             callback(
                 {
@@ -48,4 +79,4 @@ class DriverInfomations implements IDriverInfomationsServer {
     }
 }
 
-export { DriverInfomations }
+export { DriverService }

@@ -1,9 +1,9 @@
 import { Server, ServerCredentials } from '@grpc/grpc-js'
 import chalk from 'chalk'
 
-import { DriverInfomations } from '../protos/drivers.proto'
+import { DriverService as DriverHandler } from '../protos/drivers.proto'
 import Logger from '../utils/logger'
-import { DriverInfomationsService } from '../../../grpc/proto_pb/supply/supply_grpc_pb'
+import { DriverService } from '../../../grpc/models/supply'
 
 class GrpcServer {
     private static instance: GrpcServer
@@ -19,10 +19,7 @@ class GrpcServer {
     }
 
     private loadServices() {
-        this.server.addService(
-            DriverInfomationsService,
-            new DriverInfomations()
-        )
+        this.server.addService(DriverService, new DriverHandler())
     }
 
     public start() {

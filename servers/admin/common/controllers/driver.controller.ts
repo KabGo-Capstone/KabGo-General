@@ -12,56 +12,101 @@ import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
 import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
+import SupplyStub from 'common/services/supply.service'
 
-let data = [...DummyData.supplies];
+let serviceApprovalData = DummyData.serviceApprovals
+const supplyClient = SupplyStub.client()
 
 class DriverController implements IController {
-    readonly path: string = '/driver'
+    readonly path: string = '/driver/approval'
     readonly router: Router = Router()
 
     constructor() {
-        this.router.get(
-            '/',
-            catchAsync(this.getServiceApprovals)
-        )
-        this.router.post(
-            '/verify/:id',
-            catchAsync(this.verifyDriver)
-        )
-        this.router.post(
+        this.router.get('/', catchAsync(this.getServiceApprovals.bind(this)))
+        this.router.post('/approve/:id', catchAsync(this.approveDriver))
+        this.router.delete(
             '/delete/:id',
-            catchAsync(this.deleteDriver)
+            catchAsync(this.deleteDriverApproval.bind(this))
         )
-        this.router.post(
-            '/create',
-            catchAsync(this.createDriver)
-        )
+        // this.router.post('/create', catchAsync(this.createDriver))
     }
 
-    private async getServiceApprovals (req: Request, res: Response, next: NextFunction) {
-        return res.status(200).json({ data: data })
-    }
+    private async getDetailsServiceApproval() {
+        const serviceApprovals = []
 
-    private async verifyDriver(req: Request, res: Response, next: NextFunction) {
-        const index: number = data.findIndex(el => el.id === req.params.id);
-        data[index].verified = !data[index].verified;
-        return res.status(200).json({ data: data });
-    }
+        for await (const service of serviceApprovalData) {
+            const supply = await supplyClient.findById(service.supply_id)
 
-    private async deleteDriver(req: Request, res: Response, next: NextFunction) {
-        data = data.filter(el => el.id !== req.params.id);
-        return res.status(200).json({ data: data });
-    }
-
-    private async createDriver(req: Request, res: Response, next: NextFunction) {
-        const createData = {
-            id: String(data.length + 1),
-            ...req.body
+            serviceApprovals.push({
+                ...service,
+                supply: supply,
+            })
         }
-        data.push(createData);
-        return res.status(200).json({ data: data});
+
+        return serviceApprovals
     }
 
+    private async getServiceApprovals(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        const serviceApprovals = await this.getDetailsServiceApproval()
+
+        return res.status(200).json({ data: serviceApprovals })
+    }
+
+    private async approveDriver(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        const approvalIndex = serviceApprovalData.findIndex(
+            (el) => el.id === req.params.id
+        )
+        serviceApprovalData[approvalIndex].status = 'approved'
+
+        const supplyVerivied = await supplyClient.verify(
+            serviceApprovalData[approvalIndex].supply_id
+        )
+
+        return res.status(200).json({
+            data: {
+                ...serviceApprovalData[approvalIndex],
+                supply: supplyVerivied,
+            },
+        })
+    }
+
+    private async deleteDriverApproval(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        serviceApprovalData = serviceApprovalData.filter(
+            (el) => el.id !== req.params.id
+        )
+
+        const serviceApprovals = await this.getDetailsServiceApproval()
+
+        return res.status(200).json({ data: serviceApprovals })
+    }
+
+    private async createDriver(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        const supplyData = (await supplyClient.find()).drivers
+
+        const createData = {
+            id: String(supplyData.length + 1),
+            ...req.body,
+        }
+
+        supplyData.push(createData)
+        return res.status(200).json({ data: supplyData })
+    }
 }
 
 export default new DriverController()
