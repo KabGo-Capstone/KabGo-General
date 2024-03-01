@@ -2,6 +2,8 @@ import { ReactComponent as Kabgo } from "assets/svg/Sidebar/kabgo.svg";
 
 import React from "react";
 import {
+  CarOutlined,
+  HomeOutlined,
   AppstoreOutlined,
   BarChartOutlined,
   CloudOutlined,
@@ -9,7 +11,8 @@ import {
   TeamOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  FileTextOutlined,
+  UsergroupAddOutlined
 } from "@ant-design/icons";
 
 import type { MenuProps } from "antd";
@@ -18,19 +21,21 @@ import { Layout, Menu, theme } from "antd";
 
 const { Sider } = Layout;
 
+const labels = ["Dashboard", "Admin", "Tài xế", "Khách hàng", "Service phương tiện", "Loại Phương Tiện", "Hóa Đơn"];
+
+
 const items: MenuProps['items'] = [
+    HomeOutlined,
     UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    TeamOutlined,
+    CarOutlined,
+    UsergroupAddOutlined,
     ShopOutlined,
+    AppstoreOutlined,
+    FileTextOutlined,
   ].map((icon, index) => ({
     key: String(index + 1),
     icon: React.createElement(icon),
-    label: `nav ${index + 1}`,
+    label: labels[index],
   }));
 
 const Sidebar: React.FC = () => {
