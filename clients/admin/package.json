@@ -23,7 +23,7 @@
     "firebase": "^8.6.8",
     "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
-    "query-string": "^8.1.0",
+    "query-string": "^8.2.0",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",
     "react-chartjs-2": "^5.2.0",

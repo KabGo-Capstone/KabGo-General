@@ -6,7 +6,7 @@ import catchAsync from '../utils/catch.error'
 import DTOValidation from '../middlewares/validation.middleware'
 import UserDTO from '../dtos/user.example.dto'
 import Jwt, { JsonWebToken } from '../utils/jwt'
-import GMailer from '../services/mailer.builder'
+// import GMailer from '../services/mailer.builder'
 import cacheMiddleware from '../middlewares/cache.middleware'
 import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
@@ -87,11 +87,11 @@ class UserController implements IController {
         Logger.info(payload2)
 
         // sendmail example
-        await GMailer.sendMail({
-            to: userInfo.email,
-            subject: 'Test send mail',
-            html: '<h1>Hello World!</h1>',
-        })
+        // await GMailer.sendMail({
+        //     to: userInfo.email,
+        //     subject: 'Test send mail',
+        //     html: '<h1>Hello World!</h1>',
+        // })
 
         // test error handler.
         const users = await UserModel.create(userInfo)

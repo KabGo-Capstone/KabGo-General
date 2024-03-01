@@ -26,19 +26,19 @@ root.render(
     {/* <Provider store={store}> */}
       <ConfigProvider
         theme={{
-          // token: {
-          //   fontFamily: "Montserrat",
-          //   colorPrimary: '#00A551',
-          //   fontSize: 16
-          // },
-          // components: {
-          //   Button: {
-          //     colorPrimary: '#00A551',
-          //   },
-          //   Table: {
-          //     rowHoverBg: '#ebfbee',
-          //   }
-          // }
+          token: {
+            fontFamily: "Montserrat",
+            colorPrimary: '#F86C1D',
+            fontSize: 13
+          },
+          components: {
+            Button: {
+              colorPrimary: '#F86C1D',
+            },
+            Table: {
+              rowHoverBg: '#FFF4EF',
+            },
+          }
         }}>
           <StyleProvider hashPriority= "high">
             <App />

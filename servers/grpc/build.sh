@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROTO_DIR=grpc/protos
-SOURCE_DIR=grpc/proto_pb
+SOURCE_DIR=grpc/models
 PROTOC_GEN_TS_PATH=./node_modules/.bin/protoc-gen-ts_proto
 PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts_proto"
 # PROTOC_GEN_GRPC_PATH="./node_modules/.bin/grpc_tools_node_protoc_plugin"
@@ -25,10 +25,16 @@ PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts_proto"
 # done
 
 npx grpc_tools_node_protoc \
-    --grpc_out="grpc_js:${SOURCE_DIR}" \
-    --js_out="import_style=commonjs,binary:${SOURCE_DIR}" \
-    --ts_out="grpc_js:${SOURCE_DIR}"  \
-    -I "./${PROTO_DIR}" "${PROTO_DIR}/*.proto"
+    --ts_proto_out="${SOURCE_DIR}" \
+    --ts_proto_opt=outputServices=grpc-js \
+    --ts_proto_opt=esModuleInterop=true \
+    -I="./${PROTO_DIR}" "${PROTO_DIR}/*.proto"
+
+# npx grpc_tools_node_protoc \
+#     --grpc_out="grpc_js:${SOURCE_DIR}" \
+#     --js_out="import_style=commonjs,binary:${SOURCE_DIR}" \
+#     --ts_out="grpc_js:${SOURCE_DIR}"  \
+#     -I "./${PROTO_DIR}" "${PROTO_DIR}/*.proto"
 
 # npx grpc_tools_node_protoc \
 #     --grpc_out="grpc_js:${SOURCE_DIR}" \
@@ -38,19 +44,19 @@ npx grpc_tools_node_protoc \
 #     "${PROTO_DIR}/*.proto"
 
 #Iterate over each file in the source directory
-for file in "$SOURCE_DIR"/*; do
-    if [[ -f "$file" ]]; then
-        filename="$(basename -- "$file")"
-        extension="${filename##*.}"
-        filename_no_ext="${filename%.*}"
-        folder="${filename%%_*}"  
+# for file in "$SOURCE_DIR"/*; do
+#     if [[ -f "$file" ]]; then
+#         filename="$(basename -- "$file")"
+#         extension="${filename##*.}"
+#         filename_no_ext="${filename%.*}"
+#         folder="${filename%%_*}"  
 
-        mkdir -p "$SOURCE_DIR/$folder"
+#         mkdir -p "$SOURCE_DIR/$folder"
 
-        if [[ $filename == *_grpc_pb.* ]]; then
-            mv "$file" "$SOURCE_DIR/$folder/${filename_no_ext}.${extension}"
-        elif [[ $filename == *_pb.* && $filename != *_grpc_pb.* ]]; then
-            mv "$file" "$SOURCE_DIR/$folder/${filename_no_ext}.${extension}"
-        fi
-    fi
-done
+#         if [[ $filename == *_grpc_pb.* ]]; then
+#             mv "$file" "$SOURCE_DIR/$folder/${filename_no_ext}.${extension}"
+#         elif [[ $filename == *_pb.* && $filename != *_grpc_pb.* ]]; then
+#             mv "$file" "$SOURCE_DIR/$folder/${filename_no_ext}.${extension}"
+#         fi
+#     fi
+# done

@@ -1,9 +1,9 @@
-import * as grpc from '@grpc/grpc-js'
-import { CustomerInfomationsClient } from './../../../grpc/proto_pb/demand/demand_grpc_pb'
 import {
     CustomerId,
     CustomerInfomation,
-} from '../../../grpc/proto_pb/demand/demand_pb'
+    CustomerInfomationsClient,
+} from './../../../grpc/models/demand'
+import * as grpc from '@grpc/grpc-js'
 import Logger from '../utils/logger'
 import chalk from 'chalk'
 
@@ -21,7 +21,7 @@ class DemandStub {
         deadline.setSeconds(deadline.getSeconds() + 20)
         this.demandsStub.waitForReady(deadline, (error?: Error) => {
             if (error) {
-                Logger.error(`Supply stub connect error: ${error.message}`)
+                Logger.error(`Demand stub connect error: ${error.message}`)
             } else {
                 Logger.info(
                     chalk.green('Connect to demand grpc server successfully')
@@ -31,7 +31,7 @@ class DemandStub {
         })
     }
 
-    public static connect(): DemandStub {
+    public static client(): DemandStub {
         return DemandStub.instance ?? (DemandStub.instance = new DemandStub())
     }
 
@@ -39,15 +39,16 @@ class DemandStub {
         this.find('customer-1002')
     }
 
-    public find(driverId: string): void {
-        const message = new CustomerId()
-        message.setId(driverId)
+    public find(customerId: string): void {
+        const message = CustomerId.create({
+            id: customerId,
+        })
 
         this.demandsStub.find(message, (err: any, data: CustomerInfomation) => {
             if (err) {
                 Logger.error(err)
             } else {
-                console.log(data.toObject())
+                console.log(data)
             }
         })
     }

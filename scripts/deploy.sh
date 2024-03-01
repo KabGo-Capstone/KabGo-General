@@ -31,6 +31,6 @@ cd ~/KabGo && git pull origin main
 
 echo "start build and deploy"
 
-cd ~/KabGo/docker-compose && docker compose -f docker-compose-prod.yml down $SERVICE && docker compose -f docker-compose-prod.yml pull $SERVICE && docker compose -f docker-compose-prod.yml up $SERVICE -d
+cd ~/KabGo/docker-compose && docker compose -f docker-compose-prod.yml down $SERVICE && docker system prune -a -f && docker compose -f docker-compose-prod.yml pull $SERVICE && docker compose -f docker-compose-prod.yml up $SERVICE -d
 
 echo "Deploy successfully"
