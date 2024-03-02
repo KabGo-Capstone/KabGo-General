@@ -48,6 +48,8 @@ services:
             - traefik.http.routers.demand-service.entrypoints=websecure
             - traefik.http.routers.demand-service.tls=true
             - traefik.http.routers.demand-service.tls.certresolver=letsencrypt
+            - traefik.http.services.demand-grpc-svc.loadbalancer.server.scheme=h2c
+            - traefik.http.services.demand-grpc-svc.loadbalancer.server.port=50051
         restart: unless-stopped
 
     supply-service:
@@ -105,6 +107,8 @@ services:
             - traefik.http.routers.admin-service.entrypoints=websecure
             - traefik.http.routers.admin-service.tls=true
             - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
+            - traefik.http.services.admin-grpc-svc.loadbalancer.server.scheme=h2c
+            - traefik.http.services.admin-grpc-svc.loadbalancer.server.port=50053
         restart: unless-stopped
 
     admin-client:
