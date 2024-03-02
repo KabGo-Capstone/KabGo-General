@@ -14,7 +14,7 @@ import { Layout, Menu, theme } from 'antd';
 import Sidebar from '~/components/Sidebar/Sidebar';
 import NavBar from '~/components/Navbar/Navbar';
 import ContentComponent from '~/components/Content/ContentComponent';
-import Edit from '~/components/Edit/edit';
+import Details from '~/components/Details';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -29,7 +29,7 @@ const BaseLayout: React.FC = () => {
       <Sidebar />
       <Layout style={{ marginLeft: 200 }}>
         <NavBar />
-        <Edit />
+        <Details />
       </Layout>
     </Layout>
   );
