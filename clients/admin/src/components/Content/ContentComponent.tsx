@@ -74,9 +74,7 @@
               Duyệt
             </Button >}
     
-            <Button className="!bg-red-500 !text-white !hover:bg-red-700" onClick={() => {
-              // axiosClient.post("/v1/driver/delete" + {record.id});
-            }}>
+            <Button className="!bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
               Xóa
             </Button>
     
@@ -111,6 +109,17 @@
       fetchData();
     }, []);
     
+    const handleDelete = async (record: DataType) => {
+      try {
+        await axiosClient.delete("/v1/driver/approval/delete/" + record.id);
+        const response = await axiosClient.get("/v1/driver/approval");
+        const supplyArray =  response.data.map((item: { supply: any; }) => item.supply);
+        setData(supplyArray);
+      } catch (error) {
+        console.error("Error delete driver:", error);
+      }
+    };
+
     const handleVerify = async (record: DataType) => {
       try {
         await axiosClient.post("/v1/driver/approval/approve/" + record.id);
