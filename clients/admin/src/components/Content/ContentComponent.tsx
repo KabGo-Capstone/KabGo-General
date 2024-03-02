@@ -62,7 +62,7 @@ const ContentComponent: React.FC = () => {
       key: "id",
     },
     {
-      title: "Name",
+      title: "Họ tên",
       dataIndex: "name",
       key: "name",
       render: (_, record) => (
@@ -83,7 +83,7 @@ const ContentComponent: React.FC = () => {
       ),
     },
     {
-      title: "Address",
+      title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
       width: "23%",
@@ -94,7 +94,7 @@ const ContentComponent: React.FC = () => {
       ),
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       render: (_, record) => (
@@ -104,7 +104,7 @@ const ContentComponent: React.FC = () => {
       ),
     },
     {
-      title: "Actions",
+      title: "Hành động",
       key: "action",
       render: (_, record) => (
         <div className="!flex gap-2">

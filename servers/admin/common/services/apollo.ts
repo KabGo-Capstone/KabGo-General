@@ -81,6 +81,7 @@ const resolvers = {
     },
     ServiceApproval: {
         supply(parent: any, args: any) {
+            console.log('hit here...');
             return dummyData.supplies.find(
                 (supply) => supply.id === parent.supplyID
             )
@@ -185,7 +186,7 @@ class ApolloGraphQLServer {
         // })
         await this.server.start()
         Logger.info(
-            chalk.green(`Apollo GraphQL server is running with admin server`)
+            chalk.green(`Apollo GraphQL server is running on port ${chalk.cyan(4003)}`)
         )
 
         return this.server
