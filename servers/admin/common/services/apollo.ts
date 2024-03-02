@@ -78,23 +78,21 @@ const resolvers = {
         },
     },
     ServiceApproval: {
-<<<<<<< HEAD
-         supply(parent: any, args: any) {
-             return dummyData.supplies.find((supply) => supply.id === parent.supplyID);
-         },
-         service(parent: any, args: any) {
-                return dummyData.services.find((service) => service.id === parent.serviceID);
-         },
-         vehicle(parent: any, args: any) {
-                return dummyData.vehicles.find((vehicle) => vehicle.id === parent.vehicleID);
-         }
-=======
         supply(parent: any, args: any) {
             return dummyData.supplies.find(
                 (supply) => supply.id === parent.supplyID
             )
         },
->>>>>>> f857305 (create grpc unverify)
+        service(parent: any, args: any) {
+            return dummyData.services.find(
+                (service) => service.id === parent.serviceID
+            )
+        },
+        vehicle(parent: any, args: any) {
+            return dummyData.vehicles.find(
+                (vehicle) => vehicle.id === parent.vehicleID
+            )
+        },
     },
     Mutation: {
         approveDriver(_: any, args: any) {
@@ -123,30 +121,6 @@ const resolvers = {
             return updatedServiceApproval
         },
         disApproveDriver(_: any, args: any) {
-<<<<<<< HEAD
-         let foundSupplyId: any = null;
-         let updatedServiceApproval = null;
-         dummyData.serviceApprovals = dummyData.serviceApprovals.map((serviceApproval) => {
-             if (serviceApproval.id == args.service_approval_id) {
-                 foundSupplyId = serviceApproval.supplyID;
-                 updatedServiceApproval = {...serviceApproval, status: 'pending'};
-                 return updatedServiceApproval;
-             }
-             else return serviceApproval;
-         });
-         dummyData.supplies = dummyData.supplies.map((supply) => {
-             if (supply.id === foundSupplyId) return {...supply, verified: false};
-             else return supply;
-         });
-          return updatedServiceApproval;
-         },
-         deleteServiceApproval(_: any, args: any) {
-             dummyData.serviceApprovals = dummyData.serviceApprovals.filter((serviceApproval) => serviceApproval.id !== args.service_approval_id);
-             return dummyData.serviceApprovals;
-         }
-    }
- }
-=======
             let foundSupplyId: any = null
             let updatedServiceApproval = null
             dummyData.serviceApprovals = dummyData.serviceApprovals.map(
@@ -169,7 +143,6 @@ const resolvers = {
             return updatedServiceApproval
         },
         deleteServiceApproval(_: any, args: any) {
-            console.log('deleted...')
             dummyData.serviceApprovals = dummyData.serviceApprovals.filter(
                 (serviceApproval) =>
                     serviceApproval.id !== args.service_approval_id
@@ -178,7 +151,6 @@ const resolvers = {
         },
     },
 }
->>>>>>> f857305 (create grpc unverify)
 
 class ApolloGraphQLServer {
     private static instance: ApolloGraphQLServer
