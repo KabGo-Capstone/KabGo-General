@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, theme, Button, Typography, Steps } from "antd"
 import Step1Content from "./step1content";
 import Step2Content from "./step2content";
 import Step3Content from "./step3content";
 import Step4Content from "./step4content";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Details: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+
+  const [record, setRecord] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (location.state && location.state.record) {
+      setRecord(location.state.record);
+    } else {
+      navigate("/");
+    }
+  }, [location.state, navigate]);
+
   const steps = [
     {
       title: 'Step 1',
-      content: <Step1Content />,
+      content: <Step1Content record={record} />,
     },
     {
       title: 'Step 2',
@@ -53,7 +67,9 @@ const Details: React.FC = () => {
           </Button>
         )}
         {currentStep === steps.length - 1 && (
-          <Button type="primary" onClick={() => console.log('Process completed!')}>
+          <Button type="primary" onClick={() => {
+            navigate(-1);
+          }}>
             Done
           </Button>
         )}
