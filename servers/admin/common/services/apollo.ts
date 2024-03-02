@@ -1,7 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import dummyData from "../dummy_data/dummy_data";
-import Logger from 'common/utils/logger';
+import Logger from '../utils/logger';
 import chalk from 'chalk'
 
 const typeDefs = 
@@ -81,6 +81,12 @@ const resolvers = {
     ServiceApproval: {
          supply(parent: any, args: any) {
              return dummyData.supplies.find((supply) => supply.id === parent.supplyID);
+         },
+         service(parent: any, args: any) {
+                return dummyData.services.find((service) => service.id === parent.serviceID);
+         },
+         vehicle(parent: any, args: any) {
+                return dummyData.vehicles.find((vehicle) => vehicle.id === parent.vehicleID);
          }
     },
     Mutation: {
@@ -119,7 +125,6 @@ const resolvers = {
           return updatedServiceApproval;
          },
          deleteServiceApproval(_: any, args: any) {
-             console.log('deleted...');
              dummyData.serviceApprovals = dummyData.serviceApprovals.filter((serviceApproval) => serviceApproval.id !== args.service_approval_id);
              return dummyData.serviceApprovals;
          }
