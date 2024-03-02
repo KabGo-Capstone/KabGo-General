@@ -38,7 +38,7 @@ class DriverController implements IController {
         const serviceApprovals = []
 
         for await (const service of serviceApprovalData) {
-            const supply = await supplyClient.findById(service.supply_id)
+            const supply = await supplyClient.findById(service.supplyID)
 
             serviceApprovals.push({
                 ...service,
@@ -76,7 +76,7 @@ class DriverController implements IController {
         serviceApprovalData[approvalIndex].status = 'approved'
 
         const supplyVerivied = await supplyClient.verify(
-            serviceApprovalData[approvalIndex].supply_id
+            serviceApprovalData[approvalIndex].supplyID
         )
 
         return res.status(200).json({

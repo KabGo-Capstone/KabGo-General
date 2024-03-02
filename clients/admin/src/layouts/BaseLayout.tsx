@@ -13,8 +13,8 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import Sidebar from '~/components/Sidebar/Sidebar';
 import NavBar from '~/components/Navbar/Navbar';
-import ContentComponent from '~/components/Content/ContentComponent';
 import Details from '~/components/Details';
+import { Outlet } from 'react-router-dom';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -29,7 +29,7 @@ const BaseLayout: React.FC = () => {
       <Sidebar />
       <Layout style={{ marginLeft: 200 }}>
         <NavBar />
-        <Details />
+        <Outlet />
       </Layout>
     </Layout>
   );
