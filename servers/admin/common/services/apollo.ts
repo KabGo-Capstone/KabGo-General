@@ -81,7 +81,6 @@ const resolvers = {
     },
     ServiceApproval: {
         supply(parent: any, args: any) {
-            console.log('hit here...');
             return dummyData.supplies.find(
                 (supply) => supply.id === parent.supplyID
             )

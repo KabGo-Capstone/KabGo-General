@@ -6,53 +6,14 @@ import axiosClient from "~/utils/axiosClient";
 import { useNavigate } from "react-router-dom";
 import IDriver from "../../interfaces/driver";
 import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation, useQuery } from '@apollo/client';
+import * as QUERY from "~/graph_queries/queries";
 
 const { Content } = Layout;
-
-const QUERY_ALL = gql`
-query {
-  serviceApprovals {
-      id
-      status
-      createdDate
-      driverLicense
-      personalImg
-      identityImg
-      vehicleImg
-      currentAddress
-      supply {
-          id
-          firstName
-          lastName
-          password
-          dob
-          gender
-          address
-          verified
-          avatar
-          email
-      }
-      service {
-          id
-          name
-          description
-          basePrice
-      }
-      vehicle {
-          id
-          name
-          identityNumber
-          color
-          brand
-      }
-  }
-}
-`
-
-
-
 const ContentComponent: React.FC = () => {
-  const { loading, error, data, refetch } = useQuery(QUERY_ALL);
+  const { loading, error, data, refetch } = useQuery(QUERY.SERVICE_APPROVALS);
+  const [approveDriver, { data: approve_mutation_data, loading: approve_mutation_loading, error: approve_mutation_error}] = useMutation(QUERY.APPROVE_DRIVER);
+  const [disApproveDriver, { data: disApprove_mutation_data, loading: disApprove_mutation_loading, error: disApprove_mutation_error}] = useMutation(QUERY.DISAPPROVE_DRIVER);
+  const [deleteServiceApproval, {data: delete_mutation_data, loading: delete_mutation_loading, error: delete_mutation_error}] = useMutation(QUERY.DELETE_SERVICE_APPROVAL);
 
   const navigate = useNavigate();
   const columns: TableProps<IDriver>["columns"] = [
@@ -108,16 +69,28 @@ const ContentComponent: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <div className="!flex gap-2">
-          {record.status === "approved" ? <Button className="!w-1/3" onClick={() => handleDisapprove(record)}>
+          {/* {record.status === "approved" ? <Button className="!w-1/3" onClick={() => handleDisapprove(record)}>
             Hủy
           </Button> :
             <Button className="!w-1/3" onClick={() => handleVerify(record)}>
               Duyệt
+            </Button >} */}
+
+          {/* <Button className="!w-1/3 !bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
+            Xóa
+          </Button> */}
+
+          {record.status === "approved" ? <Button className="!w-1/3" onClick={() => handleDisapproveByGraph(record)}>
+            Hủy
+          </Button> :
+            <Button className="!w-1/3" onClick={() => handleVerifyByGraph(record)}>
+              Duyệt
             </Button >}
 
-          <Button className="!w-1/3 !bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
+          <Button className="!w-1/3 !bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDeleteByGraph(record)}>
             Xóa
           </Button>
+       
 
           <Button onClick={() => {
             navigate("/details", { state: { record } });
@@ -136,8 +109,6 @@ const ContentComponent: React.FC = () => {
   const [myData, setData] = useState<IDriver[]>([]);
 
   useEffect(() => {
-    console.log('1');
-    console.log(data);
     fetchData();
   }, [loading]);
 
@@ -162,12 +133,41 @@ const ContentComponent: React.FC = () => {
 
   const handleVerifyByGraph = async (record: IDriver) => {
     try {
+        await approveDriver({variables: {
+            service_approval_id: record.id,
+          }
+        });
+        await updateDataByGraph();
     } catch (error) {
       console.error("Error verifying driver:", error);
     }
   };
 
+  const handleDisapproveByGraph = async (record: IDriver) => {
+    try {
+      await disApproveDriver({variables: {
+        service_approval_id: record.id,
+        }
+      });
+      await updateDataByGraph();
+    } catch (error) {
+      console.error("Error disapprove driver:", error);
+    }
+  };
 
+  const handleDeleteByGraph = async (record: IDriver) => {
+    try {
+      await deleteServiceApproval({variables: {
+        service_approval_id: record.id,
+        }
+      });
+      await updateDataByGraph();
+    } catch (error) {
+      console.error("Error delete driver:", error);
+    }
+  };
+
+  // RESTFUL API
   const updateData = async () => {
     try {
       const response = await axiosClient.get("/v1/driver/approval");
