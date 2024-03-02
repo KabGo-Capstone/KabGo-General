@@ -94,7 +94,7 @@ class SupplyStub {
                         Logger.error(err)
                     } else {
                         resolve(data)
-                        console.log(data)
+                        // console.log(data)
                     }
                 }
             )
