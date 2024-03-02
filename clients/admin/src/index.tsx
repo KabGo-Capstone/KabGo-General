@@ -16,7 +16,12 @@ import { ConfigProvider } from "antd";
 import {StyleProvider} from '@ant-design/cssinjs';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
+const client = new ApolloClient({
+  uri: 'http://localhost:4003',
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -41,7 +46,9 @@ root.render(
           }
         }}>
           <StyleProvider hashPriority= "high">
-            <App />
+            <ApolloProvider client={client}>
+              <App />
+            </ApolloProvider>
           </StyleProvider>
       </ConfigProvider>
     {/* </Provider> */}

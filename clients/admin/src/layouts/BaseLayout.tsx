@@ -1,19 +1,7 @@
 import React from 'react';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import Sidebar from '~/components/Sidebar/Sidebar';
 import NavBar from '~/components/Navbar/Navbar';
-import Details from '~/components/Details';
 import { Outlet } from 'react-router-dom';
 
 

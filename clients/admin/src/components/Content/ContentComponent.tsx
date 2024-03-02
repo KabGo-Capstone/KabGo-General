@@ -3,12 +3,57 @@ import { Button, Layout, theme } from "antd";
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import axiosClient from "~/utils/axiosClient";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import IDriver from "../../interfaces/driver";
+import { ApolloClient, InMemoryCache, ApolloProvider, gql, useMutation, useQuery } from '@apollo/client';
 
 const { Content } = Layout;
 
+const QUERY_ALL = gql`
+query {
+  serviceApprovals {
+      id
+      status
+      createdDate
+      driverLicense
+      personalImg
+      identityImg
+      vehicleImg
+      currentAddress
+      supply {
+          id
+          firstName
+          lastName
+          password
+          dob
+          gender
+          address
+          verified
+          avatar
+          email
+      }
+      service {
+          id
+          name
+          description
+          basePrice
+      }
+      vehicle {
+          id
+          name
+          identityNumber
+          color
+          brand
+      }
+  }
+}
+`
+
+
+
 const ContentComponent: React.FC = () => {
+  const { loading, error, data, refetch } = useQuery(QUERY_ALL);
+
   const navigate = useNavigate();
   const columns: TableProps<IDriver>["columns"] = [
     {
@@ -88,25 +133,45 @@ const ContentComponent: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [data, setData] = useState<IDriver[]>([]);
+  const [myData, setData] = useState<IDriver[]>([]);
 
   useEffect(() => {
+    console.log('1');
+    console.log(data);
     fetchData();
-  }, []);
+  }, [loading]);
 
   const fetchData = async () => {
     try {
-      updateData();
+      // updateData();
+      updateDataByGraph();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const updateDataByGraph = async () => {
+    try {
+      const response: any = await refetch();
+      if (response.data) setData(response.data.serviceApprovals);
+      console.log('response: ', response);
+    } catch (error) {
+      console.error("Error updating data:", error);
+    }
+  };
+
+  const handleVerifyByGraph = async (record: IDriver) => {
+    try {
+    } catch (error) {
+      console.error("Error verifying driver:", error);
+    }
+  };
+
+
   const updateData = async () => {
     try {
       const response = await axiosClient.get("/v1/driver/approval");
       setData(response.data);
-      console.log("Data:", response.data);
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -139,7 +204,8 @@ const ContentComponent: React.FC = () => {
     }
   };
 
-  return (
+
+  return data ? (
     <Content
       style={{ overflow: "initial" }}
       className="!mt-4 !mb-0 !mx-3.5 !p-0"
@@ -152,13 +218,17 @@ const ContentComponent: React.FC = () => {
           borderRadius: borderRadiusLG,
         }}
       >
-        <Table
-          columns={columns}
-          dataSource={data}
-        />
+        {
+          data ?
+            <Table
+              columns={columns}
+              dataSource={myData}
+            /> : <p>loading</p>
+        }
+
       </div>
     </Content>
-  );
+  ) : <p>loading...</p>;
 };
 
 export default ContentComponent;
