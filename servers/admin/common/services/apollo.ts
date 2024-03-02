@@ -186,7 +186,7 @@ class ApolloGraphQLServer {
         // })
         await this.server.start()
         Logger.info(
-            chalk.green(`Apollo GraphQL server is running on port ${chalk.cyan(4003)}`)
+            chalk.green(`Apollo GraphQL server is running on port ${chalk.cyan(5003)}`)
         )
 
         return this.server
