@@ -1,11 +1,10 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import dummyData from "../dummy_data/dummy_data";
-import Logger from '../utils/logger';
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import dummyData from '../dummy_data/dummy_data'
+import Logger from '../utils/logger'
 import chalk from 'chalk'
 
-const typeDefs = 
-`#graphql.type
+const typeDefs = `#graphql.type
     type Service {
         id: ID!,
         name: String!, 
@@ -61,24 +60,25 @@ const typeDefs =
         disApproveDriver(service_approval_id: ID!): ServiceApproval,
         deleteServiceApproval(service_approval_id: ID!): [ServiceApproval!]
     }
-`;
+`
 
 const resolvers = {
     Query: {
-     services() {
-         return dummyData.services;
-     },
-     vehicles() {
-         return dummyData.vehicles;
-     },
-     supplies() {
-         return dummyData.supplies;
-     },
-     serviceApprovals() {
-         return dummyData.serviceApprovals;
-     }
+        services() {
+            return dummyData.services
+        },
+        vehicles() {
+            return dummyData.vehicles
+        },
+        supplies() {
+            return dummyData.supplies
+        },
+        serviceApprovals() {
+            return dummyData.serviceApprovals
+        },
     },
     ServiceApproval: {
+<<<<<<< HEAD
          supply(parent: any, args: any) {
              return dummyData.supplies.find((supply) => supply.id === parent.supplyID);
          },
@@ -88,26 +88,42 @@ const resolvers = {
          vehicle(parent: any, args: any) {
                 return dummyData.vehicles.find((vehicle) => vehicle.id === parent.vehicleID);
          }
+=======
+        supply(parent: any, args: any) {
+            return dummyData.supplies.find(
+                (supply) => supply.id === parent.supplyID
+            )
+        },
+>>>>>>> f857305 (create grpc unverify)
     },
     Mutation: {
         approveDriver(_: any, args: any) {
-         let foundSupplyId: any = null;
-         let updatedServiceApproval = null;
-         dummyData.serviceApprovals = dummyData.serviceApprovals.map((serviceApproval) => {
-             if (serviceApproval && serviceApproval.id === args.service_approval_id) {
-                 foundSupplyId = serviceApproval.supplyID;
-                 updatedServiceApproval = {...serviceApproval, status: 'approved'};
-                 return updatedServiceApproval;
-             }
-             else return serviceApproval;
-         });
-         dummyData.supplies = dummyData.supplies.map((supply) => {
-             if (supply.id === foundSupplyId) return {...supply, verified: true};
-             else return supply;
-         });
-         return updatedServiceApproval;
+            let foundSupplyId: any = null
+            let updatedServiceApproval = null
+            dummyData.serviceApprovals = dummyData.serviceApprovals.map(
+                (serviceApproval) => {
+                    if (
+                        serviceApproval &&
+                        serviceApproval.id === args.service_approval_id
+                    ) {
+                        foundSupplyId = serviceApproval.supplyID
+                        updatedServiceApproval = {
+                            ...serviceApproval,
+                            status: 'approved',
+                        }
+                        return updatedServiceApproval
+                    } else return serviceApproval
+                }
+            )
+            dummyData.supplies = dummyData.supplies.map((supply) => {
+                if (supply.id === foundSupplyId)
+                    return { ...supply, verified: true }
+                else return supply
+            })
+            return updatedServiceApproval
         },
         disApproveDriver(_: any, args: any) {
+<<<<<<< HEAD
          let foundSupplyId: any = null;
          let updatedServiceApproval = null;
          dummyData.serviceApprovals = dummyData.serviceApprovals.map((serviceApproval) => {
@@ -130,10 +146,43 @@ const resolvers = {
          }
     }
  }
+=======
+            let foundSupplyId: any = null
+            let updatedServiceApproval = null
+            dummyData.serviceApprovals = dummyData.serviceApprovals.map(
+                (serviceApproval) => {
+                    if (serviceApproval.id == args.service_approval_id) {
+                        foundSupplyId = serviceApproval.supplyID
+                        updatedServiceApproval = {
+                            ...serviceApproval,
+                            status: 'pending',
+                        }
+                        return updatedServiceApproval
+                    } else return serviceApproval
+                }
+            )
+            dummyData.supplies = dummyData.supplies.map((supply) => {
+                if (supply.id === foundSupplyId)
+                    return { ...supply, verified: false }
+                else return supply
+            })
+            return updatedServiceApproval
+        },
+        deleteServiceApproval(_: any, args: any) {
+            console.log('deleted...')
+            dummyData.serviceApprovals = dummyData.serviceApprovals.filter(
+                (serviceApproval) =>
+                    serviceApproval.id !== args.service_approval_id
+            )
+            return dummyData.serviceApprovals
+        },
+    },
+}
+>>>>>>> f857305 (create grpc unverify)
 
 class ApolloGraphQLServer {
-    private static instance: ApolloGraphQLServer;
-    private server: ApolloServer;
+    private static instance: ApolloGraphQLServer
+    private server: ApolloServer
     private constructor() {
         this.server = new ApolloServer({
             // cors:   {
@@ -142,19 +191,22 @@ class ApolloGraphQLServer {
             // },
             // typeDefs -- definitions of types of data
             typeDefs,
-            // resolver functions determine how we respond to queries for different data on the graph 
+            // resolver functions determine how we respond to queries for different data on the graph
             resolvers,
-        });
+        })
     }
     public static getInstance(): ApolloGraphQLServer {
-        return ApolloGraphQLServer.instance ?? (ApolloGraphQLServer.instance = new ApolloGraphQLServer());
+        return (
+            ApolloGraphQLServer.instance ??
+            (ApolloGraphQLServer.instance = new ApolloGraphQLServer())
+        )
     }
 
     public async start() {
         const { url } = await startStandaloneServer(this.server, {
             listen: {
                 port: 4003,
-            }
+            },
         })
         Logger.info(
             chalk.green(
@@ -164,6 +216,6 @@ class ApolloGraphQLServer {
     }
 }
 
-const apolloGraphQLServer = ApolloGraphQLServer.getInstance();
+const apolloGraphQLServer = ApolloGraphQLServer.getInstance()
 
-export default apolloGraphQLServer;
+export default apolloGraphQLServer

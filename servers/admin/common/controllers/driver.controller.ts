@@ -105,7 +105,7 @@ class DriverController implements IController {
         )
         serviceApprovalData[approvalIndex].status = 'pending'
 
-        const supplyVerivied = await supplyClient.verify(
+        const supplyUnVerivied = await supplyClient.unverify(
             serviceApprovalData[approvalIndex].supplyID
         )
 
@@ -120,7 +120,7 @@ class DriverController implements IController {
                     (data) =>
                         data.id === serviceApprovalData[approvalIndex].serviceID
                 ),
-                supply: supplyVerivied,
+                supply: supplyUnVerivied,
             },
         })
     }

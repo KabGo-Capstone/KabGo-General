@@ -431,12 +431,22 @@ export const DriverService = {
     responseSerialize: (value: DriverInformation) => Buffer.from(DriverInformation.encode(value).finish()),
     responseDeserialize: (value: Buffer) => DriverInformation.decode(value),
   },
+  unverify: {
+    path: "/Driver/unverify",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: DriverID) => Buffer.from(DriverID.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => DriverID.decode(value),
+    responseSerialize: (value: DriverInformation) => Buffer.from(DriverInformation.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => DriverInformation.decode(value),
+  },
 } as const;
 
 export interface DriverServer extends UntypedServiceImplementation {
   find: handleUnaryCall<DriverEmptyRequest, DriverList>;
   findById: handleUnaryCall<DriverID, DriverInformation>;
   verify: handleUnaryCall<DriverID, DriverInformation>;
+  unverify: handleUnaryCall<DriverID, DriverInformation>;
 }
 
 export interface DriverClient extends Client {
@@ -480,6 +490,21 @@ export interface DriverClient extends Client {
     callback: (error: ServiceError | null, response: DriverInformation) => void,
   ): ClientUnaryCall;
   verify(
+    request: DriverID,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: DriverInformation) => void,
+  ): ClientUnaryCall;
+  unverify(
+    request: DriverID,
+    callback: (error: ServiceError | null, response: DriverInformation) => void,
+  ): ClientUnaryCall;
+  unverify(
+    request: DriverID,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: DriverInformation) => void,
+  ): ClientUnaryCall;
+  unverify(
     request: DriverID,
     metadata: Metadata,
     options: Partial<CallOptions>,

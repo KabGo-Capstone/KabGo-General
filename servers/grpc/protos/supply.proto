@@ -29,4 +29,5 @@ service Driver {
 	rpc find(DriverEmptyRequest) returns (DriverList);
   	rpc findById(DriverID) returns (DriverInformation);
   	rpc verify(DriverID) returns (DriverInformation);
+  	rpc unverify(DriverID) returns (DriverInformation);
 }

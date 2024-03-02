@@ -100,6 +100,27 @@ class SupplyStub {
             )
         })
     }
+
+    public unverify(supplyId: string) {
+        return new Promise<DriverInformation>((resolve, reject) => {
+            const message = DriverID.create({
+                id: supplyId,
+            })
+
+            this.supplysStub.unverify(
+                message,
+                (err: any, data: DriverInformation) => {
+                    if (err) {
+                        reject(err)
+                        Logger.error(err)
+                    } else {
+                        resolve(data)
+                        // console.log(data)
+                    }
+                }
+            )
+        })
+    }
 }
 
 export default SupplyStub
