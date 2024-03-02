@@ -50,31 +50,29 @@
         key: "address",
         width: "23%",
       },
-    
       {
         title: "Status",
         dataIndex: "status",
         key: "status",
         render: (_, record) => (
-          <span className={record.verified ? 'text-green-500' : 'text-red-500'}>
+          <Tag color={record.verified ? 'green' : 'red'} className="!text-sm !p-1.5 !pl-3 !pr-3">
             {record.verified ? "Đã duyệt" : "Chờ xử lý"}
-          </span>
-        )
+          </Tag>
+        ),
       },
       {
         title: "Actions",
         key: "action",
         render: (_, record) => (
           <div className="!flex gap-2">
-            {record.verified ? <Button className="!min-w-80" onClick={() => {
-              // axiosClient.post("/v1/driver/"{});
-            }}>
+            {record.verified ? <Button className="!w-1/3" onClick={() => {}}>
               Hủy
-            </Button> : <Button className="!min-w-80" onClick={() => handleVerify(record)}>
+            </Button> : 
+            <Button className="!w-1/3" onClick={() => handleVerify(record)}>
               Duyệt
             </Button >}
     
-            <Button className="!bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
+            <Button className="!w-1/3 !bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
               Xóa
             </Button>
     
@@ -154,7 +152,4 @@
   };
 
   export default ContentComponent;
-  function handleVerify(record: DataType): void {
-    throw new Error("Function not implemented.");
-  }
 
