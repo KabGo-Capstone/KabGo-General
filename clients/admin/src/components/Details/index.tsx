@@ -5,6 +5,7 @@ import Step2Content from "./step2content";
 import Step3Content from "./step3content";
 import Step4Content from "./step4content";
 import { useLocation, useNavigate } from "react-router-dom";
+import IDriver from "~/interfaces/driver";
 
 
 const Details: React.FC = () => {
@@ -12,7 +13,7 @@ const Details: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [record, setRecord] = useState<any | null>(null);
+  const [record, setRecord] = useState<IDriver | null>(null);
 
   useEffect(() => {
     if (location.state && location.state.record) {

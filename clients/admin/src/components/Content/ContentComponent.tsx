@@ -4,49 +4,13 @@ import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import axiosClient from "~/utils/axiosClient";
 import { Navigate, useNavigate } from "react-router-dom";
+import IDriver from "../../interfaces/driver";
 
 const { Content } = Layout;
 
-interface DataType {
-  createdDate: string;
-  currentAddress: string;
-  driverLicense: string;
-  id: string;
-  identityImg: string;
-  personalImg: string;
-  service: {
-    basePrice: string;
-    description: string;
-    id: string;
-    name: string;
-  };
-  serviceID: string;
-  vehicle: {
-    brand: string;
-    color: string;
-    id: string;
-    name: string;
-  }
-  vehicleID: string;
-  vehicleImg: string;
-  status: string;
-  supply: {
-    id: string;
-    gender: string;
-    email: string;
-    password: string;
-    dob: string;
-    verified: boolean;
-    avatar: string;
-    firstName: string;
-    lastName: string;
-    address: string;
-  };
-}
-
 const ContentComponent: React.FC = () => {
   const navigate = useNavigate();
-  const columns: TableProps<DataType>["columns"] = [
+  const columns: TableProps<IDriver>["columns"] = [
     {
       title: "STT",
       dataIndex: "id",
@@ -124,7 +88,7 @@ const ContentComponent: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [data, setData] = useState<DataType[]>([]);
+  const [data, setData] = useState<IDriver[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -148,7 +112,7 @@ const ContentComponent: React.FC = () => {
     }
   };
 
-  const handleDelete = async (record: DataType) => {
+  const handleDelete = async (record: IDriver) => {
     try {
       await axiosClient.delete("/v1/driver/approval/" + record?.supply?.id);
       updateData();
@@ -157,7 +121,7 @@ const ContentComponent: React.FC = () => {
     }
   };
 
-  const handleVerify = async (record: DataType) => {
+  const handleVerify = async (record: IDriver) => {
     try {
       await axiosClient.post("/v1/driver/approval/approve/" + record?.id);
       updateData();
@@ -166,7 +130,7 @@ const ContentComponent: React.FC = () => {
     }
   };
 
-  const handleDisapprove = async (record: DataType) => {
+  const handleDisapprove = async (record: IDriver) => {
     try {
       await axiosClient.patch("/v1/driver/approval/disapprove/" + record?.id);
       updateData();

@@ -2,21 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Cascader, Checkbox, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Table, Tag, TreeSelect, Typography, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { ReactComponent as UploadImg } from "../../assets/svg/Sidebar/upload_img.svg";
+import IDriver from "../../interfaces/driver";
 
-interface Step1ContentProps {
-    record: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        password: string;
-        dob: string;
-        email: string;
-        gender: string;
-        address: string;
-    } | null;
-}
-
-const Step1Content: React.FC<Step1ContentProps> = ({ record }) => {
+const Step1Content: React.FC<any> = ( {record} ) => {
     const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -52,22 +40,22 @@ const Step1Content: React.FC<Step1ContentProps> = ({ record }) => {
                             disabled={componentDisabled}
                         >
                             <Form.Item label="Họ">
-                                <Input value={record?.lastName} readOnly={true} />
+                                <Input value={record?.supply.lastName} readOnly={true} />
                             </Form.Item>
                             <Form.Item label="Tên">
-                                <Input value={record?.firstName} readOnly={true}/>
+                                <Input value={record?.supply.firstName} readOnly={true}/>
                             </Form.Item>
                             <Form.Item label="Giới tính">
-                                <Input value={record?.gender === "male" ? "Nam" : "Nữ"} readOnly={true}/>
+                                <Input value={record?.supply.gender === "male" ? "Nam" : "Nữ"} readOnly={true}/>
                             </Form.Item>
                             <Form.Item label="Ngày sinh">
-                                <Input value={record?.dob} readOnly={true}/>
+                                <Input value={record?.supply.dob} readOnly={true}/>
                             </Form.Item>
                             <Form.Item label="Email">
-                                <Input value={record?.email} readOnly={true}/>
+                                <Input value={record?.supply.email} readOnly={true}/>
                             </Form.Item>
                             <Form.Item label="Địa chỉ nhà">
-                                <Input value={record?.address} readOnly={true}/>
+                                <Input value={record?.supply.address} readOnly={true}/>
                             </Form.Item>
                             {/* <Form.Item label="Dịch vụ đăng ký">
                                 <Input />
