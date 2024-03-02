@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: './.env' })
 
+import { expressMiddleware } from '@apollo/server/express4'
 import express from 'express'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
@@ -8,7 +9,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import path from 'path'
 import fs from 'fs'
-import { Server } from 'http'
+import { Server, createServer } from 'http'
 import { Socket } from 'socket.io'
 import chalk from 'chalk'
 import IController from './interfaces/controller'
@@ -49,6 +50,7 @@ class Application {
     private app: express.Application
     private appName: string
     private appVersion: string
+    private httpServer: Server
 
     private controllers: IController[] = []
     private events: IEvent[] = []
@@ -61,6 +63,8 @@ class Application {
 
     constructor(options: ApplicationOptions) {
         this.app = express()
+
+        this.httpServer = createServer(this.app)
 
         this.controllers = options.controllers
         this.events = options.events
@@ -85,7 +89,7 @@ class Application {
         return this.app
     }
 
-    private setup() {
+    private async setup() {
         this.app.enable('trust proxy')
 
         Logger.info(chalk.yellow('Setting up server...'))
@@ -120,6 +124,19 @@ class Application {
                 message: 'Server is running ...',
             })
         })
+
+        const apolloInstance = apolloGraphQLServer.init(this.httpServer)
+        const apolloServer = await apolloInstance.start()
+
+        this.app.use(
+            '/graph',
+            expressMiddleware(apolloServer, {
+                context: async ({ req, res }) => ({
+                    request: req,
+                    response: res,
+                }),
+            })
+        )
 
         this.app.all('*', (req, res, next) => {
             const file = path.join(__dirname, req.path)
@@ -179,40 +196,42 @@ class Application {
             })
     }
 
-    public run(callback: () => void = () => {}): Server {
+    public run(callback: () => void = () => {}) {
         Logger.info(chalk.blue('Server is starting...'))
 
         const availablePort = process.env.APP_PORT ?? 3000
 
-        const server: Server = this.app.listen(availablePort, async () => {
-            Logger.info(
-                chalk.green(
-                    `Server is running on port ${chalk.cyan(availablePort)}`
-                )
-            )
-
-            gRPCServer.start()
-            apolloGraphQLServer.start()
-
-            SupplyStub.client()
-            DemandStub.client()
-
-            socketIO.init(server)
-
-            const io = socketIO.getIO()
-
-            io.on('connection', (socket: Socket) => {
-                Logger.info(`Connection details - Socket ID: ${socket.id}`)
-
-                this.events.forEach((event) => {
-                    socket.on(event.event, (...args: any[]) =>
-                        event.listener(io, socket, ...args)
+        const server: Server = this.httpServer.listen(
+            availablePort,
+            async () => {
+                Logger.info(
+                    chalk.green(
+                        `Server is running on port ${chalk.cyan(availablePort)}`
                     )
-                })
-            })
+                )
 
-            callback()
-        })
+                gRPCServer.start()
+
+                SupplyStub.client()
+                DemandStub.client()
+
+                socketIO.init(server)
+
+                const io = socketIO.getIO()
+
+                io.on('connection', (socket: Socket) => {
+                    Logger.info(`Connection details - Socket ID: ${socket.id}`)
+
+                    this.events.forEach((event) => {
+                        socket.on(event.event, (...args: any[]) =>
+                            event.listener(io, socket, ...args)
+                        )
+                    })
+                })
+
+                callback()
+            }
+        )
 
         return server
     }

@@ -1,8 +1,10 @@
 import { ApolloServer } from '@apollo/server'
-import { startStandaloneServer } from '@apollo/server/standalone'
+// import { startStandaloneServer } from '@apollo/server/standalone'
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import dummyData from '../dummy_data/dummy_data'
 import Logger from '../utils/logger'
 import chalk from 'chalk'
+import { Server } from 'http'
 
 const typeDefs = `#graphql.type
     type Service {
@@ -155,7 +157,7 @@ const resolvers = {
 class ApolloGraphQLServer {
     private static instance: ApolloGraphQLServer
     private server: ApolloServer
-    private constructor() {
+    private constructor(httpServer: Server) {
         this.server = new ApolloServer({
             // cors:   {
             //     origin: '*', // <- allow request from all domains
@@ -165,29 +167,29 @@ class ApolloGraphQLServer {
             typeDefs,
             // resolver functions determine how we respond to queries for different data on the graph
             resolvers,
+            plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
         })
     }
-    public static getInstance(): ApolloGraphQLServer {
+    public static init(httpServer: Server): ApolloGraphQLServer {
         return (
             ApolloGraphQLServer.instance ??
-            (ApolloGraphQLServer.instance = new ApolloGraphQLServer())
+            (ApolloGraphQLServer.instance = new ApolloGraphQLServer(httpServer))
         )
     }
 
     public async start() {
-        const { url } = await startStandaloneServer(this.server, {
-            listen: {
-                port: 4003,
-            },
-        })
+        // const { url } = await startStandaloneServer(this.server, {
+        //     listen: {
+        //         port: 4003,
+        //     },
+        // })
+        await this.server.start()
         Logger.info(
-            chalk.green(
-                `Apollo GraphQL server is running on port ${chalk.cyan(4003)}`
-            )
+            chalk.green(`Apollo GraphQL server is running with admin server`)
         )
+
+        return this.server
     }
 }
 
-const apolloGraphQLServer = ApolloGraphQLServer.getInstance()
-
-export default apolloGraphQLServer
+export default ApolloGraphQLServer
