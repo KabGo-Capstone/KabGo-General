@@ -23,7 +23,8 @@ import redis from './services/redis'
 import cloudinary from './services/cloudinary'
 import { ConfigOptions } from 'cloudinary'
 import Logger from './utils/logger'
-import gRPC from './services/grpc'
+import gRPCServer from './services/grpc'
+import apolloGraphQLServer from './services/apollo'
 import SupplyStub from './services/supply.service'
 import DemandStub from './services/demand.service'
 
@@ -190,7 +191,8 @@ class Application {
                 )
             )
 
-            gRPC.start()
+            gRPCServer.start()
+            apolloGraphQLServer.start()
 
             SupplyStub.client()
             DemandStub.client()
