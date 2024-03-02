@@ -26,7 +26,7 @@ class DriverController implements IController {
     constructor() {
         this.router.get('/', catchAsync(this.getServiceApprovals.bind(this)))
         this.router.post('/approve/:id', catchAsync(this.approveDriver))
-        this.router.patch('/approve/:id', catchAsync(this.disapproveDriver))
+        this.router.patch('/disapprove/:id', catchAsync(this.disapproveDriver))
         this.router.delete(
             '/:id',
             catchAsync(this.deleteDriverApproval.bind(this))
@@ -43,10 +43,10 @@ class DriverController implements IController {
             serviceApprovals.push({
                 ...service,
                 vehicle: vehicleData.find(
-                    (data) => data.id === service.vehicle_id
+                    (data) => data.id === service.vehicleID
                 ),
                 service: serviceData.find(
-                    (data) => data.id === service.service_id
+                    (data) => data.id === service.serviceID
                 ),
                 supply: supply,
             })
@@ -84,13 +84,11 @@ class DriverController implements IController {
                 ...serviceApprovalData[approvalIndex],
                 vehicle: vehicleData.find(
                     (data) =>
-                        data.id ===
-                        serviceApprovalData[approvalIndex].vehicle_id
+                        data.id === serviceApprovalData[approvalIndex].vehicleID
                 ),
                 service: serviceData.find(
                     (data) =>
-                        data.id ===
-                        serviceApprovalData[approvalIndex].service_id
+                        data.id === serviceApprovalData[approvalIndex].serviceID
                 ),
                 supply: supplyVerivied,
             },
@@ -108,7 +106,7 @@ class DriverController implements IController {
         serviceApprovalData[approvalIndex].status = 'pending'
 
         const supplyVerivied = await supplyClient.verify(
-            serviceApprovalData[approvalIndex].supply_id
+            serviceApprovalData[approvalIndex].supplyID
         )
 
         return res.status(200).json({
@@ -116,13 +114,11 @@ class DriverController implements IController {
                 ...serviceApprovalData[approvalIndex],
                 vehicle: vehicleData.find(
                     (data) =>
-                        data.id ===
-                        serviceApprovalData[approvalIndex].vehicle_id
+                        data.id === serviceApprovalData[approvalIndex].vehicleID
                 ),
                 service: serviceData.find(
                     (data) =>
-                        data.id ===
-                        serviceApprovalData[approvalIndex].service_id
+                        data.id === serviceApprovalData[approvalIndex].serviceID
                 ),
                 supply: supplyVerivied,
             },
