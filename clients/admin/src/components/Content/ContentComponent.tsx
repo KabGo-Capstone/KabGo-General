@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Layout, theme } from "antd";
-
 import { Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import axiosClient from "~/utils/axiosClient";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -78,7 +78,10 @@ const columns: TableProps<DataType>["columns"] = [
           Xóa
         </Button>
 
-        <Button onClick={() => {}}>
+        <Button onClick={() => {
+          const navigate = useNavigate();
+          navigate("/details");
+        }}>
           Chi tiết
         </Button>
       </div>
