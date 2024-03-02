@@ -10,6 +10,6 @@ COPY . .
 
 RUN npm run format-fix
 
-EXPOSE 5003 50053 4003
+EXPOSE 5003 50053
 
 CMD ["npm", "run", "start:dev"]
