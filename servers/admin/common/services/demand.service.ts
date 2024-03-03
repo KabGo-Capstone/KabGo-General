@@ -13,7 +13,7 @@ class DemandStub {
 
     private constructor() {
         this.demandsStub = new CustomerInfomationsClient(
-            `${process.env.DEMAND_GRPC_CLIENT ?? '127.0.0.1'}:50051`,
+            `${process.env.DEMAND_GRPC_CLIENT_HOST ?? '127.0.0.1'}:${process.env.DEMAND_GRPC_CLIENT_P ?? 50051}`,
             grpc.credentials.createInsecure()
         )
 
