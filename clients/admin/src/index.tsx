@@ -19,7 +19,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5003/graph',
+  uri: `${process.env.REACT_APP_BACKEND_HOST}/graph`,
   cache: new InMemoryCache(),
 });
 
