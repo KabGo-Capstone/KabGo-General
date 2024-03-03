@@ -1,3 +1,5 @@
+import 'package:driver/configs/router.dart';
+import 'package:driver/screens/register_screen/register_screen.dart';
 import 'package:driver/widgets/login_screen/carousel/carousel.dart';
 import 'package:driver/widgets/login_screen/footer/footer.dart';
 import 'package:driver/widgets/login_screen/header/header.dart';
@@ -15,7 +17,8 @@ class LoginScreen extends StatelessWidget {
 
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).padding.top),
+      padding:
+          EdgeInsets.symmetric(vertical: MediaQuery.of(context).padding.top),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -23,20 +26,17 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              
-              if (screenHeight >= 720) 
-                const LoginHeader(),
-              
+              if (screenHeight >= 720) const LoginHeader(),
               const Carousel(),
-              
               if (screenHeight < 880) const Spacer(),
-              
-              if (screenHeight >= 880)   const SizedBox(height: 30),
-              
-              const LoginFooter(),
-
-              if (screenHeight >= 880) 
-                const Spacer(),
+              if (screenHeight >= 880) const SizedBox(height: 30),
+              LoginFooter(
+                onRegisterPressed: () {
+                  // Chuyển sang trang đăng ký khi nút được nhấn
+                  router.push(RegisterScreen.path);
+                },
+              ),
+              if (screenHeight >= 880) const Spacer(),
             ],
           ),
         ),
