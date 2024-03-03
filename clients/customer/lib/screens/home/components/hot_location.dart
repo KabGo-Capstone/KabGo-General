@@ -41,95 +41,95 @@ class HotLocation extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ...hotLocation.map(
-                (e) => Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Opacity(
-                          opacity: 0.9,
-                          child: Container(
-                            height: 105,
-                            width: 145,
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Color(0xffFE8248),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 110,
-                              width: 140,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffFE8248),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(e['image'] as String),
+              ...hotLocation.take(6).map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Opacity(
+                              opacity: 0.9,
+                              child: Container(
+                                height: 105,
+                                width: 145,
+                                padding: const EdgeInsets.all(6),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xffFE8248),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 110,
+                                  width: 140,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffFE8248),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(7)),
+                                    image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(e['image'] as String),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        SizedBox(
-                          width: 140,
-                          child: Text(
-                            e['name'] as String,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 1, horizontal: 4),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 255, 233, 239),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
-                              child: const Text(
-                                'Giảm 15%',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 197, 17, 50),
-                                    fontSize: 10),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            SizedBox(
+                              width: 140,
+                              child: Text(
+                                e['name'] as String,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ),
                             const SizedBox(
-                              width: 5,
+                              height: 8,
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 1, horizontal: 4),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 255, 233, 239),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(3))),
-                              child: const Text(
-                                'Tối đa 30k',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 197, 17, 50),
-                                    fontSize: 10),
-                              ),
-                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 1, horizontal: 4),
+                                  decoration: const BoxDecoration(
+                                      color: Color.fromARGB(255, 230, 255, 237),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(3))),
+                                  child: const Text(
+                                    'Giảm 15%',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 0, 141, 45),
+                                        fontSize: 10),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 1, horizontal: 4),
+                                  decoration: const BoxDecoration(
+                                      color: Color.fromARGB(255, 230, 255, 237),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(3))),
+                                  child: const Text(
+                                    'Tối đa 30k',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 0, 141, 45),
+                                        fontSize: 10),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
               Container(
                 width: 50,
                 height: 50,

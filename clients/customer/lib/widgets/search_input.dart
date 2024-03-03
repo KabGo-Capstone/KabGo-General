@@ -33,6 +33,7 @@ class _InputSearchState extends State<SearchInput> {
   final inputController = TextEditingController();
   String? _value;
   FocusNode _searchFocus = FocusNode();
+  bool onFocus = false;
 
   Future<List<LocationModel>> placeAutoComplete(String query) async {
     List<LocationModel> placePredictions = [];
@@ -74,6 +75,7 @@ class _InputSearchState extends State<SearchInput> {
   }
 
   void _onFocusChange() {
+    onFocus = _searchFocus.hasFocus;
     widget.focus(_searchFocus.hasFocus);
   }
 
@@ -85,104 +87,103 @@ class _InputSearchState extends State<SearchInput> {
       inputController.text = widget.value;
       _value = widget.value;
     }
-    return Consumer(
-      builder: (context, ref, child) {
-        return TypeAheadFormField(
-          textFieldConfiguration: TextFieldConfiguration(
-            controller: inputController,
-            style: _searchFocus.hasFocus
-                ? Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.black, fontWeight: FontWeight.w700)
-                : Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.black),
-            onChanged: (value) {
-              if (value.length <= 1) {
-                if (value.length == 1) {
-                  widget.search(true);
-                }
-                if (value.isEmpty) {
-                  widget.search(false);
-                }
-                setState(() {});
-              }
-            },
-            focusNode: _searchFocus,
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              prefixIcon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  widget.icon,
-                ],
-              ),
-              suffixIcon:
-                  inputController.text.isNotEmpty && _searchFocus.hasFocus
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                inputController.clear();
-                                widget.search(false);
-                              },
-                              child: Container(
-                                width: 18,
-                                height: 18,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color.fromARGB(255, 191, 191, 191),
-                                ),
-                                child: const FaIcon(
-                                  FontAwesomeIcons.xmark,
-                                  color: Colors.white,
-                                  size: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(
-                          width: 1,
+    return TypeAheadFormField(
+      textFieldConfiguration: TextFieldConfiguration(
+        onTap: () {
+          onFocus = true;
+          setState(() {});
+        },
+        controller: inputController,
+        style: onFocus
+            ? Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: Colors.black, fontWeight: FontWeight.w700)
+            : Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: Colors.black),
+        onChanged: (value) {
+          if (value.length <= 1) {
+            if (value.length == 1) {
+              widget.search(true);
+            }
+            if (value.isEmpty) {
+              widget.search(false);
+            }
+            setState(() {});
+          }
+        },
+        focusNode: _searchFocus,
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+          prefixIcon: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              widget.icon,
+            ],
+          ),
+          suffixIcon: inputController.text.isNotEmpty && _searchFocus.hasFocus
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        inputController.clear();
+                        widget.search(false);
+                      },
+                      child: Container(
+                        width: 18,
+                        height: 18,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(255, 191, 191, 191),
                         ),
-              hintText: widget.placeHolder,
-              hintStyle: Theme.of(context).textTheme.labelSmall,
-              contentPadding: const EdgeInsets.all(0),
-              fillColor: const Color.fromARGB(255, 249, 249, 249),
-              filled: true,
-              isDense: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6),
-                borderSide: const BorderSide(
+                        child: const FaIcon(
+                          FontAwesomeIcons.xmark,
+                          color: Colors.white,
+                          size: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(
                   width: 1,
-                  color: Color.fromARGB(255, 242, 242, 242),
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6),
-                borderSide: const BorderSide(
-                  width: 1,
-                  color: Color.fromARGB(255, 242, 242, 242),
-                ),
-              ),
+          hintText: widget.placeHolder,
+          hintStyle: Theme.of(context).textTheme.labelSmall,
+          contentPadding: const EdgeInsets.all(0),
+          fillColor: const Color.fromARGB(255, 249, 249, 249),
+          filled: true,
+          isDense: true,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: const BorderSide(
+              width: 1,
+              color: Color.fromARGB(255, 242, 242, 242),
             ),
           ),
-          animationStart: 0,
-          animationDuration: Duration.zero,
-          noItemsFoundBuilder: (context) => const SizedBox(),
-          hideOnLoading: true,
-          onSuggestionSelected: (suggestion) {},
-          itemBuilder: (ctx, suggestion) => const SizedBox(),
-          suggestionsCallback: (pattern) async {
-            List<LocationModel> matches = await placeAutoComplete(pattern);
-            widget.suggestionList(matches);
-            return matches;
-          },
-        );
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: const BorderSide(
+              width: 1,
+              color: Color.fromARGB(255, 242, 242, 242),
+            ),
+          ),
+        ),
+      ),
+      animationStart: 0,
+      animationDuration: Duration.zero,
+      noItemsFoundBuilder: (context) => const SizedBox(),
+      hideOnLoading: true,
+      onSuggestionSelected: (suggestion) {},
+      itemBuilder: (ctx, suggestion) => const SizedBox(),
+      suggestionsCallback: (pattern) async {
+        List<LocationModel> matches = await placeAutoComplete(pattern);
+        widget.suggestionList(matches);
+        return matches;
       },
     );
   }

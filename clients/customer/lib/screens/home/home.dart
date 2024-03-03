@@ -3,6 +3,7 @@ import 'package:customer/data/data.dart';
 import 'package:customer/functions/determinePosition.dart';
 import 'package:customer/functions/setAddressByPosition.dart';
 import 'package:customer/models/location_model.dart';
+import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/screens/home/components/bottom_navigation.dart';
@@ -105,10 +106,13 @@ class _HomeState extends ConsumerState<Home> {
     LatLng latLng = await determinePosition();
     LocationModel currentLocationModel = await setAddressByPosition(latLng);
     currentLocationModel.structuredFormatting!.formatSecondaryText();
+    ref.read(currentLocationProvider.notifier).setCurrentLocation(currentLocationModel);
     ref
         .read(departureLocationProvider.notifier)
         .setDepartureLocation(currentLocationModel);
-    ref.read(currentLocationProvider.notifier).setCurrentLocation(latLng);
+        // ref
+        // .read(arrivalLocationProvider.notifier)
+        // .setArrivalLocation(currentLocationModel);
   }
 
   @override

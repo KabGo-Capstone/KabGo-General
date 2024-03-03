@@ -34,7 +34,7 @@ class MoreWayToMove extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 216, 208, 233),
+                    color: const Color(0xffdfffe9),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -81,12 +81,12 @@ class MoreWayToMove extends StatelessWidget {
                   width: 10,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.height * 0.30,
                   height: 80,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 233, 223),
+                    color: const Color(0xFFFFE9DF),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(

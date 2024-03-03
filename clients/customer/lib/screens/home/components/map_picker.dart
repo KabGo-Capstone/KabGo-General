@@ -1,13 +1,19 @@
+import 'package:customer/providers/mapProvider.dart';
+import 'package:customer/providers/stepProvider.dart';
+import 'package:customer/screens/create_route/create_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MapPicker extends StatelessWidget {
+class MapPicker extends ConsumerWidget {
   const MapPicker({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Container(
         height: 170,
@@ -34,8 +40,7 @@ class MapPicker extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 15),
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromARGB(255, 255, 232, 223),
+                      backgroundColor: const Color.fromARGB(255, 255, 232, 223),
                       minimumSize: Size.zero, // Set this
                       shape: const StadiumBorder(),
                       padding: const EdgeInsets.symmetric(
@@ -44,7 +49,32 @@ class MapPicker extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      ref
+                          .read(stepProvider.notifier)
+                          .setStep('arrival_location_picker');
+                      ref
+                          .read(mapProvider.notifier)
+                          .setMapAction('arrival_location_picker');
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 200),
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const CreateRoute(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(1, 0);
+                              const end = Offset(0, 0);
+
+                              final tween = Tween(begin: begin, end: end);
+                              return SlideTransition(
+                                position: tween.animate(animation),
+                                child: child,
+                              );
+                            },
+                          ));
                     },
                     icon: const FaIcon(
                       FontAwesomeIcons.mapLocationDot,
@@ -73,9 +103,18 @@ class MapPicker extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       fontSize: 16),
                 ),
-                Image.asset(
-                  'lib/assets/images/home_page_background.png',
-                  height: MediaQuery.of(context).size.width * 0.235,
+                const SizedBox(
+                  width: 30,
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'lib/assets/images/home_page_background.png',
+                        // height: MediaQuery.of(context).size.width * 0.235,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
