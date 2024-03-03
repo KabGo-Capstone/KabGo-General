@@ -59,12 +59,12 @@ const Details: React.FC = () => {
     <Layout.Content className="!mt-4 !mb-0 !mx-3.5 !p-0 relative">
       <div className="relative">
         <div className="steps-content">{steps[currentStep].content}</div>
-        <div className="!fixed !right-5 !top-1/2 !h-auto flex !gap-2">
-          {currentStep > 0 && (
-            <Button onClick={prevStep} className="!text-4xl !border-none !bg-transparent !p-0">
+        {currentStep > 0 && (
+            <Button onClick={prevStep} className="!fixed !left-25 !top-1/2 !text-4xl !border-none !bg-transparent !p-0">
               <LeftCircleOutlined />
             </Button>
           )}
+        <div className="!fixed !right-5 !top-1/2 !h-auto flex !gap-2">
           {currentStep < steps.length - 1 && (
             <Button className="!text-4xl !border-none !bg-transparent !p-0" onClick={nextStep}>
               <RightCircleOutlined />
@@ -73,7 +73,7 @@ const Details: React.FC = () => {
           {currentStep === steps.length - 1 && (
             <Button
               style={{ width: "20px" }}
-              className="!text-4xl !border-none !bg-transparent !p-0" onClick={() => navigate(-1)}>
+              className="!text-4xl !border-none !bg-transparent !p-0 hover:!text-green-500" onClick={() => navigate(-1)}>
               <CheckCircleOutlined />
             </Button>
           )}
