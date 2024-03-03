@@ -33,7 +33,7 @@ npm ci
 npm run proto:generate
 ```
 
-**Step 3: Install all packages and dependencies of each sevice**
+**Step 3: Install all packages and dependencies of each service**
 
 ```shell
 cd <service-directory>
@@ -115,7 +115,7 @@ npm ci
 npm run proto:generate
 ```
 
-**Step 3: Install all packages and dependencies of each sevice**
+**Step 3: Install all packages and dependencies of each service**
 
 ```shell
 cd <service-directory>
@@ -124,7 +124,7 @@ npm ci
 
 > Service directory: **"servers/admin"**, **"servers/supply"**, **"servers/demand"**, **"clients/admin"**
 
-**Step 4: Start each sevice**
+**Step 4: Start each service**
 
 ```shell
 cd <service-directory>
