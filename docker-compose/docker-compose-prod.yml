@@ -75,6 +75,8 @@ services:
             - traefik.http.routers.supply-service.entrypoints=websecure
             - traefik.http.routers.supply-service.tls=true
             - traefik.http.routers.supply-service.tls.certresolver=letsencrypt
+            - traefik.http.services.supply-service.loadbalancer.server.scheme=h2c
+            - traefik.http.services.supply-service.loadbalancer.server.port=50052
         restart: unless-stopped
 
     admin-service:
