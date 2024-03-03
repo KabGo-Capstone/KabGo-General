@@ -159,9 +159,9 @@ npm run <start-command>
 
 ### Services (Backend)
 
-> -   Demand Service: [https://demand.kabgo.mtech.id.vn](https://demand.kabgo.mtech.id.vn)
-> -   Supply Service: [https://supply.kabgo.mtech.id.vn](https://supply.kabgo.mtech.id.vn)
-> -   Admin Service: [https://admin.kabgo.mtech.id.vn](https://admin.kabgo.mtech.id.vn)
+> -   Demand Service: [https://demand.kabgo.mtech.id.vn/status](https://demand.kabgo.mtech.id.vn/status)
+> -   Supply Service: [https://supply.kabgo.mtech.id.vn/status](https://supply.kabgo.mtech.id.vn/status)
+> -   Admin Service: [https://admin.kabgo.mtech.id.vn/status](https://admin.kabgo.mtech.id.vn/status)
 
 ### Clients (Frontend)
 
