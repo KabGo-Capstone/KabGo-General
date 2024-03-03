@@ -57,10 +57,10 @@ const Step1Content: React.FC<any> = ( {record} ) => {
                             <Form.Item label="Địa chỉ nhà">
                                 <Input value={record?.supply.address} readOnly={true}/>
                             </Form.Item>
-                            {/* <Form.Item label="Dịch vụ đăng ký">
-                                <Input />
+                            <Form.Item label="Dịch vụ đăng ký">
+                                <Input value={record?.service.name} readOnly={true}/>
                             </Form.Item>
-                            <Form.Item label="TK Ngân hàng">
+                            {/* <Form.Item label="TK Ngân hàng">
                                 <Input />
                             </Form.Item> */}
                         </Form>
