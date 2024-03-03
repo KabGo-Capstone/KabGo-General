@@ -115,6 +115,8 @@ services:
         build:
             context: ../clients/admin
             dockerfile: Dockerfile.prod
+            args:
+                REACT_APP_BACKEND_HOST: "https://admin.kabgo.mtech.id.vn"
         image: wgmin/admin-client
         container_name: admin-client
         hostname: localhost
@@ -123,7 +125,6 @@ services:
         ports:
             - "3003:80"
         environment:
-            REACT_APP_BACKEND_HOST: "https://admin.kabgo.mtech.id.vn"
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
