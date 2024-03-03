@@ -19,10 +19,52 @@ linter:
   # section below, it can also be suppressed for a single line of code
   # or a specific dart file by using the `// ignore: name_of_lint` and
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
+  # producing the lint.fsort_child_properties_last
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    #Error rules
+    avoid_print: true  # Uncomment to disable the `avoid_print` rule
+    prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    always_use_package_imports: true #Avoid relative imports for files in lib/.
+    avoid_empty_else: true #Avoid empty statements in else clauses.
+    avoid_relative_lib_imports: true #Avoid relative imports for files in lib/.
+    avoid_types_as_parameter_names: true #Avoid types as parameter names.
+    collection_methods_unrelated_type: true #Invocation of various collection methods with arguments of unrelated types.
+    empty_statements: true #Avoid empty statements.
+    hash_and_equals: true #Always override hashCode if overriding ==.
+    no_duplicate_case_values: true #Always override hashCode if overriding ==.
+    use_key_in_widget_constructors: true #DO use key in widget constructors.
+    unrelated_type_equality_checks: true #Equality operator == invocation with references of unrelated types.
+    valid_regexps: true #Use valid regular expression syntax.
+    #Style rules
+    annotate_overrides: true #Annotate overridden members.
+    avoid_function_literals_in_foreach_calls: true #Avoid using forEach with a function literal.
+    avoid_init_to_null: true #Don't explicitly initialize variables to null.
+    avoid_null_checks_in_equality_operators: true #Don't check for null in custom == operators.
+    avoid_renaming_method_parameters: true #Don't rename parameters of overridden methods.
+    avoid_return_types_on_setters: true #Avoid return types on setters.
+    avoid_returning_null_for_void: true #Avoid returning null for void.
+    avoid_single_cascade_in_expression_statements: true #Avoid single cascade in expression statements.
+    await_only_futures: true #Await only futures.
+    constant_identifier_names: false #Prefer using lowerCamelCase for constant names.
+    curly_braces_in_flow_control_structures: true #DO use curly braces for all flow control structures.
+    dangling_library_doc_comments: true #Attach library doc comments to library directives.
+    empty_catches: true #Avoid empty catch blocks.
+    empty_constructor_bodies: true #Use ; instead of {} for empty constructor bodies.
+    exhaustive_cases: true #Define case clauses for all constants in enum-like classes.
+    no_leading_underscores_for_library_prefixes: true #Avoid leading underscores for library prefixes.
+    no_leading_underscores_for_local_identifiers: true #Avoid leading underscores for local identifiers.
+    non_constant_identifier_names: true #Name non-constant identifiers using lowerCamelCase.
+    prefer_adjacent_string_concatenation: true #Use adjacent strings to concatenate string literals.
+    prefer_collection_literals: true #Use collection literals when possible.
+    prefer_conditional_assignment: true #Prefer using ??= over testing for null.
+    prefer_contains: true #Use contains for List and String instances.
+    unnecessary_const: true #Avoid const keyword.
+    unnecessary_getters_setters: true #Avoid wrapping fields in getters and setters just to be "safe".
+    unnecessary_late: true #Don't specify the late modifier when it is not needed.
+
+    #Pub rules
+    depend_on_referenced_packages: true #Depend on referenced packages.
+
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

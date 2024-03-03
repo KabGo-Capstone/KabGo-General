@@ -1,9 +1,11 @@
 import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 
-class LoginFooter extends StatelessWidget {
-  const LoginFooter({super.key});
+typedef OnRegisterPressed = void Function();
 
+class LoginFooter extends StatelessWidget {
+  final OnRegisterPressed onRegisterPressed;
+  const LoginFooter({super.key, required this.onRegisterPressed});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,7 +51,7 @@ class LoginFooter extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          onPressed: () {},
+          onPressed: onRegisterPressed,
         ),
       ],
     );

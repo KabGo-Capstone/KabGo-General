@@ -77,6 +77,30 @@ class DriverService implements DriverServer {
             )
         }
     }
+
+    public unverify(
+        call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
+        callback: grpc.sendUnaryData<DriverInformation>
+    ) {
+        const driverIndex = DRIVERS.findIndex(
+            (driver) => driver.id === call.request.id
+        )
+
+        const driver = DRIVERS[driverIndex]
+        driver.verified = false
+
+        if (driverIndex !== -1) {
+            callback(null, DriverInformation.create(driver))
+        } else {
+            callback(
+                {
+                    message: 'driver not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+    }
 }
 
 export { DriverService }

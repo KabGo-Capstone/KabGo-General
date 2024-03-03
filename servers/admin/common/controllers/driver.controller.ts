@@ -12,9 +12,11 @@ import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
 import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
-import SupplyStub from 'common/services/supply.service'
+import SupplyStub from '../services/supply.service'
 
-let serviceApprovalData = DummyData.serviceApprovals
+const serviceApprovalData = DummyData.serviceApprovals
+const vehicleData = DummyData.vehicles
+const serviceData = DummyData.services
 const supplyClient = SupplyStub.client()
 
 class DriverController implements IController {
@@ -24,8 +26,9 @@ class DriverController implements IController {
     constructor() {
         this.router.get('/', catchAsync(this.getServiceApprovals.bind(this)))
         this.router.post('/approve/:id', catchAsync(this.approveDriver))
+        this.router.patch('/disapprove/:id', catchAsync(this.disapproveDriver))
         this.router.delete(
-            '/delete/:id',
+            '/:id',
             catchAsync(this.deleteDriverApproval.bind(this))
         )
         // this.router.post('/create', catchAsync(this.createDriver))
@@ -35,10 +38,16 @@ class DriverController implements IController {
         const serviceApprovals = []
 
         for await (const service of serviceApprovalData) {
-            const supply = await supplyClient.findById(service.supply_id)
+            const supply = await supplyClient.findById(service.supplyID)
 
             serviceApprovals.push({
                 ...service,
+                vehicle: vehicleData.find(
+                    (data) => data.id === service.vehicleID
+                ),
+                service: serviceData.find(
+                    (data) => data.id === service.serviceID
+                ),
                 supply: supply,
             })
         }
@@ -67,13 +76,51 @@ class DriverController implements IController {
         serviceApprovalData[approvalIndex].status = 'approved'
 
         const supplyVerivied = await supplyClient.verify(
-            serviceApprovalData[approvalIndex].supply_id
+            serviceApprovalData[approvalIndex].supplyID
         )
 
         return res.status(200).json({
             data: {
                 ...serviceApprovalData[approvalIndex],
+                vehicle: vehicleData.find(
+                    (data) =>
+                        data.id === serviceApprovalData[approvalIndex].vehicleID
+                ),
+                service: serviceData.find(
+                    (data) =>
+                        data.id === serviceApprovalData[approvalIndex].serviceID
+                ),
                 supply: supplyVerivied,
+            },
+        })
+    }
+
+    private async disapproveDriver(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        const approvalIndex = serviceApprovalData.findIndex(
+            (el) => el.id === req.params.id
+        )
+        serviceApprovalData[approvalIndex].status = 'pending'
+
+        const supplyUnVerivied = await supplyClient.unverify(
+            serviceApprovalData[approvalIndex].supplyID
+        )
+
+        return res.status(200).json({
+            data: {
+                ...serviceApprovalData[approvalIndex],
+                vehicle: vehicleData.find(
+                    (data) =>
+                        data.id === serviceApprovalData[approvalIndex].vehicleID
+                ),
+                service: serviceData.find(
+                    (data) =>
+                        data.id === serviceApprovalData[approvalIndex].serviceID
+                ),
+                supply: supplyUnVerivied,
             },
         })
     }
@@ -83,9 +130,11 @@ class DriverController implements IController {
         res: Response,
         next: NextFunction
     ) {
-        serviceApprovalData = serviceApprovalData.filter(
-            (el) => el.id !== req.params.id
+        const index = serviceApprovalData.findIndex(
+            (data) => data.id === req.params.id
         )
+
+        serviceApprovalData.splice(index, 1)
 
         const serviceApprovals = await this.getDetailsServiceApproval()
 

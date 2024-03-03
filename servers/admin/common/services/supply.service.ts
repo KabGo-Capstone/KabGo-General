@@ -16,7 +16,7 @@ class SupplyStub {
 
     private constructor() {
         this.supplysStub = new DriverClient(
-            `${process.env.SUPPLY_GRPC_CLIENT ?? '127.0.0.1'}:50052`,
+            `${process.env.SUPPLY_GRPC_CLIENT_HOST ?? '127.0.0.1'}:${process.env.SUPPLY_GRPC_CLIENT_PORT ?? 50052}`,
             grpc.credentials.createInsecure()
         )
 
@@ -94,7 +94,28 @@ class SupplyStub {
                         Logger.error(err)
                     } else {
                         resolve(data)
-                        console.log(data)
+                        // console.log(data)
+                    }
+                }
+            )
+        })
+    }
+
+    public unverify(supplyId: string) {
+        return new Promise<DriverInformation>((resolve, reject) => {
+            const message = DriverID.create({
+                id: supplyId,
+            })
+
+            this.supplysStub.unverify(
+                message,
+                (err: any, data: DriverInformation) => {
+                    if (err) {
+                        reject(err)
+                        Logger.error(err)
+                    } else {
+                        resolve(data)
+                        // console.log(data)
                     }
                 }
             )

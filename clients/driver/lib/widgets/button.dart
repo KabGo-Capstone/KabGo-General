@@ -10,7 +10,19 @@ class WButton extends StatelessWidget {
   final ButtonStyle? style;
   final Function() onPressed;
 
-  const WButton({super.key, this.width, this.height, this.radius, this.shadow, this.icon, this.label, this.child, this.style, required this.onPressed});
+  const WButton({
+    Key? key, // Thêm dòng này
+    this.width,
+    this.height,
+    this.radius,
+    this.shadow,
+    this.icon,
+    this.label,
+    this.child,
+    this.style,
+    required this.onPressed, // Thay đổi dòng này
+  }) : super(key: key); // Thêm dòng này
+  // const WButton({super.key, this.width, this.height, this.radius, this.shadow, this.icon, this.label, this.child, this.style, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class WButton extends StatelessWidget {
       ),
       child: icon != null && label != null
           ? ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: onPressed, // Thay đổi dòng này
               style: style,
               icon: icon!,
               label: label!,

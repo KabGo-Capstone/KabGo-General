@@ -16,7 +16,7 @@ class SupplyStub {
 
     private constructor() {
         this.supplysStub = new DriverClient(
-            `${process.env.SUPPLY_GRPC_CLIENT ?? '127.0.0.1'}:50052`,
+            `${process.env.SUPPLY_GRPC_CLIENT_HOST ?? '127.0.0.1'}:${process.env.SUPPLY_GRPC_CLIENT_PORT ?? 50052}`,
             grpc.credentials.createInsecure()
         )
 

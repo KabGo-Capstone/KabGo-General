@@ -192,7 +192,7 @@ class Application {
 
                 gRPC.start()
 
-                DemandStub.connect()
+                DemandStub.client()
 
                 socketIO.init(server)
 

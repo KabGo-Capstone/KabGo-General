@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import Sidebar from '~/components/Sidebar/Sidebar';
 import NavBar from '~/components/Navbar/Navbar';
-import ContentComponent from '~/components/Content/ContentComponent';
-import Edit from '~/components/Edit/edit';
+import { Outlet } from 'react-router-dom';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -29,7 +17,7 @@ const BaseLayout: React.FC = () => {
       <Sidebar />
       <Layout style={{ marginLeft: 200 }}>
         <NavBar />
-        <Edit />
+        <Outlet />
       </Layout>
     </Layout>
   );

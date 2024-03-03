@@ -36,7 +36,8 @@ services:
             - "5010:5001"
             - "50051:50051"
         environment:
-            SUPPLY_GRPC_CLIENT: "supply-service"
+            SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
+            SUPPLY_GRPC_CLIENT_PORT: "50052"
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
@@ -63,7 +64,8 @@ services:
             - "5020:5002"
             - "50052:50052"
         environment:
-            DEMAND_GRPC_CLIENT: "demand-service"
+            DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
+            DEMAND_GRPC_CLIENT_PORT: "50051"
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
@@ -90,8 +92,12 @@ services:
         networks:
             - proxy
         environment:
-            DEMAND_GRPC_CLIENT: "demand-service"
-            SUPPLY_GRPC_CLIENT: "supply-service"
+            DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
+            DEMAND_GRPC_CLIENT_PORT: "50051"
+
+            SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
+            SUPPLY_GRPC_CLIENT_PORT: "50052"
+
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
@@ -109,6 +115,8 @@ services:
         build:
             context: ../clients/admin
             dockerfile: Dockerfile.prod
+            args:
+                REACT_APP_BACKEND_HOST: "https://admin.kabgo.mtech.id.vn"
         image: wgmin/admin-client
         container_name: admin-client
         hostname: localhost

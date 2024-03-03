@@ -21,6 +21,7 @@ import {
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme, Button, Typography, Divider } from "antd";
 import Sidebar from "~/components/Sidebar/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -29,6 +30,8 @@ const NavBar: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const navigate = useNavigate();
+
   return (
     <Header
       style={{ borderRadius: borderRadiusLG, background: colorBgContainer }}
@@ -36,12 +39,14 @@ const NavBar: React.FC = () => {
     >
       <div className="flex items-center">
         <Button className="!w-8 !h-8 !flex !items-center !justify-center !bg-gray-200 !hover:bg-gray-400 mr-2">
-          <ArrowLeftOutlined />
+          <ArrowLeftOutlined onClick={() => {
+            navigate(-1);
+          }} />
         </Button>
         <Button className="!w-8 !h-8 !flex !items-center !justify-center !bg-gray-200 !hover:bg-gray-400 !mr-5">
           <ReloadOutlined />
         </Button>
-        <Typography.Text className="!text-gray-500 !text-lg !ml-2 !font-bold">Admin</Typography.Text>
+        <Typography.Text className="!text-gray-500 !text-lg !ml-2 !font-bold">Tài Xế</Typography.Text>
       </div>
 
       <div className="flex items-center !gap-6">

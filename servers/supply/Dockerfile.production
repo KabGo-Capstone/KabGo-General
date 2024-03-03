@@ -31,6 +31,8 @@ RUN npm run format-fix
 
 RUN npm run build:prod
 
+RUN rm -rf grpc
+
 
 EXPOSE 5002 50052
 
