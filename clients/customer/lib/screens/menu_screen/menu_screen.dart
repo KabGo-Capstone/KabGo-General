@@ -41,8 +41,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       width: 60,
                       height: 60,
                       child: CircleAvatar(
-                        backgroundImage:
-                            AssetImage('lib/assets/avatar_image.jpg'),
+                        backgroundImage: AssetImage('lib/assets/avatar_image.jpg'),
                       ),
                     ),
                     SizedBox(
@@ -50,18 +49,14 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                     Text(
                       'Khang Dinh',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                          color: Colors.black),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18, color: Colors.black),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
                       '0976975549',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
@@ -70,10 +65,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   children: [
                     const Text(
                       'Hạng của bạn',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xffFF772B),
-                          fontWeight: FontWeight.w700),
+                      style: TextStyle(fontSize: 16, color: Color(0xffFF772B), fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(
                       height: 10,
@@ -93,9 +85,7 @@ class _MenuScreenState extends State<MenuScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(
-                      color: const Color.fromARGB(255, 255, 184, 143),
-                      width: 1)),
+                  border: Border.all(color: const Color.fromARGB(255, 255, 184, 143), width: 1)),
               child: Column(
                 children: [
                   ...menu_item.map(
@@ -105,13 +95,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           Navigator.push(
                               context,
                               PageRouteBuilder(
-                                transitionDuration:
-                                    const Duration(milliseconds: 200),
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) =>
-                                        e['page'] as Widget,
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
+                                transitionDuration: const Duration(milliseconds: 200),
+                                pageBuilder: (context, animation, secondaryAnimation) => e['page'] as Widget,
+                                transitionsBuilder: (context, animation, secondaryAnimation, child) {
                                   const begin = Offset(1, 0);
                                   const end = Offset.zero;
 
@@ -126,14 +112,12 @@ class _MenuScreenState extends State<MenuScreen> {
                         }
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 22, horizontal: 5),
+                        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 5),
                         decoration: BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(
                                     width: e == menu_item.last ? 0 : 1,
-                                    color: const Color.fromARGB(
-                                        255, 220, 220, 220)))),
+                                    color: const Color.fromARGB(255, 220, 220, 220)))),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -146,8 +130,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             ),
                             Text(
                               e['title'].toString(),
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w700),
+                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                             ),
                             const Spacer(),
                             if (e != menu_item.last)

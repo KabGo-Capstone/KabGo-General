@@ -1,0 +1,12 @@
+{
+	"location": "Bạn đang muốn đến đâu?",
+	"locationSub": "Chọn điểm bạn muốn đến để chúng tôi giúp bạn thực hiện việc đặt xe",
+	"selected": "chọn điểm đến",
+	"inputLocation": "Nhập điểm đến..",
+	"chooesLocationOnMap": "Chọn trên map",
+	"getCurrentLocation": "Lấy vị trí hiện tại",
+	"favoriteLocation": "Địa điểm yêu thích",
+	"language": "Ngôn ngữ",
+	"vietnamese": "Việt Nam",
+	"us": "Tiếng Anh"
+}

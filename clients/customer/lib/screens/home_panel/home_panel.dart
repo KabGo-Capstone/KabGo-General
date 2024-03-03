@@ -1,3 +1,5 @@
+import 'package:customer/constants/key_translate.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,7 +61,7 @@ class HomePanel extends ConsumerWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              'Bạn đang muốn đến đâu?',
+              locationKey.tr(),
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.start,
             ),
@@ -68,7 +70,7 @@ class HomePanel extends ConsumerWidget {
             height: 14,
           ),
           Text(
-            'Chọn điểm bạn muốn đến để chúng tôi giúp bạn thực hiện việc đặt xe',
+            locationSubKey.tr(),
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           // const SizedBox(
@@ -79,19 +81,23 @@ class HomePanel extends ConsumerWidget {
             width: double.infinity,
             height: 54,
             child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
               onPressed: () {
                 ref.read(stepProvider.notifier).setStep('find_arrival');
-                ref
-                    .read(mapProvider.notifier)
-                    .setMapAction('FIND_ARRIVAL_LOCATION');
+                ref.read(mapProvider.notifier).setMapAction('FIND_ARRIVAL_LOCATION');
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 200),
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const FindArrivalPage(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
+                    pageBuilder: (context, animation, secondaryAnimation) => const FindArrivalPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(0.0, 1.0);
                       const end = Offset.zero;
 
@@ -105,8 +111,7 @@ class HomePanel extends ConsumerWidget {
                   ),
                 );
               },
-              child: Text('chọn điểm đến'.toUpperCase(),
-                  style: Theme.of(context).textTheme.labelMedium),
+              child: Text(selectedKey.tr().toUpperCase(), style: Theme.of(context).textTheme.labelMedium),
             ),
           ),
           // const SizedBox(

@@ -63,6 +63,8 @@ dependencies:
   permission_handler: ^11.3.0
   lottie: ^3.0.0
   flutter_animarker: ^3.2.0
+  easy_localization: ^3.0.4 # Add by Quang Thanh on 2024-25-02 to handle localization
+  shared_preferences: ^2.2.2 # Add by Quang Thanh on 2024-25-02 to save local storage
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +97,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/assets/
+    - lib/assets/translations/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:customer/constants/key_translate.dart';
 import 'package:customer/widgets/recently_arrival_item.dart';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,18 +50,13 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
       for (var entry in response.data!['history']) {
         int firstCommaIndex = entry['destination']['address'].indexOf(',');
         StructuredFormatting structuredFormatting = StructuredFormatting(
-            mainText: entry['destination']['address']
-                .substring(0, firstCommaIndex)
-                .trim(),
-            secondaryText: entry['destination']['address']
-                .substring(firstCommaIndex + 1)
-                .trim());
+            mainText: entry['destination']['address'].substring(0, firstCommaIndex).trim(),
+            secondaryText: entry['destination']['address'].substring(firstCommaIndex + 1).trim());
         structuredFormatting.formatSecondaryText();
         LocationModel locationModel = LocationModel(
             placeId: '',
             structuredFormatting: structuredFormatting,
-            postion: LatLng(entry['destination']['latitude'],
-                entry['destination']['longitude']));
+            postion: LatLng(entry['destination']['latitude'], entry['destination']['longitude']));
         bookingHistoryList.add(locationModel);
       }
       setState(() {});
@@ -80,9 +77,7 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
 
     void chooseArrival() {
       ref.read(stepProvider.notifier).setStep('choose_departure');
-      ref
-          .read(mapProvider.notifier)
-          .setMapAction('GET_CURRENT_DEPARTURE_LOCATION');
+      ref.read(mapProvider.notifier).setMapAction('GET_CURRENT_DEPARTURE_LOCATION');
 
       Navigator.pop(context);
     }
@@ -95,8 +90,7 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Chọn điểm đến',
-            style: Theme.of(context).textTheme.titleLarge),
+        title: Text(selectedKey.tr(), style: Theme.of(context).textTheme.titleLarge),
         elevation: 0,
         shadowColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
@@ -133,12 +127,10 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
                 Expanded(
                   child: InputCustom(
                     inactiveButton: () {},
-                    placeHolder: 'Nhập điểm đến...',
+                    placeHolder: inputLocationKey.tr(),
                     value: arrivalValue,
                     choosePoint: (value) {
-                      ref
-                          .read(arrivalLocationProvider.notifier)
-                          .setArrivalLocation(value);
+                      ref.read(arrivalLocationProvider.notifier).setArrivalLocation(value);
                       chooseArrival();
                     },
                   ),
@@ -156,31 +148,24 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
                     minimumSize: Size.zero, // Set this
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
+                      horizontal: 5,
                       vertical: 9,
                     ),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    ref
-                        .read(mapProvider.notifier)
-                        .setMapAction('LOCATION_PICKER');
+                    ref.read(mapProvider.notifier).setMapAction('LOCATION_PICKER');
                     ref.read(stepProvider.notifier).setStep('location_picker');
-                    ref
-                        .read(pickerLocationProvider.notifier)
-                        .setPickerLocation(ref.read(departureLocationProvider));
+                    ref.read(pickerLocationProvider.notifier).setPickerLocation(ref.read(departureLocationProvider));
                   },
                   icon: const FaIcon(
                     FontAwesomeIcons.mapLocationDot,
                     color: Colors.white,
                     size: 18,
                   ),
-                  label: const Text(
-                    'Chọn trên bản đồ',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500),
+                  label: Text(
+                    chooesLocationOnMapKey.tr(),
+                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
                   ),
                 ),
                 ElevatedButton.icon(
@@ -188,32 +173,24 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
                     minimumSize: Size.zero, // Set this
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
+                      horizontal: 5,
                       vertical: 9,
                     ),
                   ),
                   onPressed: () async {
-                    LocationModel currentLocationModel =
-                        await setAddressByPosition(
-                            ref.read(currentLocationProvider));
-                    currentLocationModel.structuredFormatting!
-                        .formatSecondaryText();
-                    ref
-                        .read(arrivalLocationProvider.notifier)
-                        .setArrivalLocation(currentLocationModel);
+                    LocationModel currentLocationModel = await setAddressByPosition(ref.read(currentLocationProvider));
+                    currentLocationModel.structuredFormatting!.formatSecondaryText();
+                    ref.read(arrivalLocationProvider.notifier).setArrivalLocation(currentLocationModel);
                     chooseArrival();
                   },
                   icon: const FaIcon(
                     FontAwesomeIcons.locationCrosshairs,
                     color: Colors.white,
-                    size: 18,
+                    size: 15,
                   ),
-                  label: const Text(
-                    'Lấy vị trí hiện tại',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500),
+                  label: Text(
+                    getCurrentLocationKey.tr(),
+                    style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
                   ),
                 )
               ],
@@ -223,7 +200,7 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
             Row(
               children: [
                 Text(
-                  'Các địa điểm yêu thích',
+                  favoriteLocationKey.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Spacer(),
@@ -265,8 +242,7 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
                   onTap: () {
                     ref
                         .read(arrivalLocationProvider.notifier)
-                        .setArrivalLocation(favoriteLocationData[index]
-                            ['location'] as LocationModel);
+                        .setArrivalLocation(favoriteLocationData[index]['location'] as LocationModel);
                     chooseArrival();
                   },
                   child: FavoriteLocationItem(
@@ -279,7 +255,7 @@ class _FindArrivalPageState extends ConsumerState<FindArrivalPage> {
               height: 32,
             ),
             Text(
-              'Các điểm đến gần đây',
+              '',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(

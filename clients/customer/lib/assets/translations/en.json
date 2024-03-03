@@ -1,0 +1,12 @@
+{
+	"location": "Where do you want to go?",
+	"locationSub": "Choose your destination so we can assist you in booking a ride.",
+	"selected": "Select destination",
+	"inputLocation": "Input location...",
+	"chooesLocationOnMap": "Choose location on map",
+	"getCurrentLocation": "Get current location",
+	"favoriteLocation": "Favorite location",
+	"language": "Language",
+	"vietnamese": "Vietnamese",
+	"us": "English"
+}

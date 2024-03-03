@@ -35,8 +35,7 @@ class _InputCustomState extends State<InputCustom> {
 
   Future<List<LocationModel>> placeAutoComplate(String query) async {
     List<LocationModel> placePredictions = [];
-    Uri uri =
-        Uri.https('maps.googleapis.com', 'maps/api/place/autocomplete/json', {
+    Uri uri = Uri.https('maps.googleapis.com', 'maps/api/place/autocomplete/json', {
       'input': query,
       'key': APIKey,
       'components': 'country:vn',
@@ -48,8 +47,7 @@ class _InputCustomState extends State<InputCustom> {
     String? response = await NetworkUtility.fetchUrl(uri);
 
     if (response != null) {
-      PlaceAutocompleteResponse result =
-          PlaceAutocompleteResponse.parseAutocompleteResult(response);
+      PlaceAutocompleteResponse result = PlaceAutocompleteResponse.parseAutocompleteResult(response);
       if (result.predictions != null) {
         setState(() {
           placePredictions = result.predictions!;
@@ -84,6 +82,11 @@ class _InputCustomState extends State<InputCustom> {
           });
         }
         return TypeAheadFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Please select a city';
+            }
+          },
           textFieldConfiguration: TextFieldConfiguration(
             // autofocus: true,
             controller: inputController,
@@ -98,9 +101,7 @@ class _InputCustomState extends State<InputCustom> {
                             inputController.clear();
                             widget.inactiveButton();
                             if (ref.read(stepProvider) == 'find_arrival') {
-                              ref
-                                  .read(arrivalLocationProvider.notifier)
-                                  .setArrivalLocation(LocationModel());
+                              ref.read(arrivalLocationProvider.notifier).setArrivalLocation(LocationModel());
                             }
                           },
                           child: const FaIcon(
