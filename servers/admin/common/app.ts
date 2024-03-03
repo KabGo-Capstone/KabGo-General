@@ -130,7 +130,9 @@ class Application {
 
         this.app.use(
             '/graph',
-            cors("*"),
+            cors({
+                origin: '*',
+            }),
             expressMiddleware(apolloServer, {
                 context: async ({ req, res }) => ({
                     request: req,
