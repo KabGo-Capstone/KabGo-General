@@ -12,13 +12,15 @@ const Step4Content = () => {
 
   return (
     <div className="flex justify-between space-x-4" style={{ padding: 24, background: colorBgContainer, borderRadius: borderRadiusLG }}>
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 flex flex-col items-center space-y-4">
+        <Typography.Text className="!text-2xl font-bold !mb-2">Giấy phép lái xe</Typography.Text>
         {renderCard("Mặt trước", GiayPhepLaiXe)}
         {renderCard("Mặt sau", GiayPhepLaiXe)}
       </div>
 
       {/* Second Column for Vehicle Image */}
-      <div className="flex-1 flex flex-col items-center">
+      <div className="flex-1 flex flex-col items-center space-y-4">
+        <Typography.Text className="!text-2xl font-bold !mb-2">Bảo hiểm xe</Typography.Text>
         {renderCard("Mặt trước", BaoHiemXe)}
         {renderCard("Mặt sau", BaoHiemXe)}
       </div>

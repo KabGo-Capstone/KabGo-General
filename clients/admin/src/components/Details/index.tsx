@@ -6,7 +6,7 @@ import Step3Content from "./step3content";
 import Step4Content from "./step4content";
 import { useLocation, useNavigate } from "react-router-dom";
 import IDriver from "~/interfaces/driver";
-import { RightCircleOutlined, LeftCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { RightCircleOutlined, LeftCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const Details: React.FC = () => {
   const location = useLocation();
@@ -58,26 +58,31 @@ const Details: React.FC = () => {
   return (
     <Layout.Content className="!mt-4 !mb-0 !mx-3.5 !p-0 relative">
       <div className="relative">
-        <div className="steps-content">{steps[currentStep].content}</div>
-        {currentStep > 0 && (
-            <Button onClick={prevStep} className="!fixed !left-25 !top-1/2 !text-4xl !border-none !bg-transparent !p-0">
-              <LeftCircleOutlined />
-            </Button>
-          )}
-        <div className="!fixed !right-5 !top-1/2 !h-auto flex !gap-2">
-          {currentStep < steps.length - 1 && (
-            <Button className="!text-4xl !border-none !bg-transparent !p-0" onClick={nextStep}>
-              <RightCircleOutlined />
-            </Button>
-          )}
-          {currentStep === steps.length - 1 && (
-            <Button
-              style={{ width: "20px" }}
-              className="!text-4xl !border-none !bg-transparent !p-0 hover:!text-green-500" onClick={() => navigate(-1)}>
-              <CheckCircleOutlined />
-            </Button>
-          )}
+        <div className="relative steps-content !w-2/2">
+          {steps[currentStep].content}
+          <Button onClick={() => navigate(-1)} 
+            className="!absolute !right-3 !top-0 !text-2xl !border-none !bg-transparent !p-0 !ml-4 !text-red-400 hover:!text-red-600">
+            <CloseCircleOutlined />
+          </Button>
         </div>
+        {currentStep > 0 && (
+          <Button onClick={prevStep} className="!fixed !left-2/5 !top-1/2 !text-4xl !border-none !bg-transparent !p-0 !ml-4">
+            <LeftCircleOutlined />
+          </Button>
+        )}
+        {currentStep < steps.length - 1 && (
+          <Button className="!fixed !right-5 !top-1/2 !text-4xl !border-none !bg-transparent !p-0 !mr-5" onClick={nextStep}>
+            <RightCircleOutlined />
+          </Button>
+        )}
+        
+        {/* {currentStep === steps.length - 1 && (
+          <Button
+            style={{ width: "20px" }}
+            className="!fixed !right-5 !top-1/2  !text-4xl !border-none !bg-transparent !p-0 hover:!text-green-500 !mr-5" onClick={() => navigate(-1)}>
+            <CheckCircleOutlined />
+          </Button>
+        )} */}
       </div>
     </Layout.Content>
   );

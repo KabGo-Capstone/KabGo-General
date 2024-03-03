@@ -30,7 +30,7 @@ const Step2Content = () => {
 };
 
 const renderCard = (title: string, subTitle: string, imageSource:any) => (
-  <div className="flex flex-col items-center !m-5">
+  <div className="flex flex-col items-center !m-5 !h-35">
     <Typography.Text className="!text-2xl font-bold !mb-2">{title}</Typography.Text>
     <Typography.Text className="!text-lg !mb-2">{subTitle}</Typography.Text>
     <Image
