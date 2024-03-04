@@ -174,7 +174,13 @@ const ContentComponent: React.FC = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      ...getColumnSearchProps('status'),
+      filters: [
+        { text: 'Đã duyệt', value: 'approved' },
+        { text: 'Chờ xử lý', value: 'pending' },
+      ],
+      onFilter: (value: any, record) => {
+        return record.status === value;
+      },
       render: (_, record) => (
         <Tag color={record.status === "approved" ? 'green' : 'blue'} className="!text-sm !p-1.5 !pl-3 !pr-3">
           {record?.status === "approved" ? "Đã duyệt" : "Chờ xử lý"}
