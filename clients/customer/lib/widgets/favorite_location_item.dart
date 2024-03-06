@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteLocationItem extends StatelessWidget {
@@ -19,7 +20,11 @@ class FavoriteLocationItem extends StatelessWidget {
               color: Color.fromARGB(255, 255, 245, 239),
               shape: BoxShape.circle,
             ),
-            child: data['icon'] as Widget,
+            child: FaIcon(
+              data['icon'] as IconData,
+              color: const Color(0xffEF773F),
+              size: 18,
+            ),
           ),
           const SizedBox(
             height: 7,

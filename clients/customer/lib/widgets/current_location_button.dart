@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CurrentLocationButton extends StatelessWidget {
   const CurrentLocationButton({
@@ -11,15 +12,16 @@ class CurrentLocationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 46,
+      width: 46,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
         boxShadow: const [
           BoxShadow(
-            color: Color.fromARGB(120, 193, 193, 193),
-            spreadRadius: 1,
-            blurRadius: 1,
-            offset: Offset(0, 0),
+            color: Color.fromARGB(120, 208, 208, 208),
+            spreadRadius: 4,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           )
         ],
       ),
@@ -27,8 +29,15 @@ class CurrentLocationButton extends StatelessWidget {
       child: IconButton(
         onPressed: getCurrentLocation,
         padding: EdgeInsets.zero,
-        icon: Image.asset('lib/assets/location_button.png'),
-        iconSize: 60,
+        style: IconButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: const CircleBorder(),
+            shadowColor: const Color.fromARGB(120, 221, 221, 221)),
+        icon: const FaIcon(
+          FontAwesomeIcons.locationCrosshairs,
+          color: Color(0xffEF773F),
+          size: 24,
+        ),
       ),
     );
   }

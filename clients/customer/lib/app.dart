@@ -1,3 +1,4 @@
+import 'package:customer/screens/create_route/create_route.dart';
 import 'package:customer/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ class App extends ConsumerWidget {
     return MaterialApp(
       supportedLocales: const [
         Locale('en', ''),
-        Locale('vn', ''), // arabic, no country code
+        Locale('vn', ''),
       ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
@@ -108,6 +109,7 @@ class App extends ConsumerWidget {
       ),
       home: const Home(),
       // home: const Search(),
+      // home: const CreateRoute(),
     );
   }
 }

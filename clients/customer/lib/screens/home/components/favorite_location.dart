@@ -83,8 +83,13 @@ class FavoriteLocation extends StatelessWidget {
                                   clipBehavior: Clip.none,
                                   children: [
                                     Align(
-                                        child: favoriteLocationData[index]
-                                            ['icon'] as Widget),
+                                      child: FaIcon(
+                                        favoriteLocationData[index]['icon']
+                                            as IconData,
+                                        color: const Color(0xffEF773F),
+                                        size: 18,
+                                      ),
+                                    ),
                                     Positioned(
                                       left: 36,
                                       top: 36,
@@ -103,14 +108,14 @@ class FavoriteLocation extends StatelessWidget {
                                               spreadRadius: 3,
                                               blurRadius: 5,
                                               offset: const Offset(0, 5),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         child: const FaIcon(
                                           FontAwesomeIcons.plus,
                                           size: 14,
                                           color:
-                                              Color.fromARGB(255, 27, 118, 255),
+                                              Color.fromARGB(255, 0, 202, 64),
                                         ),
                                       ),
                                     ),

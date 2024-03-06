@@ -1,8 +1,27 @@
-import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/location_model.dart';
+
+List<LocationModel> proposalArrivalData = [
+  LocationModel(
+      placeId: '',
+      structuredFormatting: StructuredFormatting(
+          mainText: 'CGV - Landmark 81',
+          secondaryText:
+              '772 Điện Biên Phủ, phường 12, quận Bình Thạnh, TP. HCM')),
+  LocationModel(
+      placeId: '',
+      structuredFormatting: StructuredFormatting(
+          mainText: 'Trường Đại Học Khoa Học Tự Nhiên',
+          secondaryText: '227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM')),
+  LocationModel(
+      placeId: '',
+      structuredFormatting: StructuredFormatting(
+          mainText: 'Bệnh Viện Đại Học Y Dược TP.HCM',
+          secondaryText:
+              '215 Hồng Bàng, phường 11, quận 5, TP. HCM 215 Hồng Bàng, phường 11, quận 5, TP. HCM')),
+];
 
 List<LocationModel> recentlyArrivalData = [
   LocationModel(
@@ -63,11 +82,7 @@ List<LocationModel> recentlyArrivalData = [
 
 List<Map<String, Object>> favoriteLocationData = [
   {
-    'icon': const FaIcon(
-      FontAwesomeIcons.house,
-      color: Color(0xffEF773F),
-      size: 18,
-    ),
+    'icon': FontAwesomeIcons.house,
     'title': 'Nhà',
     'location': LocationModel(
       placeId: 'ChIJEzDP7kYldTERmF-E3bGdo6w',
@@ -77,11 +92,7 @@ List<Map<String, Object>> favoriteLocationData = [
     ),
   },
   {
-    'icon': const FaIcon(
-      FontAwesomeIcons.briefcase,
-      color: Color(0xffEF773F),
-      size: 18,
-    ),
+    'icon': FontAwesomeIcons.briefcase,
     'title': 'Cơ quan',
     'location': LocationModel(
       placeId: 'ChIJEQnz-MIndTERzRrJ-HNQrDY',
@@ -93,11 +104,7 @@ List<Map<String, Object>> favoriteLocationData = [
     )
   },
   {
-    'icon': const FaIcon(
-      FontAwesomeIcons.solidHeart,
-      color: Color(0xffEF773F),
-      size: 18,
-    ),
+    'icon': FontAwesomeIcons.solidHeart,
     'title': 'Cà phê',
     'location': LocationModel(
       placeId: 'ChIJybh1lrcvdTERAVt6EpkLlEE',
@@ -107,14 +114,7 @@ List<Map<String, Object>> favoriteLocationData = [
       postion: const LatLng(10.7586445, 106.6775209),
     )
   },
-  {
-    'icon': const FaIcon(
-      FontAwesomeIcons.solidHeart,
-      size: 18,
-      color: Color(0xffEF773F),
-    ),
-    'title': 'Mới'
-  },
+  {'icon': FontAwesomeIcons.solidHeart, 'title': 'Mới'},
 ];
 
 List<Map<String, String>> listCarCard = [

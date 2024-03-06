@@ -15,7 +15,7 @@ module.exports = {
         'purplex': '#800080'
       },
       textColor: {
-        'primary': '#00A551',
+        'primary': '#F86C1D',
         'black': '#454545',
         'hover': '#16C26B',
         'hover-dark': '#0F8046'
