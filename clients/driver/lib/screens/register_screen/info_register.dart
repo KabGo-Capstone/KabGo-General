@@ -1,5 +1,7 @@
 import 'package:driver/constants/colors.dart';
+import 'package:driver/screens/register_screen/info_detail/id_person.dart';
 import 'package:driver/screens/register_screen/info_detail/person_image.dart';
+import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/item_info.dart';
 import 'package:flutter/material.dart';
@@ -22,30 +24,7 @@ class _InfoRegisterState extends State<InfoRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: COLOR_WHITE,
-        actions: [
-          OutlinedButton(
-            onPressed: () {
-              print('Cần hỗ trợ');
-            },
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-              side: MaterialStateProperty.all(const BorderSide(
-                  color: Color.fromARGB(255, 97, 97, 97), width: 0.7)),
-            ),
-            child: const Text(
-              'Cần hỗ trợ?',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          )
-        ],
-      ),
+      appBar: const AppBarCustom(title: ''),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -120,17 +99,99 @@ class _InfoRegisterState extends State<InfoRegister> {
                           ),
                         );
                       },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
                       child: const ItemInfo(
-                          title: 'Ảnh cá nhân', isCompleted: true),
+                        title: 'Ảnh cá nhân',
+                        isCompleted: true,
+                      ),
                     ),
-                    const ItemInfo(
-                        title: 'CCCD/CMND/Hộ chiếu', isCompleted: true),
-                    const ItemInfo(title: 'Bằng lái xe', isCompleted: true),
-                    const ItemInfo(title: 'Bằng lái xe', isCompleted: true),
-                    const ItemInfo(
-                        title: 'Tài khoản ngân hàng', isCompleted: true),
-                    const ItemInfo(title: 'Giấy đăng ký xe', isCompleted: true),
-                    const ItemInfo(title: 'Bảo hiểm xe', isCompleted: false),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title: 'CCCD/CMND/Hộ chiếu', isCompleted: false),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title: 'Bằng lái xe', isCompleted: false),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title:
+                              'Thông tin liên hệ khẩn cấp và địa chỉ tạm trú',
+                          isCompleted: false),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title: 'Tài khoản ngân hàng', isCompleted: false),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title: 'Giấy đăng ký xe', isCompleted: false),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IdPersonInfo(),
+                          ),
+                        );
+                      },
+                      splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      child: const ItemInfo(
+                          title: 'Bảo hiểm xe', isCompleted: false),
+                    ),
                   ],
                 )
               ],
