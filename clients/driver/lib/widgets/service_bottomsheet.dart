@@ -1,3 +1,4 @@
+import 'package:driver/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class ServiceBottomSheetWidget extends StatelessWidget {
@@ -5,6 +6,7 @@ class ServiceBottomSheetWidget extends StatelessWidget {
   final void Function(String) onServiceSelected;
 
   const ServiceBottomSheetWidget({
+    super.key,
     required this.services,
     required this.onServiceSelected,
   });
@@ -17,7 +19,7 @@ class ServiceBottomSheetWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            'Choose a Service',
+            'Chọn 1 dịch vụ',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -36,11 +38,24 @@ class ServiceBottomSheetWidget extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    service,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 8), // Khoảng cách đường viền dưới
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey
+                              .withOpacity(0.5), // Màu đường viền và độ mờ
+                          width: 1, // Độ dày của đường viền
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      service,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: COLOR_TEXT_MAIN,
+                      ),
                     ),
                   ),
                 ),

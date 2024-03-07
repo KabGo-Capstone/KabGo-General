@@ -128,14 +128,22 @@ class _OTPScreenState extends State<OTPScreen> {
                     children: [
                       Expanded(
                         child: PinCodeTextField(
-                          onCompleted: (v) {
-                            debugPrint("Completed");
+                          onCompleted: (otpValue) {
+                            if (otpValue.length == 6) {
+                              debugPrint('Mã OTP: $otpValue');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SelectService(),
+                                ),
+                              );
+                            } else {
+                              debugPrint('Mã OTP không hợp lệ');
+                            }
                           },
                           onChanged: (value) {},
                           beforeTextPaste: (text) {
-                            debugPrint("Allowing to paste $text");
-                            //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                            //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                            debugPrint('Allowing to paste $text');
                             return true;
                           },
                           appContext: context,
@@ -153,7 +161,7 @@ class _OTPScreenState extends State<OTPScreen> {
                           pinTheme: PinTheme(
                             shape: PinCodeFieldShape.box,
                             fieldWidth: 50,
-                            inactiveColor: Colors.grey,
+                            inactiveColor: Colors.white,
                             selectedColor: Colors.orange,
                             activeFillColor: Colors.white,
                             selectedFillColor: Colors.white,
@@ -206,28 +214,59 @@ class _OTPScreenState extends State<OTPScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ElevatedButton(
-          onPressed: () {
-            // Add your confirmation logic here
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SelectService(),
-              ),
-            );
-          },
-          child: const Text(
-            'Xác nhận',
-            style: TextStyle(
-              fontSize: 16,
-              color: kOrange,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.all(20),
+      //   child: ElevatedButton(
+      //     onPressed: () {
+      //       // Kiểm tra nếu độ dài của mã OTP không đủ 6 ký tự, không cho phép chuyển màn hình
+      //       if (otpCode.text.length != 6) {
+      //         ScaffoldMessenger.of(context).showSnackBar(
+      //           const SnackBar(
+      //             content: Text('Mã OTP phải có 6 ký tự'),
+      //           ),
+      //         );
+      //       } else {
+      //         // Kiểm tra điều kiện hợp lệ trước khi chuyển màn hình
+      //         if (formKey.currentState!.validate()) {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => const SelectService(),
+      //             ),
+      //           );
+      //         } else {
+      //           // Hiển thị thông báo nếu mã OTP không hợp lệ
+      //           ScaffoldMessenger.of(context).showSnackBar(
+      //             const SnackBar(
+      //               content: Text('Mã OTP không hợp lệ'),
+      //             ),
+      //           );
+      //         }
+      //       }
+      //     },
+      //     style: ButtonStyle(
+      //       backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //         // Kiểm tra điều kiện để đảo ngược màu nền và màu chữ
+      //         if (otpCode.text.length != 6) {
+      //           return Colors.white; // Màu nền khi mã OTP không hợp lệ
+      //         }
+      //       }),
+      //       foregroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+      //         if (otpCode.text.length != 6) {
+      //           return kOrange;
+      //         }
+      //       }),
+      //     ),
+      //     child: Text(
+      //       'Xác nhận',
+      //       style: TextStyle(
+      //         fontSize: 16,
+      //         color: otpCode.text.length != 6 ? kOrange : kWhiteColor,
+      //         fontWeight: FontWeight.bold,
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

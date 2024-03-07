@@ -14,20 +14,23 @@ class BuildTextField extends StatelessWidget {
   final Color hintColor;
   final int? maxLength;
   final Function onChange;
+  final String? validatorString;
 
-  const BuildTextField(
-      {super.key,
-      required this.hint,
-      this.controller,
-      required this.inputType,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.obscureText = false,
-      this.enabled = true,
-      this.fillColor = Colors.white,
-      this.hintColor = const Color(0xff8D9091),
-      this.maxLength,
-      required this.onChange});
+  const BuildTextField({
+    super.key,
+    required this.hint,
+    this.controller,
+    required this.inputType,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.enabled = true,
+    this.fillColor = Colors.white,
+    this.hintColor = const Color(0xff8D9091),
+    this.maxLength,
+    required this.onChange,
+    this.validatorString,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class BuildTextField extends StatelessWidget {
       onChanged: (value) {
         onChange(value);
       },
-      validator: (val) => val!.isEmpty ? 'required' : null,
+      validator: (val) => val!.isEmpty ? validatorString : null,
       keyboardType: inputType,
       obscureText: obscureText,
       maxLength: maxLength,
@@ -43,7 +46,7 @@ class BuildTextField extends StatelessWidget {
       controller: controller,
       enabled: enabled,
       decoration: InputDecoration(
-        counterText: "",
+        counterText: '',
         fillColor: fillColor,
         filled: true,
         contentPadding: inputType == TextInputType.multiline
@@ -53,7 +56,7 @@ class BuildTextField extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintStyle: TextStyle(
           fontSize: textMedium,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w400,
           color: hintColor,
         ),
         prefixIcon: prefixIcon,
@@ -65,7 +68,7 @@ class BuildTextField extends StatelessWidget {
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          borderSide: BorderSide(width: 1, color: kPrimaryColor),
+          borderSide: BorderSide(width: 1, color: kOrange),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
