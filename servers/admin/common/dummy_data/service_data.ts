@@ -1,7 +1,7 @@
 import ServiceModel, { IService } from 'common/models/service.model';
 
 export const getServiceData = async () => {
-    let data: IService[] = [];
+    const data: IService[] = [];
     const getDataFromDB = await ServiceModel.find();
     for (let i = 0; i < getDataFromDB.length; i++) {
         data.push({

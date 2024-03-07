@@ -1,7 +1,7 @@
 import ServiceApprovalModel, { IServiceApproval } from 'common/models/serviceApproval.model';
 
 export const getServiceApprovalData = async () => {
-    let data: IServiceApproval[] = [];
+    const data: IServiceApproval[] = [];
     const getDataFromDB = await ServiceApprovalModel.find();
     for (let i = 0; i < getDataFromDB.length; i++) {
         data.push({

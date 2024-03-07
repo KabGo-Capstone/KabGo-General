@@ -1,7 +1,7 @@
 import VehicleModel, { IVehicle } from 'common/models/vehicle.model';
 
 export const getVehicleData = async () => {
-    let data: IVehicle[] = [];
+    const data: IVehicle[] = [];
     const getDataFromDB = await VehicleModel.find();
     for (let i = 0; i < getDataFromDB.length; i++) {
         data.push({

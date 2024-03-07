@@ -1,7 +1,7 @@
 import DriverModel, { IDriver } from 'common/models/driver.model';
 
 export const getSupplies = async () => {
-    let DRIVERS: IDriver[] = [];
+    const DRIVERS: IDriver[] = [];
     const getDriver = await DriverModel.find();
     for (let i = 0; i < getDriver.length; i++) {
         DRIVERS.push({
