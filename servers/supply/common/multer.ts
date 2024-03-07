@@ -34,6 +34,7 @@ class MulterCloudinaryUploader {
 
     public uploadCloud(folder: string = 'images') {
         return async (req: Request, res: Response, next: NextFunction) => {
+
             const fileStream = this.dataUri(req)
 
             if (req.file && fileStream) {
@@ -46,6 +47,7 @@ class MulterCloudinaryUploader {
                     })
                     .then((result: UploadApiResponse) => {
                         req.cloudinaryResult = result
+                        console.log('aaa', result)
                         next()
                     })
                     .catch((err) => next(err))

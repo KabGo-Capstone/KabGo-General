@@ -26,6 +26,23 @@ class DriverController implements IController {
     constructor() {
         this.router.get('/create', catchAsync(this.createDB))
         this.router.get('/delete', catchAsync(this.deleteDB))
+        const multercloud = new MulterCloudinaryUploader(
+            ['jpg', 'jpeg', 'png', 'gif'],
+            5 * 1024 * 1024
+        )
+        this.router.post(
+            '/upload',
+            multercloud.single('image'),
+            multercloud.uploadCloud('uploads'),
+            catchAsync(this.uploadFile)
+        )
+    }
+
+    private async uploadFile(req: Request, res: Response, next: NextFunction) {
+        // test multer
+        Logger.info(req.file)
+        Logger.info(req.cloudinaryResult)
+        return res.status(200).json({ message: 'ok' })
     }
 
     private async createDB(
@@ -50,6 +67,7 @@ class DriverController implements IController {
 
         return res.status(200).json({ data: 'Delete data successfully' })
     }
+
 }
 
 export default new DriverController()
