@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+message ReqUpdateUrlImage{
+    string url = 1;
+    string supplyID = 2;
+    string property = 3;
+}
+
+message ReqUpdateCurrentAddress{
+    string supplyID = 1;
+    string currentAddress = 2;
+}
+
+message ServiceApprovalInformation {
+    string id = 1;
+    string supplyID = 2;
+    string serviceID = 3;
+    string vehicleID = 4;
+    string status = 5;
+    string createdDate = 6;
+    string driverLicenseFrontsight = 7;
+    string driverLicenseBacksight = 8;
+    string personalImg = 9;
+    string identityImgFrontsight = 10;
+    string identityImgBacksight = 11;
+    string vehicleImgFrontsight = 12;
+    string vehicleImgBacksight = 13;
+    string vehicleImgLeftsight = 14;
+    string vehicleImgRightsight = 15;
+    string currentAddress = 16;
+}
+
+message ServiceInformation {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    double basePrice = 4;
+}
+
+message ServiceApprovalList {
+	repeated ServiceApprovalInformation serviceApprovals = 1;
+}
+
+message ServiceList {
+	repeated ServiceInformation services = 1;
+}
+
+message ServiceApprovalEmptyRequest {
+
+}
+
+service Admin {
+	rpc getServices(ServiceApprovalEmptyRequest) returns (ServiceList);
+    rpc uploadUrlImage(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadDriverLicenseBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadPersonalImg(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadIdentityImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadIdentityImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadVehicleImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadVehicleImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadVehicleImgLeftsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    // rpc uploadVehicleImgRightsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
+    rpc updateCurrentAddress(ReqUpdateCurrentAddress) returns (ServiceApprovalInformation);
+}

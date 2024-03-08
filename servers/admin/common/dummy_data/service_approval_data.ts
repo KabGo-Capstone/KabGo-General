@@ -11,10 +11,15 @@ export const getServiceApprovalData = async () => {
             vehicleID: getDataFromDB[i].vehicleID,
             status: getDataFromDB[i].status,
             createdDate: getDataFromDB[i].createdDate,
-            driverLicense: getDataFromDB[i].driverLicense,
+            driverLicenseFrontsight: getDataFromDB[i].driverLicenseFrontsight,
+            driverLicenseBacksight: getDataFromDB[i].driverLicenseBacksight,
             personalImg: getDataFromDB[i].personalImg,
-            identityImg: getDataFromDB[i].identityImg,
-            vehicleImg: getDataFromDB[i].vehicleImg,
+            identityImgFrontsight: getDataFromDB[i].identityImgFrontsight,
+            identityImgBacksight: getDataFromDB[i].identityImgBacksight,
+            vehicleImgFrontsight: getDataFromDB[i].vehicleImgFrontsight,
+            vehicleImgBacksight: getDataFromDB[i].vehicleImgBacksight,
+            vehicleImgLeftsight: getDataFromDB[i].vehicleImgLeftsight,
+            vehicleImgRightsight: getDataFromDB[i].vehicleImgRightsight,
             currentAddress: getDataFromDB[i].currentAddress
         })
     }

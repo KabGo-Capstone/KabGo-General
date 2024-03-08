@@ -27,7 +27,7 @@ import { getVehicleData } from '../dummy_data/vehicle_data'
 // const serviceData = DummyData.services
 const supplyClient = SupplyStub.client()
 
-class DriverController implements IController {
+class ServiceApprovalController implements IController {
     readonly path: string = '/driver/approval'
     readonly router: Router = Router()
 
@@ -39,8 +39,8 @@ class DriverController implements IController {
             '/:id',
             catchAsync(this.deleteDriverApproval.bind(this))
         )
-        this.router.get('/create', catchAsync(this.createDB))
-        this.router.get('/delete', catchAsync(this.deleteDB))
+        this.router.get('/create-db', catchAsync(this.createDB))
+        this.router.get('/delete-db', catchAsync(this.deleteDB))
     }
 
     private async getDetailsServiceApproval() {
@@ -204,4 +204,4 @@ class DriverController implements IController {
     }
 }
 
-export default new DriverController()
+export default new ServiceApprovalController()

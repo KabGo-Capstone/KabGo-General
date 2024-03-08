@@ -51,19 +51,29 @@ class DriverController implements IController {
 
     private async register(req: Request, res: Response, next: NextFunction) {
         // test multer
-        const getDriverFromDB = await DriverModel.find();
-        const createDriver = await DriverModel.create({
-            id: getDriverFromDB.length + 1,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            verified: false,
-            // phoneNumber: req.body.phoneNumber,
-            // password: req.body.password,
-            // passwordConfirm: req.body.passwordConfirm
-        })
-        // const otp = new OTPGenerator().generate();
-        const otp = '123'
-        return res.status(200).json({ otp: otp, message: 'Please input OTP code to verify account', data:  createDriver})
+        const getNumOfDriverWithCurrentPhoneNumber = (await DriverModel.find({phoneNumber: req.body.phoneNumber})).length;
+        if(getNumOfDriverWithCurrentPhoneNumber !== 0){
+            return res.status(401).json({
+                message: 'Phone number has been existed, please register with different phone number',
+            })
+        }
+        else{
+            const getNumOfDrivers = (await DriverModel.find()).length;
+            const createDriver = await DriverModel.create({
+                id: getNumOfDrivers + 1,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                verified: false,
+                phoneNumber: req.body.phoneNumber,
+            })
+            // const otp = new OTPGenerator().generate();
+            const otp = '123456'
+            return res.status(200).json({
+                otp: otp,
+                message: 'Please input OTP code to verify account',
+                data: createDriver
+            })
+        }
     }
 
     private async verifyUserRegistration(req: Request, res: Response, next: NextFunction) {
@@ -81,13 +91,13 @@ class DriverController implements IController {
 
     private resendOTP = async (req: Request, res: Response, next: NextFunction) => {
         // check if phone number exists
-        // const getDriver = await DriverModel.findOne({ phoneNumber: req.body.phoneNumber });
+        const getDriver = await DriverModel.findOne({ phoneNumber: req.body.phoneNumber });
 
-        // if (!getDriver || !(getDriver.email === req.body.phoneNumber)) {
-        //     return res.status(401).json({
-        //         message: "This phone number does not exist!"
-        //     })
-        // }
+        if (!getDriver || !(getDriver.phoneNumber === req.body.phoneNumber)) {
+            return res.status(401).json({
+                message: "This phone number does not exist!"
+            })
+        }
 
         const otp = '123456'
 
