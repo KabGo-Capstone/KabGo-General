@@ -69,7 +69,6 @@ class _EmergencyContactInfoState extends State<EmergencyContactInfo> {
                         height: 20,
                       ),
                       BuildTextField(
-                        hint: 'Tên người liên hệ khẩn cấp',
                         controller: nameContact,
                         inputType: TextInputType.text,
                         fillColor: kWhiteColor,
@@ -108,12 +107,10 @@ class _EmergencyContactInfoState extends State<EmergencyContactInfo> {
                             ),
                           );
                         }).toList(),
-                        hint: const Text(
-                          'Quan hệ*',
-                          style:
-                              TextStyle(fontSize: 14, color: Color(0xff8D9091)),
-                        ),
                         decoration: InputDecoration(
+                          label: const Text('Quan hệ*'),
+                          labelStyle:
+                              const TextStyle(fontSize: 14, color: kGrey0),
                           filled: true,
                           fillColor: kWhiteColor,
                           isDense: true,
@@ -187,7 +184,7 @@ class _EmergencyContactInfoState extends State<EmergencyContactInfo> {
                         height: 20,
                       ),
                       BuildTextField(
-                        hint: 'Địa chỉ tạm trú của tài xế',
+                        // hint: 'Địa chỉ tạm trú của tài xế',
                         controller: addressContact,
                         inputType: TextInputType.text,
                         fillColor: kWhiteColor,
@@ -239,5 +236,4 @@ class _EmergencyContactInfoState extends State<EmergencyContactInfo> {
       ),
     );
   }
-
 }

@@ -69,7 +69,7 @@ class _BankInfoState extends State<BankInfo> {
                         height: 20,
                       ),
                       BuildTextField(
-                        hint: 'Tên chủ tài khoản',
+                        // hint: 'Tên chủ tài khoản',
                         controller: nameCard,
                         inputType: TextInputType.text,
                         fillColor: kWhiteColor,
@@ -88,7 +88,7 @@ class _BankInfoState extends State<BankInfo> {
                         height: 20,
                       ),
                       BuildTextField(
-                        hint: 'Số tài khoản',
+                        // hint: 'Số tài khoản',
                         controller: numberCard,
                         inputType: TextInputType.text,
                         fillColor: kWhiteColor,
@@ -127,15 +127,15 @@ class _BankInfoState extends State<BankInfo> {
                             ),
                           );
                         }).toList(),
-                        hint: const Text(
-                          'Tên ngân hàng*',
-                          style:
-                              TextStyle(fontSize: 14, color: Color(0xff8D9091)),
-                        ),
+                        // hint: const Text(
+                        //   'Tên ngân hàng*',
+                        //   style:
+                        //       TextStyle(fontSize: 14, color: Color(0xff8D9091)),
+                        // ),
                         decoration: InputDecoration(
                           label: const Text('Tên ngân hàng'),
-                          labelStyle: const TextStyle(
-                              fontSize: 14, color: Color(0xff8D9091)),
+                          labelStyle:
+                              const TextStyle(fontSize: 14, color: kGrey0),
                           filled: true,
                           fillColor: kWhiteColor,
                           isDense: true,

@@ -260,8 +260,7 @@ class _DrivingRegisterState extends State<DrivingRegister> {
                     }).toList(),
                     decoration: InputDecoration(
                       label: const Text('Loại nhiên liệu*'),
-                      labelStyle: const TextStyle(
-                          fontSize: 14, color: Color(0xff8D9091)),
+                      labelStyle: const TextStyle(fontSize: 14, color: kGrey0),
                       filled: true,
                       fillColor: kWhiteColor,
                       isDense: true,
@@ -332,8 +331,7 @@ class _DrivingRegisterState extends State<DrivingRegister> {
                     }).toList(),
                     decoration: InputDecoration(
                       label: const Text('Hãng xe*'),
-                      labelStyle: const TextStyle(
-                          fontSize: 14, color: Color(0xff8D9091)),
+                      labelStyle: const TextStyle(fontSize: 14, color: kGrey0),
                       filled: true,
                       fillColor: kWhiteColor,
                       isDense: true,

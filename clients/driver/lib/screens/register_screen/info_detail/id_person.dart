@@ -211,7 +211,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                     Expanded(
                       child: DateInputField(
                         controller: licenseDateController,
-                        hintText: 'Chọn ngày cấp *',
+                        labelText: 'Chọn ngày cấp *',
                         onTap: () async {
                           DateTime? selectedDate = await showDatePicker(
                             context: context,
@@ -244,16 +244,13 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                       child: Text(
                         place,
                         style: const TextStyle(
-                          fontSize: 14,
-                        ),
+                            fontSize: 14, fontWeight: FontWeight.w100),
                       ),
                     );
                   }).toList(),
-                  hint: const Text(
-                    'Nơi cấp*',
-                    style: TextStyle(fontSize: 14, color: Color(0xff8D9091)),
-                  ),
                   decoration: InputDecoration(
+                    label: const Text('Nơi cấp*'),
+                    labelStyle: const TextStyle(fontSize: 14, color: kGrey0),
                     filled: true,
                     fillColor: kWhiteColor,
                     isDense: true,

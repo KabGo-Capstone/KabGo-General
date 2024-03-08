@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class DateInputField extends StatelessWidget {
   final TextEditingController controller;
-  final String hintText;
+  final String labelText;
   final void Function()? onTap;
 
   const DateInputField({
     required this.controller,
-    required this.hintText,
+    required this.labelText,
     this.onTap,
     super.key,
   });
@@ -25,18 +25,18 @@ class DateInputField extends StatelessWidget {
             readOnly: true,
             onTap: onTap,
             decoration: InputDecoration(
+              labelText: labelText,
+              labelStyle: const TextStyle(color: kGrey0, fontSize: 14),
               counterText: '',
               fillColor: kWhiteColor,
               filled: true,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
-              hintText: hintText,
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-              hintStyle: const TextStyle(
-                fontSize: textMedium,
-                fontWeight: FontWeight.w400,
-                // color: hintColor,
-              ),
+              // hintText: hintText,
+              // floatingLabelBehavior: FloatingLabelBehavior.always,
+              // hintStyle: const TextStyle(
+              //   fontSize: 14,
+              // ),
               // prefixIcon: prefixIcon,
               suffixIcon: const Icon(
                 Icons.calendar_today_rounded,
@@ -44,7 +44,6 @@ class DateInputField extends StatelessWidget {
               ),
               errorStyle: const TextStyle(
                 fontSize: textMedium,
-                fontWeight: FontWeight.normal,
                 color: kRed,
               ),
               focusedBorder: const OutlineInputBorder(

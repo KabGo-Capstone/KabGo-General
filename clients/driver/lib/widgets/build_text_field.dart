@@ -62,14 +62,12 @@ class BuildTextField extends StatelessWidget {
         // floatingLabelBehavior: FloatingLabelBehavior.always,
         hintStyle: TextStyle(
           fontSize: textMedium,
-          fontWeight: FontWeight.w400,
           color: hintColor,
         ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         errorStyle: const TextStyle(
           fontSize: textSmall,
-          fontWeight: FontWeight.normal,
           color: kRed,
         ),
         focusedBorder: const OutlineInputBorder(

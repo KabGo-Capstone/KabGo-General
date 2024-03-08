@@ -48,7 +48,10 @@ class _SelectServiceState extends State<SelectService> {
             ),
             child: const Text(
               'Cần hỗ trợ?',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w100),
             ),
           ),
           const SizedBox(

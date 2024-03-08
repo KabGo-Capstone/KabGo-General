@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_insurance_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_insurance_before.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_license_after.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_license_before.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
