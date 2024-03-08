@@ -1,28 +1,33 @@
 import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
-import 'package:driver/constants/font.dart';
-import 'package:driver/data/data.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_vehicle_back.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_vehicle_front.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_vehicle_left.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_vehicle_right.dart';
 import 'package:driver/widgets/app_bar.dart';
-import 'package:driver/widgets/build_pick_date.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class IdPersonInfo extends StatefulWidget {
-  const IdPersonInfo({super.key});
+class VehicleInfo extends StatefulWidget {
+  const VehicleInfo({super.key});
 
   @override
-  State<IdPersonInfo> createState() => _IdPersonInfoState();
+  State<VehicleInfo> createState() => _IVehicleInfoState();
 }
 
-class _IdPersonInfoState extends State<IdPersonInfo> {
+class _IVehicleInfoState extends State<VehicleInfo> {
   TextEditingController licenseDate = TextEditingController();
   TextEditingController licenseDateController = TextEditingController();
-  File? _image;
+  File? _image1;
+  File? _image2;
+  File? _image3;
+  File? _image4;
   String? selectedPlaceOfIssue;
+
+  bool validateImages() {
+    return _image1 != null && _image2 != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                   ],
                 ),
                 buildText(
-                  'CMND / Thẻ Căn Cước / Hộ Chiếu',
+                  'Hình ảnh xe',
                   kBlackColor,
                   18,
                   FontWeight.w600,
@@ -66,7 +71,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                       children: [
                         RichText(
                           text: const TextSpan(
-                            text: 'Mặt trước ',
+                            text: 'Mặt trước chính diện xe',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -88,7 +93,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RemindIdBefore(),
+                                builder: (context) =>
+                                    const RemindVehicleFront(),
                               ),
                             );
                           },
@@ -102,8 +108,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: _image1 != null
+                                    ? Image.file(_image1!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -139,7 +145,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                       children: [
                         RichText(
                           text: const TextSpan(
-                            text: 'Mặt sau ',
+                            text: 'Mặt sau xe ',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -161,7 +167,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RemindIdAfter(),
+                                builder: (context) => const RemindVehicleBack(),
                               ),
                             );
                           },
@@ -175,8 +181,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: _image2 != null
+                                    ? Image.file(_image2!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -208,109 +214,149 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: DateInputField(
-                        controller: licenseDateController,
-                        hintText: 'Chọn ngày cấp *',
-                        onTap: () async {
-                          DateTime? selectedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          );
-                          if (selectedDate != null) {
-                            DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                            String formattedDate =
-                                dateFormat.format(selectedDate);
-                            licenseDateController.text = formattedDate;
-                          }
-                        },
-                      ),
+                    Column(
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            text: 'Mặt hông xe (Bên phải) ',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const RemindVehicleRight(),
+                              ),
+                            );
+                          },
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Container(
+                              width: 100,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200], // Màu nền
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Center(
+                                child: _image3 != null
+                                    ? Image.file(_image3!)
+                                    : const SizedBox(
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons
+                                                    .add_circle_outline_rounded,
+                                                size: 30,
+                                                color: COLOR_GRAY,
+                                              ),
+                                              Text(
+                                                'Tải ảnh lên',
+                                                style: TextStyle(fontSize: 11),
+                                              )
+                                            ]),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: selectedPlaceOfIssue,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedPlaceOfIssue = newValue!;
-                    });
-                  },
-                  items: placesOfIssue.map((place) {
-                    return DropdownMenuItem(
-                      value: place,
-                      child: Text(
-                        place,
-                        style: const TextStyle(
-                          fontSize: 14,
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            text: 'Mặt hông xe (Bên trái) ',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                  hint: const Text(
-                    'Nơi cấp*',
-                    style: TextStyle(fontSize: 14, color: Color(0xff8D9091)),
-                  ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: kWhiteColor,
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255)),
+                      ],
                     ),
-                    errorStyle: const TextStyle(
-                      fontSize: textSmall,
-                      fontWeight: FontWeight.normal,
-                      color: kRed,
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RemindVehicleLeft(),
+                              ),
+                            );
+                          },
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: Container(
+                              width: 100,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200], // Màu nền
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Center(
+                                child: _image4 != null
+                                    ? Image.file(_image4!)
+                                    : const SizedBox(
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons
+                                                    .add_circle_outline_rounded,
+                                                size: 30,
+                                                color: COLOR_GRAY,
+                                              ),
+                                              Text(
+                                                'Tải ảnh lên',
+                                                style: TextStyle(fontSize: 11),
+                                              )
+                                            ]),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(width: 1, color: kOrange),
-                    ),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(
-                          width: 0, color: Color.fromARGB(255, 192, 192, 192)),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(width: 0, color: kGrey1),
-                    ),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        borderSide: BorderSide(width: 1, color: kRed)),
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        borderSide: BorderSide(width: 1, color: kGrey1)),
-                    focusColor: kWhiteColor,
-                    hoverColor: kWhiteColor,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Vui lòng chọn quan hệ';
-                    }
-                    return null;
-                  },
-                  isExpanded: true,
-                  itemHeight: 50,
+                  ],
                 ),
               ],
             ),
           ),
         ),
       ),
+      // Trong phần bottomNavigationBar:
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
         child: ElevatedButton(
-          onPressed: () async {
-            Navigator.pop(context);
-          },
+          onPressed: validateImages()
+              ? () async {
+                  Navigator.pop(context);
+                }
+              : null,
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kOrange),
           ),

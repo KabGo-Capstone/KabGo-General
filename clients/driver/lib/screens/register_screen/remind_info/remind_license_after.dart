@@ -7,16 +7,17 @@ import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 
-class RemindPersonImage extends StatefulWidget {
+class RemindDivingLicenseAfter extends StatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
-  const RemindPersonImage({super.key});
+  const RemindDivingLicenseAfter({super.key});
 
   @override
-  State<RemindPersonImage> createState() => _RemindPersonImageState();
+  State<RemindDivingLicenseAfter> createState() =>
+      _RemindDivingLicenseAfterState();
 }
 
-class _RemindPersonImageState extends State<RemindPersonImage> {
+class _RemindDivingLicenseAfterState extends State<RemindDivingLicenseAfter> {
   void _setImage(File image) {
     setState(() {});
   }
@@ -46,7 +47,7 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,23 +57,20 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                width: 150,
+                                height: 150,
                                 child: Image.asset(
-                                    'assets/images/register/image_template1.jpg'),
+                                    'assets/images/register/license_af1.JPG'),
                               ),
                               const SizedBox(
-                                  width: 50), // Khoảng cách giữa hai ảnh
+                                  width: 20), // Khoảng cách giữa hai ảnh
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                width: 150,
+                                height: 150,
                                 child: Image.asset(
-                                    'assets/images/register/image_template2.jpg'),
+                                    'assets/images/register/license_af2.JPG'),
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 10,
                           ),
                           const Center(
                             child: Text('Tài liệu mẫu'),
@@ -113,13 +111,13 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp với phông nền trơn'),
+                                  'Giấy phép lái xe còn hạn. Bằng lái xe bắt buộc còn hạn'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp từ phần thân trên, rõ nét, không lóa sáng'),
+                                  'Thông tin trùng khớp với CMND/CCCD: Họ tên, ngày tháng năm sinh'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp chính diện, nhìn thẳng, không nhắm mắt'),
+                                  'Mặt sau là mặt có thông tin chi tiết các hạng bằng lái. Mặt sau bắt buộc có thông tin và số phôi phía trước.'),
                             ],
                           ),
                         ),
@@ -152,12 +150,13 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             buildBulletPoint(
-                                'Ảnh không được có thêm người, động vật hoặc các vật khác trong khung hình'),
+                                'Giấy tờ chụp đầy đủ thông tin, không mất góc'),
                             const SizedBox(height: 8),
                             buildBulletPoint(
-                                'Không đội mũ, không đeo khẩu trang, không đeo kính râm khi chụp ảnh'),
+                                'Không chụp ảnh qua màn hình hoặc sử dụng giấy tờ scan. Ảnh chụp rõ nét, không lóa sáng, không can thiệp chỉnh sửa'),
                             const SizedBox(height: 8),
-                            buildBulletPoint('Không sử dụng ảnh thẻ'),
+                            buildBulletPoint(
+                                'Hình ảnh phải là bằng lái xe gốc, không chấp nhận giấy hẹn trả kết quả bằng lái xe hoặc biên lai thu giữ bằng lái xe.'),
                           ],
                         ),
                       ),

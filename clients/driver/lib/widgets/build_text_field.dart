@@ -3,7 +3,7 @@ import 'package:driver/constants/font.dart';
 import 'package:flutter/material.dart';
 
 class BuildTextField extends StatelessWidget {
-  final String hint;
+  final String? hint;
   final TextEditingController? controller;
   final TextInputType inputType;
   final Widget? prefixIcon;
@@ -14,11 +14,13 @@ class BuildTextField extends StatelessWidget {
   final Color hintColor;
   final int? maxLength;
   final Function onChange;
+  final Function? validator;
   final String? validatorString;
+  final String? labelText;
 
   const BuildTextField({
     super.key,
-    required this.hint,
+    this.hint,
     this.controller,
     required this.inputType,
     this.prefixIcon,
@@ -30,6 +32,8 @@ class BuildTextField extends StatelessWidget {
     this.maxLength,
     required this.onChange,
     this.validatorString,
+    this.labelText,
+    this.validator,
   });
 
   @override
@@ -38,14 +42,16 @@ class BuildTextField extends StatelessWidget {
       onChanged: (value) {
         onChange(value);
       },
-      validator: (val) => val!.isEmpty ? validatorString : null,
+      validator: validator != null ? (value) => validator!(value) : null,
       keyboardType: inputType,
       obscureText: obscureText,
       maxLength: maxLength,
       maxLines: inputType == TextInputType.multiline ? 3 : 1,
       controller: controller,
-      enabled: enabled,
+      // enabled: enabled,
       decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(color: kGrey0, fontSize: 14),
         counterText: '',
         fillColor: fillColor,
         filled: true,
@@ -53,7 +59,7 @@ class BuildTextField extends StatelessWidget {
             ? const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10)
             : const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
         hintText: hint,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        // floatingLabelBehavior: FloatingLabelBehavior.always,
         hintStyle: TextStyle(
           fontSize: textMedium,
           fontWeight: FontWeight.w400,
@@ -62,7 +68,7 @@ class BuildTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         errorStyle: const TextStyle(
-          fontSize: textMedium,
+          fontSize: textSmall,
           fontWeight: FontWeight.normal,
           color: kRed,
         ),

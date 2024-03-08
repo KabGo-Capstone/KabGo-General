@@ -7,16 +7,16 @@ import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 
-class RemindPersonImage extends StatefulWidget {
+class RemindVehicleLeft extends StatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
-  const RemindPersonImage({super.key});
+  const RemindVehicleLeft({super.key});
 
   @override
-  State<RemindPersonImage> createState() => _RemindPersonImageState();
+  State<RemindVehicleLeft> createState() => _RemindVehicleLeftState();
 }
 
-class _RemindPersonImageState extends State<RemindPersonImage> {
+class _RemindVehicleLeftState extends State<RemindVehicleLeft> {
   void _setImage(File image) {
     setState(() {});
   }
@@ -46,7 +46,7 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,23 +56,12 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                width: 150,
+                                height: 150,
                                 child: Image.asset(
-                                    'assets/images/register/image_template1.jpg'),
-                              ),
-                              const SizedBox(
-                                  width: 50), // Khoảng cách giữa hai ảnh
-                              SizedBox(
-                                width: 120,
-                                height: 120,
-                                child: Image.asset(
-                                    'assets/images/register/image_template2.jpg'),
+                                    'assets/images/register/vehicle_left.JPG'),
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 10,
                           ),
                           const Center(
                             child: Text('Tài liệu mẫu'),
@@ -113,13 +102,13 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp với phông nền trơn'),
+                                  'Hình chụp mặt hông xe bên trái, yêu cầu thấy rõ các bộ phận ở hông xe bên trái'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp từ phần thân trên, rõ nét, không lóa sáng'),
+                                  'Xe phải có đầy đủ hộp xích, đối với dòng xe như Winner, Exciter... thì phải có thanh chắn xích'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp chính diện, nhìn thẳng, không nhắm mắt'),
+                                  'Xe phải có đủ yếm, bô xe, hộp xích và gương chiếu hậu. Yên xe nguyên vẹn không rách'),
                             ],
                           ),
                         ),
@@ -152,12 +141,10 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             buildBulletPoint(
-                                'Ảnh không được có thêm người, động vật hoặc các vật khác trong khung hình'),
+                                'Không chụp ảnh qua màn hình. Ảnh chụp rõ nét, không lóa sáng, không can thiệp chỉnh sửa'),
                             const SizedBox(height: 8),
                             buildBulletPoint(
-                                'Không đội mũ, không đeo khẩu trang, không đeo kính râm khi chụp ảnh'),
-                            const SizedBox(height: 8),
-                            buildBulletPoint('Không sử dụng ảnh thẻ'),
+                                'Gương xe nguyên vẹn, không vỡ, nứt'),
                           ],
                         ),
                       ),

@@ -195,8 +195,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 });
                               },
                               child: SizedBox(
-                                width: 24, // Kích thước của checkbox
-                                height: 24, // Kích thước của checkbox
+                                width: 24, 
+                                height: 24, 
                                 child: Checkbox(
                                   checkColor: Colors.white,
                                   activeColor: Colors.green,
