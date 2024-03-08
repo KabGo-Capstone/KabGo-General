@@ -1,12 +1,13 @@
 import 'package:driver/constants/colors.dart';
+import 'package:driver/constants/regex.dart';
 import 'package:driver/data/data.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
+import 'package:driver/widgets/bottom_selector.dart';
 import 'package:driver/widgets/build_text.dart';
-import 'package:driver/widgets/build_text_field.dart';
-import 'package:driver/widgets/city_dropdown.dart';
-import 'package:driver/widgets/country.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const path = '/register';
@@ -18,289 +19,415 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController nameDriver = TextEditingController();
-  TextEditingController surnameDriver = TextEditingController();
-  TextEditingController phoneDriver = TextEditingController();
-  TextEditingController introduceCode = TextEditingController();
-  bool isChecked = false;
-  bool isAllFieldsValid = false;
   final _formKey = GlobalKey<FormState>();
 
-  void validateFields() {
+  final TextEditingController firstnameDriver = TextEditingController();
+  final TextEditingController lastnameDriver = TextEditingController();
+  final TextEditingController phonenumberDriver = TextEditingController();
+  final TextEditingController referrerDriver = TextEditingController();
+  late String selectedCity = '';
+
+  late bool isChecked = false;
+  late bool isValid = false;
+
+  validFormField() {
+    return firstnameDriver.text.isNotEmpty &&
+        lastnameDriver.text.isNotEmpty &&
+        phonenumberDriver.text.isNotEmpty &&
+        phonenumerRegex.hasMatch(phonenumberDriver.text) &&
+        selectedCity.isNotEmpty &&
+        (isChecked == true);
+  }
+
+  updateValidFormField() {
     setState(() {
-      isAllFieldsValid = _formKey.currentState!.validate();
+      isValid = validFormField();
     });
+  }
+
+  handleFormChange() {
+    updateValidFormField();
+  }
+
+  handleRegister() {
+    if (_formKey.currentState != null &&
+        validFormField() &&
+        _formKey.currentState!.validate()) {
+      context.pushNamed(OTPScreen.name, extra: {
+        'firstname': firstnameDriver.text,
+        'lastname': lastnameDriver.text,
+        'phonenumber': phonenumberDriver.text,
+        'city': selectedCity,
+        'referrer': referrerDriver.text,
+      });
+    }
+  }
+
+  openCitySelector() {
+    return showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (BuildContext context) {
+        return BottomSheetSelector(
+          label: const Text(
+            'Chọn thành phố',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          options: cities,
+          onSelected: (selectedOption) {
+            setState(() {
+              selectedCity = selectedOption;
+              updateValidFormField();
+            });
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    firstnameDriver.dispose();
+    lastnameDriver.dispose();
+    phonenumberDriver.dispose();
+    referrerDriver.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: COLOR_WHITE,
-          actions: [
-            OutlinedButton(
-              onPressed: () {
-                debugPrint('Cần hỗ trợ');
-              },
-              style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-                padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-                side: MaterialStateProperty.all(const BorderSide(
-                    color: Color.fromARGB(255, 97, 97, 97), width: 0.7)),
-              ),
-              child: const Text(
-                'Cần hỗ trợ?',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            const SizedBox(
-              width: 20,
-            )
-          ],
-        ),
-        body: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: ListView(
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        const Image(
+                          image: AssetImage('assets/logo-hori.png'),
+                          width: 120,
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          child: const FaIcon(FontAwesomeIcons.xmark),
+                          onTap: () {
+                            context.pop();
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Flexible(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  buildText(
-                                    'Đăng ký tài xế mới',
-                                    kBlackColor,
-                                    18,
-                                    FontWeight.w600,
-                                    TextAlign.start,
-                                    TextOverflow.clip,
-                                  ),
-                                  buildText(
-                                    'Vui lòng cho chúng tôi biết về bạn',
-                                    kBlackColor,
-                                    12,
-                                    FontWeight.w400,
-                                    TextAlign.start,
-                                    TextOverflow.clip,
-                                  ),
-                                ],
-                              ),
+                            buildText(
+                              'Đăng ký tài xế mới',
+                              kBlackColor,
+                              22,
+                              FontWeight.bold,
+                              TextAlign.start,
+                              TextOverflow.clip,
                             ),
-                            const SizedBox(
-                                width: 10), // Khoảng cách giữa chữ và hình ảnh
-                            Expanded(
+                            const SizedBox(height: 8),
+                            buildText(
+                              'Vui lòng cung cấp đầy đủ thông tin để chúng tôi có thể hiểu rõ về bạn.',
+                              kBlackColor,
+                              12,
+                              FontWeight.w400,
+                              TextAlign.start,
+                              TextOverflow.clip,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24),
                               child: Container(
                                 alignment: Alignment.center,
                                 child: Image.asset(
                                   'assets/images/register/note.png',
-                                  // Đặt các thuộc tính của hình ảnh theo nhu cầu
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Form(
+                    key: _formKey,
+                    onChanged: handleFormChange,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: firstnameDriver,
+                          validator: (value) {
+                            if (value != null && value.isEmpty) {
+                              return 'Vui lòng nhập "Tên"';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'Tên*',
+                          ),
                         ),
-                        BuildTextField(
-                            hint: 'Tên*',
-                            controller: nameDriver,
-                            inputType: TextInputType.text,
-                            fillColor: kWhiteColor,
-                            validatorString: 'Vui lòng nhập tên',
-                            onChange: (value) {
-                              validateFields();
-                            }),
-                        const SizedBox(
-                          height: 20,
+                        const SizedBox(height: 21),
+                        TextFormField(
+                          controller: lastnameDriver,
+                          validator: (value) {
+                            if (value != null && value.isEmpty) {
+                              return 'Vui lòng nhập "Họ và tên lót"';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'Họ và tên lót*',
+                          ),
                         ),
-                        BuildTextField(
-                            hint: 'Họ',
-                            controller: surnameDriver,
-                            inputType: TextInputType.text,
-                            fillColor: kWhiteColor,
-                            onChange: (value) {}),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            const CountryDropdown(),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: BuildTextField(
-                                hint: 'Số điện thoại di động*',
-                                controller: phoneDriver,
-                                inputType: TextInputType.phone,
-                                fillColor: kWhiteColor,
-                                validatorString: 'Vui lòng nhập số điện thoại',
-                                onChange: (value) {
-                                  validateFields();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Row(
-                          children: [
-                            CustomDropdown(
-                              dataDefault: 'Hồ Chí Minh',
-                              data: cities,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        BuildTextField(
-                            hint: 'Mã giới thiệu',
-                            controller: introduceCode,
-                            inputType: TextInputType.text,
-                            fillColor: kWhiteColor,
-                            onChange: (value) {}),
-                        const SizedBox(
-                          height: 30,
-                        ),
+                        const SizedBox(height: 21),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isChecked = !isChecked;
-                                });
-                              },
-                              child: SizedBox(
-                                width: 24, // Kích thước của checkbox
-                                height: 24, // Kích thước của checkbox
-                                child: Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: Colors.green,
-                                  value: isChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isChecked = value ?? false;
-                                    });
-                                  },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                  border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 219, 219, 219),
+                                    width: 1.0,
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                    horizontal: 14,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/register/vietnam.png',
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      const Text(
+                                        '+84',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 10,
+                            const SizedBox(width: 10),
+                            Expanded(
+                              flex: 2,
+                              child: TextFormField(
+                                controller: phonenumberDriver,
+                                keyboardType: TextInputType.number,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value != null && value.isNotEmpty) {
+                                    return phonenumerRegex.hasMatch(value)
+                                        ? null
+                                        : 'Số điện thoại không tồn tại';
+                                  }
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                  labelText: 'Số điện thoại*',
+                                ),
+                              ),
                             ),
-                            const Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ],
+                        ),
+                        const SizedBox(height: 21),
+                        InkWell(
+                          onTap: openCitySelector,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 219, 219, 219),
+                                width: 1.0,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 14,
+                              ),
+                              child: Row(
                                 children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              'Bằng cách tiếp tục, tôi đồng ý với việc KabGo có thể thu thập, sử dụng và tiết lộ thông tin do tôi cung cấp theo ',
-                                          style: TextStyle(
-                                            color: COLOR_TEXT_MAIN,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: 'Thông báo về quyền riêng tư',
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text:
-                                              '. Tôi cũng xác nhận đã đọc, hiểu rõ và hoàn toàn tuân thủ các ',
-                                          style: TextStyle(
-                                            color: COLOR_TEXT_MAIN,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: 'Điều khoản và điều kiện',
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
+                                  Text(
+                                    selectedCity.isEmpty
+                                        ? 'Thành phố*'
+                                        : selectedCity,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: selectedCity.isEmpty
+                                          ? Colors.black54
+                                          : Colors.black,
                                     ),
-                                  )
+                                  ),
+                                  const Spacer(),
+                                  const FaIcon(
+                                    FontAwesomeIcons.chevronRight,
+                                    size: 12,
+                                    color: Colors.black54,
+                                  ),
+                                  const SizedBox(width: 4),
                                 ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 21),
+                        TextFormField(
+                          controller: referrerDriver,
+                          decoration: const InputDecoration(
+                            labelText: 'Mã giới thiệu',
+                          ),
+                        ),
+                        const SizedBox(height: 21),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 24.0,
+                              height: 24.0,
+                              child: Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: Theme.of(context).primaryColor,
+                                value: isChecked,
+                                onChanged: (value) {
+                                  setState(
+                                    () {
+                                      isChecked = value ?? false;
+                                    },
+                                  );
+                                  updateValidFormField();
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    const TextSpan(
+                                      text:
+                                          'Bằng cách tiếp tục, tôi đồng ý với việc KabGo có thể thu thập, sử dụng và tiết lộ thông tin do tôi cung cấp theo ',
+                                      style: TextStyle(
+                                        color: COLOR_TEXT_MAIN,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Thông báo về quyền riêng tư',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text:
+                                          '. Tôi cũng xác nhận đã đọc, hiểu rõ và hoàn toàn tuân thủ các ',
+                                      style: TextStyle(
+                                        color: COLOR_TEXT_MAIN,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Điều khoản và điều kiện.',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           ],
                         ),
+                        const SizedBox(height: 35),
+                        WButton(
+                          width: double.infinity,
+                          radius: 50,
+                          shadow: const BoxShadow(
+                            color: Colors.transparent,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor:
+                                const Color.fromARGB(255, 63, 63, 63),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            elevation: 0,
+                            alignment: Alignment.center,
+                          ),
+                          onPressed: isValid ? handleRegister : null,
+                          child: Text(
+                            'Tiếp tục',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: isValid ? Colors.white : null,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 35),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Nút "Tiếp tục" được gắn cố định ở dưới màn hình
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-          child: ElevatedButton(
-            onPressed: isAllFieldsValid && isChecked
-                ? () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OTPScreen(
-                          phoneNumber: phoneDriver.text,
-                        ),
-                      ),
-                    );
-                  }
-                : null,
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.resolveWith<Color>((states) {
-                if (isChecked && isAllFieldsValid) {
-                  return kOrange;
-                } else {
-                  return const Color.fromARGB(255, 240, 240, 240);
-                }
-              }),
-            ),
-            child: Text(
-              'Tiếp tục',
-              style: TextStyle(
-                fontSize: 16,
-                color: !isChecked || !isAllFieldsValid ? kOrange : kWhiteColor,
-                fontWeight: FontWeight.bold,
+                ],
               ),
             ),
           ),
