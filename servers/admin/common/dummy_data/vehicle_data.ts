@@ -1,4 +1,4 @@
-import VehicleModel, { IVehicle } from 'common/models/vehicle.model';
+import VehicleModel, { IVehicle } from '../models/vehicle.model';
 
 export const getVehicleData = async () => {
     const data: IVehicle[] = [];

@@ -14,9 +14,9 @@ import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
 import SupplyStub from '../services/supply.service'
 
-import ServiceApprovalModel from 'common/models/serviceApproval.model'
-import ServiceModel from 'common/models/service.model'
-import VehicleModel from 'common/models/vehicle.model'
+import ServiceApprovalModel from '../models/serviceApproval.model'
+import ServiceModel from '../models/service.model'
+import VehicleModel from '../models/vehicle.model'
 
 import { getServiceApprovalData } from '../dummy_data/service_approval_data'
 import { getServiceData } from '../dummy_data/service_data'

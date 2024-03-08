@@ -1,4 +1,4 @@
-import DriverModel, { IDriver } from 'common/models/driver.model';
+import DriverModel, { IDriver } from '../models/driver.model';
 
 export const getSupplies = async () => {
     const DRIVERS: IDriver[] = [];

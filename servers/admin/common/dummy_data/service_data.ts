@@ -1,4 +1,4 @@
-import ServiceModel, { IService } from 'common/models/service.model';
+import ServiceModel, { IService } from '../models/service.model';
 
 export const getServiceData = async () => {
     const data: IService[] = [];

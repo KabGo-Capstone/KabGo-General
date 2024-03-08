@@ -1,4 +1,4 @@
-import ServiceApprovalModel, { IServiceApproval } from 'common/models/serviceApproval.model';
+import ServiceApprovalModel, { IServiceApproval } from '../models/serviceApproval.model';
 
 export const getServiceApprovalData = async () => {
     const data: IServiceApproval[] = [];
