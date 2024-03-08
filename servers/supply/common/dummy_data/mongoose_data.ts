@@ -8,6 +8,7 @@ export const getSupplies = async () => {
             id: getDriver[i].id,
             firstName: getDriver[i].firstName,
             lastName: getDriver[i].lastName,
+            phoneNumber: getDriver[i].phoneNumber,
             password: getDriver[i].password,
             dob: getDriver[i].dob,
             gender: getDriver[i].gender,
@@ -15,6 +16,7 @@ export const getSupplies = async () => {
             verified: getDriver[i].verified,
             avatar: getDriver[i].avatar,
             email: getDriver[i].email,
+            referralCode: getDriver[i].referralCode
         })
     }
     return DRIVERS;

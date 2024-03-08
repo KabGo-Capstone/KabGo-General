@@ -5,6 +5,7 @@ export interface IDriver {
     id: string,
     firstName: string,
     lastName: string,
+    phoneNumber: string,
     password: string,
     dob: string,
     gender: string,
@@ -12,6 +13,7 @@ export interface IDriver {
     verified: boolean,
     avatar: string,
     email: string,
+    referralCode: string
 }
 
 const DriverSchema = new mongoose.Schema<IDriver>(
@@ -19,6 +21,7 @@ const DriverSchema = new mongoose.Schema<IDriver>(
         id: { type: String },
         firstName: { type: String },
         lastName: { type: String },
+        phoneNumber: { type: String },
         password: { type: String },
         dob: { type: String },
         gender: { type: String },
@@ -26,6 +29,7 @@ const DriverSchema = new mongoose.Schema<IDriver>(
         verified: { type: Boolean },
         avatar: { type: String },
         email: { type: String },
+        referralCode: { type: String },
     },
 
 )

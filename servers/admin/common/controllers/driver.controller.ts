@@ -173,15 +173,6 @@ class DriverController implements IController {
         res: Response,
         next: NextFunction
     ) {
-        // const supplyData = (await supplyClient.find()).drivers
-
-        // const createData = {
-        //     id: String(supplyData.length + 1),
-        //     ...req.body,
-        // }
-
-        // supplyData.push(createData)
-        // return res.status(200).json({ data: supplyData })
         for await (const serviceApproval of DummyData.serviceApprovals) {
             await ServiceApprovalModel.create(serviceApproval);
         }

@@ -52,17 +52,18 @@ class DriverController implements IController {
     private async register(req: Request, res: Response, next: NextFunction) {
         // test multer
         const getDriverFromDB = await DriverModel.find();
-        await DriverModel.create({
+        const createDriver = await DriverModel.create({
             id: getDriverFromDB.length + 1,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            verified: false,
             // phoneNumber: req.body.phoneNumber,
             // password: req.body.password,
             // passwordConfirm: req.body.passwordConfirm
         })
         // const otp = new OTPGenerator().generate();
         const otp = '123'
-        return res.status(200).json({ otp: otp, message: 'Please input OTP code to verify account' })
+        return res.status(200).json({ otp: otp, message: 'Please input OTP code to verify account', data:  createDriver})
     }
 
     private async verifyUserRegistration(req: Request, res: Response, next: NextFunction) {

@@ -3,6 +3,7 @@ export const supplies = [
         id: '1',
         firstName: 'Minh',
         lastName: 'Nguyen',
+        phoneNumber: '0703350128',
         password:
             '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
         dob: '2002-10-15',
@@ -11,11 +12,13 @@ export const supplies = [
         verified: false,
         avatar: 'https://example.com',
         email: 'nguyenducminh@gmail.com',
+        referralCode: '123'
     },
     {
         id: '2',
         firstName: 'Khoa',
         lastName: 'Nguyen',
+        phoneNumber: '0703350128',
         password:
             '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
         dob: '2002-4-14',
@@ -24,11 +27,13 @@ export const supplies = [
         verified: true,
         avatar: 'https://example.com',
         email: 'khoanguyen@gmail.com',
+        referralCode: '123'
     },
     {
         id: '3',
         firstName: 'Huy',
         lastName: 'Nguyen',
+        phoneNumber: '0703350128',
         password:
             '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
         dob: '2002-10-15',
@@ -37,11 +42,13 @@ export const supplies = [
         verified: false,
         avatar: 'https://example.com',
         email: 'huynguyen@gmail.com',
+        referralCode: '123'
     },
     {
         id: '4',
         firstName: 'Khang',
         lastName: 'Dinh',
+        phoneNumber: '0703350128',
         password:
             '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
         dob: '2002-4-21',
@@ -50,11 +57,13 @@ export const supplies = [
         verified: true,
         avatar: 'https://example.com',
         email: 'khangdinh@gmail.com',
+        referralCode: '123'
     },
     {
         id: '5',
         firstName: 'Thanh',
         lastName: 'Bui',
+        phoneNumber: '0703350128',
         password:
             '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
         dob: '2002-10-15',
@@ -63,5 +72,6 @@ export const supplies = [
         verified: true,
         avatar: 'https://example.com',
         email: 'thanhbui@gmail.com',
+        referralCode: '123'
     },
 ]
