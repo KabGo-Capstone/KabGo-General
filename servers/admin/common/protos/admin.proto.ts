@@ -124,7 +124,6 @@ class AdminService implements AdminServer {
 
         await ServiceApprovalModel.updateOne({ supplyID: call.request.supplyID }, { vehicleID: (maxId + 1).toString() })
 
-        console.log(call.request.supplyID)
         const SERVICEAPPROVALS = await getServiceApprovalData();
 
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(

@@ -6,7 +6,7 @@ import catchAsync from '../utils/catch.error'
 import DTOValidation from '../middlewares/validation.middleware'
 import UserDTO from '../dtos/user.example.dto'
 import Jwt, { JsonWebToken } from '../utils/jwt'
-// import GMailer from '../services/mailer.builder'
+import GMailer from '../services/mailer.builder'
 import cacheMiddleware from '../middlewares/cache.middleware'
 import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
@@ -14,6 +14,8 @@ import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
 import OTPGenerator from '../utils/otp-generator'
 import AdminStub from '../services/admin.service'
+
+
 // import SupplyStub from '../services/supply.service'
 
 const supplies = DummyData.supplies;
@@ -38,6 +40,8 @@ class DriverController implements IController {
         this.router.post('/update-address', catchAsync(this.updateAddress))
         this.router.post('/update-email', catchAsync(this.updateEmail))
         this.router.post('/update-vehicle', catchAsync(this.updateVehicle))
+
+        this.router.post('/submit-driver', catchAsync(this.submitDriver))
 
         const multercloud = new MulterCloudinaryUploader(
             ['jpg', 'jpeg', 'png', 'gif'],
@@ -235,6 +239,24 @@ class DriverController implements IController {
             req.body.brand
         )
         return res.status(200).json({ message: 'Update vehicle successfully' })
+    }
+
+    private async submitDriver(req: Request, res: Response, next: NextFunction) {
+
+        const getDriverById = await DriverModel.findOne({id: req.body.id});
+       
+        if(getDriverById && getDriverById.email!== '') {
+            await GMailer.sendMail({
+                to: getDriverById.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Chúng tôi đã nhận được hồ sơ của bạn, vui lòng chờ quản trị viên phê duyệt</h3>',
+            });
+            return res.status(200).json({ message: 'We have received your profile, please wait for admin to approve your profile' })
+        }
+        else{
+            return res.status(401).json({ message: 'Please link email to your account' })
+        }
+        
     }
 
     private async createDB(

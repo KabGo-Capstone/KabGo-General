@@ -6,7 +6,7 @@ import catchAsync from '../utils/catch.error'
 import DTOValidation from '../middlewares/validation.middleware'
 import UserDTO from '../dtos/user.example.dto'
 import Jwt, { JsonWebToken } from '../utils/jwt'
-// import GMailer from '../services/mailer.builder'
+import GMailer from '../services/mailer.builder'
 import cacheMiddleware from '../middlewares/cache.middleware'
 import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
@@ -98,6 +98,17 @@ class ServiceApprovalController implements IController {
             serviceApprovalData[approvalIndex].supplyID
         )
 
+        const supply = await supplyClient.findById(serviceApprovalData[approvalIndex].supplyID)
+
+       
+        if(supply && supply.email!== '') {
+            await GMailer.sendMail({
+                to: supply.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Hồ sơ hợp lệ, bạn đã trở thành đối tác của chúng tôi</h3>',
+            });
+        }
+
         return res.status(200).json({
             data: {
                 ...serviceApprovalData[approvalIndex],
@@ -132,6 +143,17 @@ class ServiceApprovalController implements IController {
         const supplyUnVerivied = await supplyClient.unverify(
             serviceApprovalData[approvalIndex].supplyID
         )
+
+        const supply = await supplyClient.findById(serviceApprovalData[approvalIndex].supplyID)
+
+       
+        if(supply && supply.email!== '') {
+            await GMailer.sendMail({
+                to: supply.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Hồ sơ không hợp lệ, bạn vui lòng thử lại sau</h3>',
+            });
+        }
 
         return res.status(200).json({
             data: {
