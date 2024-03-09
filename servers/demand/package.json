@@ -5,7 +5,7 @@
     "main": "common/app.ts",
     "scripts": {
         "start:dev": "nodemon server.ts",
-        "start": "node dist/server.js",
+        "start": "node dist/app/server.js",
         "build:prod": "npm run ts-check && rimraf dist && tsc && cp -r common/templates dist",
         "build": "npm run ts-check && rimraf dist && cp -r ../protos ./ && tsc && cp -r common/templates dist",
         "add-build": "git add dist",

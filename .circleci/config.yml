@@ -13,8 +13,10 @@ workflows:
                   mapping: |
                       servers/supply/.* run-build-supply-service-job true
                       servers/demand/.* run-build-demand-service-job true
+                      servers/admin/.* run-build-admin-service-job true
                       clients/admin/.* run-build-admin-client-job true
                       servers/grpc/.* run-build-all-server-service-job true
+                      docker-compose/.* run-build-all-service-job true
                   base-revision: main
                   config-path: .circleci/continue_config.yml
 

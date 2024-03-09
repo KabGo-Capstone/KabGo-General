@@ -1,9 +1,9 @@
-import { ICustomerInfomationsServer } from './../../../grpc/proto_pb/demand/demand_grpc_pb'
+import * as grpc from '@grpc/grpc-js'
 import {
     CustomerId,
     CustomerInfomation,
-} from './../../../grpc/proto_pb/demand/demand_pb'
-import * as grpc from '@grpc/grpc-js'
+    CustomerInfomationsServer,
+} from '../../../grpc/models/demand'
 
 const CUSTOMERS = [
     {
@@ -18,24 +18,19 @@ const CUSTOMERS = [
     },
 ]
 
-class CustomerInfomations implements ICustomerInfomationsServer {
+class CustomerInfomations implements CustomerInfomationsServer {
     [name: string]: grpc.UntypedHandleCall
 
     public find(
-        call: grpc.ServerUnaryCall<CustomerId, CustomerInfomation>,
+        call: grpc.ServerUnaryCall<CustomerId, CustomerInfomations>,
         callback: grpc.sendUnaryData<CustomerInfomation>
     ) {
         const customer = CUSTOMERS.find(
-            (customer) => customer.id === call.request.getId()
+            (customer) => customer.id === call.request.id
         )
 
         if (customer) {
-            const customerInfo = new CustomerInfomation()
-                .setId(customer.id)
-                .setFirstname(customer.firstname)
-                .setLastname(customer.lastname)
-
-            callback(null, customerInfo)
+            callback(null, CustomerInfomation.create(customer))
         } else {
             callback(
                 {

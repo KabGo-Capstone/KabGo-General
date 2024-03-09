@@ -17,6 +17,6 @@
         "esModuleInterop": true
     },
     "include": ["**/*.ts", "**/*.d.ts", "**/*.html"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules", "grpc"],
     "files": ["./types/index.d.ts"]
 }

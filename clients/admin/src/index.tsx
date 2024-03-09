@@ -16,7 +16,12 @@ import { ConfigProvider } from "antd";
 import {StyleProvider} from '@ant-design/cssinjs';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 
+const client = new ApolloClient({
+  uri: 'http://localhost:5003/graph',
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,22 +31,24 @@ root.render(
     {/* <Provider store={store}> */}
       <ConfigProvider
         theme={{
-          // token: {
-          //   fontFamily: "Montserrat",
-          //   colorPrimary: '#00A551',
-          //   fontSize: 16
-          // },
-          // components: {
-          //   Button: {
-          //     colorPrimary: '#00A551',
-          //   },
-          //   Table: {
-          //     rowHoverBg: '#ebfbee',
-          //   }
-          // }
+          token: {
+            fontFamily: "Montserrat",
+            colorPrimary: '#F86C1D',
+            fontSize: 13
+          },
+          components: {
+            Button: {
+              colorPrimary: '#F86C1D',
+            },
+            Table: {
+              rowHoverBg: '#FFF4EF',
+            },
+          }
         }}>
           <StyleProvider hashPriority= "high">
-            <App />
+            <ApolloProvider client={client}>
+              <App />
+            </ApolloProvider>
           </StyleProvider>
       </ConfigProvider>
     {/* </Provider> */}

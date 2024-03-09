@@ -1,15 +1,33 @@
 syntax = "proto3";
 
-service DriverInfomations {
-  	rpc find(DriverId) returns (DriverInfomation) {}
-}
-
-message DriverId {
+message DriverID {
 	string id = 1;
 }
 
-message DriverInfomation {
-  	string id = 1;
-  	string firstname = 2;
-	string lastname = 3;
+message DriverInformation {
+	string id = 1;
+	string firstName = 2;
+	string lastName = 3;
+	string password = 4;
+	string dob = 5;
+	string gender = 6;
+	string address = 7;
+	bool verified = 8;
+	string avatar = 9;
+	string email = 10;
+}
+
+message DriverList {
+	repeated DriverInformation drivers = 1;
+}
+
+message DriverEmptyRequest {
+
+}
+
+service Driver {
+	rpc find(DriverEmptyRequest) returns (DriverList);
+  	rpc findById(DriverID) returns (DriverInformation);
+  	rpc verify(DriverID) returns (DriverInformation);
+  	rpc unverify(DriverID) returns (DriverInformation);
 }

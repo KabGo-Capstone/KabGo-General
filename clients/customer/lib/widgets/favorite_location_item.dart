@@ -7,41 +7,35 @@ class FavoriteLocationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          // height: 70,
-          width: 82,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 249, 249, 249),
-            border: Border.all(
-                width: 1, color: const Color.fromARGB(255, 242, 242, 242)),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
+    return SizedBox(
+      width: 56,
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            height: 56,
+            width: 56,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 255, 245, 239),
+              shape: BoxShape.circle,
+            ),
+            child: data['icon'] as Widget,
+          ),
+          const SizedBox(
+            height: 7,
+          ),
+          Text(
+            data['title'].toString(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              color: const Color.fromARGB(255, 0, 0, 0),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              data['icon'] as Widget,
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                data['title'].toString(),
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: const Color.fromARGB(255, 106, 106, 106),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          width: 17,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

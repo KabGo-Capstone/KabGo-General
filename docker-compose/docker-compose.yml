@@ -42,7 +42,8 @@ services:
             - ../servers/grpc:/usr/src/grpc
             - ../servers/demand:/usr/src/app
         environment:
-            SUPPLY_GRPC_CLIENT: "supply-service"
+            SUPPLY_GRPC_CLIENT_HOST: "supply-service"
+            SUPPLY_GRPC_CLIENT_PORT: "50052"
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color
@@ -63,7 +64,34 @@ services:
             - ../servers/grpc:/usr/src/grpc
             - ../servers/supply:/usr/src/app
         environment:
-            DEMAND_GRPC_CLIENT: "demand-service"
+            DEMAND_GRPC_CLIENT_HOST: "demand-service"
+            DEMAND_GRPC_CLIENT_PORT: "50051"
+            FORCE_COLOR: 1
+            DEBUG_COLORS: "true"
+            TERM: xterm-256color
+            COLORTERM: truecolor
+
+    admin-service:
+        build:
+            context: ../servers/admin
+        container_name: admin-service
+        hostname: localhost
+        ports:
+            - "5003:5003"
+            - "50053:50053"
+        networks:
+            - kabgo-network
+        volumes:
+            - ../servers:/usr/src
+            - ../servers/grpc:/usr/src/grpc
+            - ../servers/admin:/usr/src/app
+        environment:
+            DEMAND_GRPC_CLIENT_HOST: "demand-service"
+            DEMAND_GRPC_CLIENT_PORT: "50051"
+
+            SUPPLY_GRPC_CLIENT_HOST: "supply-service"
+            SUPPLY_GRPC_CLIENT_PORT: "50052"
+
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color

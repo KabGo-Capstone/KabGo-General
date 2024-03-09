@@ -1,26 +1,8 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 Future<LatLng> determinePosition() async {
-
-  // if (await Permission.location.serviceStatus.isEnabled) {
-  //   print('Permission is enabled');
-  // } else {
-  //   print('Permission is not enabled');
-  // }
-
-  // // var status = await Permission.locationWhenInUse.request();
-
-  // final status = await Permission.location.request();
-
-  // if (status.isGranted) {
-  //   print('Granted');
-  // } else if (status.isDenied) {
-  //   print('Denied');
-  // }
-
-  // // ANDROID PERMISSION
+  //check PERMISSION
 
   bool serviceEnabled;
   LocationPermission permission;
