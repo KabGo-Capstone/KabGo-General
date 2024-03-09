@@ -11,7 +11,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         title,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
       ),
       backgroundColor: COLOR_WHITE,
       actions: [
@@ -28,7 +28,8 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: const Text(
             'Cần hỗ trợ?',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+                color: Colors.black, fontSize: 13, fontWeight: FontWeight.w100),
           ),
         ),
         PopupMenuButton(

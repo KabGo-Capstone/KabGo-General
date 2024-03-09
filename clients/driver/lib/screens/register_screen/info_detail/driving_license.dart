@@ -1,26 +1,20 @@
 import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
-import 'package:driver/constants/font.dart';
-import 'package:driver/data/data.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
-import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_license_after.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_license_before.dart';
 import 'package:driver/widgets/app_bar.dart';
-import 'package:driver/widgets/build_pick_date.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class IdPersonInfo extends StatefulWidget {
-  const IdPersonInfo({super.key});
+class DivingLicense extends StatefulWidget {
+  const DivingLicense({super.key});
 
   @override
-  State<IdPersonInfo> createState() => _IdPersonInfoState();
+  State<DivingLicense> createState() => _DivingLicenseState();
 }
 
-class _IdPersonInfoState extends State<IdPersonInfo> {
-  TextEditingController licenseDate = TextEditingController();
-  TextEditingController licenseDateController = TextEditingController();
+class _DivingLicenseState extends State<DivingLicense> {
   File? _image;
   String? selectedPlaceOfIssue;
 
@@ -42,14 +36,14 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                   children: [
                     Expanded(
                       child: Image.asset(
-                        'assets/images/register/person_info.png',
+                        'assets/images/register/diving_license.png',
                         height: 160,
                       ),
                     ),
                   ],
                 ),
                 buildText(
-                  'CMND / Thẻ Căn Cước / Hộ Chiếu',
+                  'Bằng lái xe',
                   kBlackColor,
                   18,
                   FontWeight.w600,
@@ -88,7 +82,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RemindIdBefore(),
+                                builder: (context) =>
+                                    const RemindDivingLicenseBefore(),
                               ),
                             );
                           },
@@ -161,7 +156,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RemindIdAfter(),
+                                builder: (context) =>
+                                    const RemindDivingLicenseAfter(),
                               ),
                             );
                           },
@@ -201,101 +197,6 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                       ],
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: DateInputField(
-                        controller: licenseDateController,
-                        labelText: 'Chọn ngày cấp *',
-                        onTap: () async {
-                          DateTime? selectedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          );
-                          if (selectedDate != null) {
-                            DateFormat dateFormat = DateFormat('dd/MM/yyyy');
-                            String formattedDate =
-                                dateFormat.format(selectedDate);
-                            licenseDateController.text = formattedDate;
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: selectedPlaceOfIssue,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedPlaceOfIssue = newValue!;
-                    });
-                  },
-                  items: placesOfIssue.map((place) {
-                    return DropdownMenuItem(
-                      value: place,
-                      child: Text(
-                        place,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w100),
-                      ),
-                    );
-                  }).toList(),
-                  decoration: InputDecoration(
-                    label: const Text('Nơi cấp*'),
-                    labelStyle: const TextStyle(fontSize: 14, color: kGrey0),
-                    filled: true,
-                    fillColor: kWhiteColor,
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 10.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                    ),
-                    errorStyle: const TextStyle(
-                      fontSize: textSmall,
-                      fontWeight: FontWeight.normal,
-                      color: kRed,
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(width: 1, color: kOrange),
-                    ),
-                    disabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(
-                          width: 0, color: Color.fromARGB(255, 192, 192, 192)),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      borderSide: BorderSide(width: 0, color: kGrey1),
-                    ),
-                    errorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        borderSide: BorderSide(width: 1, color: kRed)),
-                    focusedErrorBorder: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        borderSide: BorderSide(width: 1, color: kGrey1)),
-                    focusColor: kWhiteColor,
-                    hoverColor: kWhiteColor,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Vui lòng chọn quan hệ';
-                    }
-                    return null;
-                  },
-                  isExpanded: true,
-                  itemHeight: 50,
                 ),
               ],
             ),

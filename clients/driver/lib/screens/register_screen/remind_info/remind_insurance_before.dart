@@ -7,16 +7,17 @@ import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 
-class RemindPersonImage extends StatefulWidget {
+class RemindInsuranceBefore extends StatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
-  const RemindPersonImage({super.key});
+  const RemindInsuranceBefore({super.key});
 
   @override
-  State<RemindPersonImage> createState() => _RemindPersonImageState();
+  State<RemindInsuranceBefore> createState() =>
+      _RemindInsuranceBeforeBeforeState();
 }
 
-class _RemindPersonImageState extends State<RemindPersonImage> {
+class _RemindInsuranceBeforeBeforeState extends State<RemindInsuranceBefore> {
   void _setImage(File image) {
     setState(() {});
   }
@@ -46,7 +47,7 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,23 +57,11 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 120,
-                                height: 120,
+                                height: 100,
                                 child: Image.asset(
-                                    'assets/images/register/image_template1.jpg'),
-                              ),
-                              const SizedBox(
-                                  width: 50), // Khoảng cách giữa hai ảnh
-                              SizedBox(
-                                width: 120,
-                                height: 120,
-                                child: Image.asset(
-                                    'assets/images/register/image_template2.jpg'),
+                                    'assets/images/register/insurance_bf.JPG'),
                               ),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 10,
                           ),
                           const Center(
                             child: Text('Tài liệu mẫu'),
@@ -113,13 +102,13 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp với phông nền trơn'),
+                                  'Bảo hiểm còn hạn ít nhất 1 tháng và có thông tin trùng khớp với cà vẹt/đăng ký xe'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp từ phần thân trên, rõ nét, không lóa sáng'),
+                                  'Bảo hiểm có đầy đủ chữ ký, họ tên và người đại diện, dấu mộc của công ty bảo hiểm. Chấp nhận bảo hiểm điện tử'),
                               const SizedBox(height: 8),
                               buildBulletPoint(
-                                  'Ảnh nhận diện được chụp chính diện, nhìn thẳng, không nhắm mắt'),
+                                  'Trải dài tất cả các liên của bảo hiểm và chụp 2 mặt'),
                             ],
                           ),
                         ),
@@ -152,12 +141,10 @@ class _RemindPersonImageState extends State<RemindPersonImage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             buildBulletPoint(
-                                'Ảnh không được có thêm người, động vật hoặc các vật khác trong khung hình'),
+                                'Giấy tờ chụp đầy đủ thông tin, không mất góc'),
                             const SizedBox(height: 8),
                             buildBulletPoint(
-                                'Không đội mũ, không đeo khẩu trang, không đeo kính râm khi chụp ảnh'),
-                            const SizedBox(height: 8),
-                            buildBulletPoint('Không sử dụng ảnh thẻ'),
+                                'Không chụp ảnh qua màn hình hoặc sử dụng giấy tờ scan. Ảnh chụp rõ nét, không lóa sáng, không can thiệp chỉnh sửa'),
                           ],
                         ),
                       ),

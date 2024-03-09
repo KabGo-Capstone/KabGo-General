@@ -109,6 +109,28 @@ flutter:
         - assets/images/register/cardcredit.png
         - assets/images/register/person_info.png
         - assets/images/register/card.png
+        - assets/images/register/contact.png
+        - assets/images/register/bank.png
+        - assets/images/register/drive.png
+        - assets/images/register/before_id1.JPG
+        - assets/images/register/before_id2.JPG
+        - assets/images/register/after_id1.JPG
+        - assets/images/register/after_id2.JPG
+        - assets/images/register/diving_license.png
+        - assets/images/register/license_bf1.JPG
+        - assets/images/register/license_bf2.JPG
+        - assets/images/register/license_af1.JPG
+        - assets/images/register/license_af2.JPG
+        - assets/images/register/vehicle_front.JPG
+        - assets/images/register/vehicle_back.JPG
+        - assets/images/register/vehicle_right.JPG
+        - assets/images/register/vehicle_left.JPG
+        - assets/images/register/certificate_bf1.JPG
+        - assets/images/register/certificate_bf2.JPG
+        - assets/images/register/certificate_af1.JPG
+        - assets/images/register/certificate_af2.JPG
+        - assets/images/register/insurance_af.JPG
+        - assets/images/register/insurance_bf.JPG
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
