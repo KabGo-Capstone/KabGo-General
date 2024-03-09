@@ -1,5 +1,6 @@
 import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/arrivalLocationProvider.dart';
+import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,15 +8,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchArea extends ConsumerWidget {
   const SearchArea(
-      {Key? key,
+      {super.key,
+      required this.arrivalValue,
+      required this.departureValue,
       required this.departureSearchFocus,
       required this.departureSearchState,
       required this.departureSuggestionList,
       required this.arrivalSearchFocus,
       required this.arrivalSearchState,
       required this.arrivalSuggestionList,
-      required this.scrollToBottom})
-      : super(key: key);
+      required this.scrollToBottom,
+      
+      });
+  final String arrivalValue;
+  final String departureValue;
   final bool scrollToBottom;
   final Function(bool) departureSearchFocus;
   final Function(bool) departureSearchState;
@@ -26,12 +32,6 @@ class SearchArea extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String arrivalValue = '';
-    if (ref.read(arrivalLocationProvider).structuredFormatting != null) {
-      arrivalValue =
-          ref.read(arrivalLocationProvider).structuredFormatting!.mainText!;
-    }
-
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class SearchArea extends ConsumerWidget {
                       ),
                     ),
                     placeHolder: 'Nhập điểm đón...',
-                    value: 'Vị trí hiện tại',
+                    value: departureValue,
                     search: departureSearchState,
                     suggestionList: departureSuggestionList,
                   ),

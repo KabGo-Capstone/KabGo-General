@@ -96,15 +96,18 @@ class MapPicker extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Đinh Nguyễn Duy Khang',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.55,
+                  child: const Text(
+                    'Đinh Nguyễn Duy Khang',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16),
+                  ),
                 ),
                 const SizedBox(
-                  width: 30,
+                  width: 10,
                 ),
                 Expanded(
                   child: Column(

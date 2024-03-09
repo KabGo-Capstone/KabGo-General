@@ -4,6 +4,7 @@ import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
+import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/screens/search/search.dart';
 import 'package:customer/widgets/bottom_button.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,9 @@ class _DepartureLocationPickerState
   @override
   Widget build(BuildContext context) {
     LocationModel locationPicker = ref.watch(departureLocationProvider);
-
-
+    if (locationPicker.structuredFormatting == null) {
+      locationPicker = ref.read(currentLocationProvider);
+    }
     return Container(
       height: MediaQuery.of(context).size.height * 0.30,
       width: double.infinity,
@@ -161,10 +163,11 @@ class _DepartureLocationPickerState
           const Spacer(),
           BottomButton(
               backButton: () {
+                ref.read(stepProvider.notifier).setStep('default');
                 ref
                     .read(departureLocationProvider.notifier)
-                    .setDepartureLocation(ref.read(currentLocationProvider));
-                                ref
+                    .setDepartureLocation(LocationModel());
+                ref
                     .read(arrivalLocationProvider.notifier)
                     .setArrivalLocation(LocationModel());
 

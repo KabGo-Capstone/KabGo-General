@@ -11,12 +11,14 @@ class SuggestionArea extends ConsumerStatefulWidget {
     required this.findDeparture,
     required this.scrollController,
     required this.suggestionLocationList,
+    required this.departureChosen,
   }) : super(key: key);
 
   final bool searchState;
   final bool findDeparture;
   final ScrollController scrollController;
   final List<LocationModel> suggestionLocationList;
+  final Function departureChosen;
 
   @override
   _SuggestionAreaState createState() => _SuggestionAreaState();
@@ -38,7 +40,9 @@ class _SuggestionAreaState extends ConsumerState<SuggestionArea> {
               controller: widget.scrollController,
               child: widget.searchState
                   ? SearchSuggestions(
+                      findDeparture: widget.findDeparture,
                       suggestionLocationList: widget.suggestionLocationList,
+                      departureChosen: widget.departureChosen,
                     )
                   : RecentlySuggestions(widget.findDeparture))),
     );

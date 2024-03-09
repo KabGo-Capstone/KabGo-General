@@ -1,18 +1,13 @@
-import 'dart:io';
-
 import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/providers/mapProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/screens/create_route/components/arrival_location_picker.dart';
 import 'package:customer/screens/create_route/components/departure_location_picker.dart';
-import 'package:customer/widgets/bottom_button.dart';
 import 'package:customer/widgets/current_location_button.dart';
 import 'package:customer/screens/create_route/components/my_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CreateRoute extends ConsumerStatefulWidget {

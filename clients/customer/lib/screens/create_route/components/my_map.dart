@@ -150,6 +150,15 @@ class _MyMapState extends ConsumerState<MyMap> {
   @override
   Widget build(BuildContext context) {
     print('===========> MY_MAP BUILD');
+    if (ref.read(mapProvider) == 'arrival_location_picker') {
+      if (ref.read(arrivalLocationProvider).placeId != null) {
+        getArrivalLocation();
+      }
+    } else if (ref.read(mapProvider) == 'departure_location_picker') {
+      if (ref.read(departureLocationProvider).placeId != null) {
+        getDepartureLocation();
+      }
+    }
 
     return Consumer(
       builder: (context, ref, child) {
@@ -169,6 +178,14 @@ class _MyMapState extends ConsumerState<MyMap> {
           } else if (next == 'WAIT_DRIVER') {}
         });
         ref.read(mapProvider.notifier).setMapAction('');
+        if (!context.mounted) {
+          return Container(
+            height: 100,
+            decoration: const BoxDecoration(
+              color: Colors.red,
+            ),
+          );
+        }
 
         return GoogleMap(
           padding: EdgeInsets.fromLTRB(
