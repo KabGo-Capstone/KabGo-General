@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "277108377094",
+    "project_id": "kabgogeneral",
+    "storage_bucket": "kabgogeneral.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277108377094:android:61562b8c42e9983b86a587",
+        "android_client_info": {
+          "package_name": "com.example.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277108377094-8dq182he1fgngcnhemf79rste94c0glj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.driver",
+            "certificate_hash": "9fa6701653ea8f15cea03972bf0dfc9ee2092f32"
+          }
+        },
+        {
+          "client_id": "277108377094-up4it6m2aapsf1omos5nupr8fqi4l1tb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEaXho-_tdZW1-fFnD6gY2iidtQ2JXjU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277108377094-up4it6m2aapsf1omos5nupr8fqi4l1tb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

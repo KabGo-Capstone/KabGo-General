@@ -1,3 +1,4 @@
+import 'package:driver/constants/font.dart';
 import 'package:flutter/material.dart';
 import 'package:driver/constants/colors.dart';
 
@@ -17,6 +18,7 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown> {
   late String selectedCity;
+  bool isCitySelected = false;
   @override
   void initState() {
     super.initState();
@@ -35,13 +37,21 @@ class _CustomDropdownState extends State<CustomDropdown> {
           alignedDropdown: true,
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: selectedCity,
+              value: isCitySelected ? selectedCity : null,
               onChanged: (newValue) {
                 setState(() {
                   selectedCity = newValue!;
+                  isCitySelected = true;
                 });
               },
-              hint: const Text('Chọn giá trị'),
+              hint: const Text(
+                'Chọn thành phố',
+                style: TextStyle(
+                  fontSize: textMedium,
+                  color: Color(0xff8D9091),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
               itemHeight: 48, // Chiều cao của mỗi item trong dropdown
               items: widget.data.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

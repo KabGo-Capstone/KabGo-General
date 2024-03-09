@@ -21,6 +21,19 @@ class _SelectServiceState extends State<SelectService> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: COLOR_WHITE,
+        leading: Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            icon: Image.asset(
+              'assets/logo.png',
+              width: 100,
+              height: 100,
+            ),
+            onPressed: () {
+              // Xử lý khi nút trở về được bấm
+            },
+          ),
+        ),
         actions: [
           OutlinedButton(
             onPressed: () {
@@ -35,7 +48,10 @@ class _SelectServiceState extends State<SelectService> {
             ),
             child: const Text(
               'Cần hỗ trợ?',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w100),
             ),
           ),
           const SizedBox(
@@ -147,22 +163,35 @@ class _SelectServiceState extends State<SelectService> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
         child: ElevatedButton(
-          onPressed: () {
-            // Add your confirmation logic here
-            debugPrint('Xác nhận');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    InfoRegister(selectedService: selectedService),
-              ),
-            );
-          },
-          child: const Text(
+          onPressed: selectedService != 'Chọn 1 dịch vụ'
+              ? () {
+                  // Add your confirmation logic here
+                  debugPrint('Xác nhận');
+                  debugPrint(selectedService);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          InfoRegister(selectedService: selectedService),
+                    ),
+                  );
+                }
+              : null,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+              if (selectedService != 'Chọn 1 dịch vụ') {
+                return kOrange;
+              } else {
+                return const Color.fromARGB(255, 240, 240, 240);
+              }
+            }),
+          ),
+          child: Text(
             'Tiếp tục',
             style: TextStyle(
               fontSize: 16,
-              color: kOrange,
+              color:
+                  selectedService == 'Chọn 1 dịch vụ' ? kOrange : kWhiteColor,
               fontWeight: FontWeight.bold,
             ),
           ),

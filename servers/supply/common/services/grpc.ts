@@ -26,12 +26,12 @@ class GrpcServer {
         const credentials = ServerCredentials.createInsecure()
 
         this.server.bindAsync(
-            `0.0.0.0:${process.env.gRPC_PORT ?? 50052}`,
+            `0.0.0.0:${process.env.gRPC_PORT ?? 50053}`,
             credentials,
             () => {
                 Logger.info(
                     chalk.green(
-                        `gRPC server is running on port ${chalk.cyan(process.env.gRPC_PORT ?? 50052)}`
+                        `gRPC server is running on port ${chalk.cyan(process.env.gRPC_PORT ?? 50053)}`
                     )
                 )
             }

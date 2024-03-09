@@ -3,7 +3,7 @@ import 'package:driver/constants/font.dart';
 import 'package:flutter/material.dart';
 
 class BuildTextField extends StatelessWidget {
-  final String hint;
+  final String? hint;
   final TextEditingController? controller;
   final TextInputType inputType;
   final Widget? prefixIcon;
@@ -14,20 +14,27 @@ class BuildTextField extends StatelessWidget {
   final Color hintColor;
   final int? maxLength;
   final Function onChange;
+  final Function? validator;
+  final String? validatorString;
+  final String? labelText;
 
-  const BuildTextField(
-      {super.key,
-      required this.hint,
-      this.controller,
-      required this.inputType,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.obscureText = false,
-      this.enabled = true,
-      this.fillColor = Colors.white,
-      this.hintColor = const Color(0xff8D9091),
-      this.maxLength,
-      required this.onChange});
+  const BuildTextField({
+    super.key,
+    this.hint,
+    this.controller,
+    required this.inputType,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.obscureText = false,
+    this.enabled = true,
+    this.fillColor = Colors.white,
+    this.hintColor = const Color(0xff8D9091),
+    this.maxLength,
+    required this.onChange,
+    this.validatorString,
+    this.labelText,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,37 +42,37 @@ class BuildTextField extends StatelessWidget {
       onChanged: (value) {
         onChange(value);
       },
-      validator: (val) => val!.isEmpty ? 'required' : null,
+      validator: validator != null ? (value) => validator!(value) : null,
       keyboardType: inputType,
       obscureText: obscureText,
       maxLength: maxLength,
       maxLines: inputType == TextInputType.multiline ? 3 : 1,
       controller: controller,
-      enabled: enabled,
+      // enabled: enabled,
       decoration: InputDecoration(
-        counterText: "",
+        labelText: labelText,
+        labelStyle: const TextStyle(color: kGrey0, fontSize: 14),
+        counterText: '',
         fillColor: fillColor,
         filled: true,
         contentPadding: inputType == TextInputType.multiline
             ? const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10)
             : const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
         hintText: hint,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        // floatingLabelBehavior: FloatingLabelBehavior.always,
         hintStyle: TextStyle(
           fontSize: textMedium,
-          fontWeight: FontWeight.w300,
           color: hintColor,
         ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
         errorStyle: const TextStyle(
-          fontSize: textMedium,
-          fontWeight: FontWeight.normal,
+          fontSize: textSmall,
           color: kRed,
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          borderSide: BorderSide(width: 1, color: kPrimaryColor),
+          borderSide: BorderSide(width: 1, color: kOrange),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(5)),

@@ -21,7 +21,7 @@ Let's started !!
 **Step 1: Change directory to server directory**
 
 ```shell
-cd server
+cd servers
 ```
 
 **Step 2: Install package and generate protobuf**
@@ -94,7 +94,7 @@ sudo docker-compose up
 
 ---
 
-## Local Installation with docker compose
+## Local Installation without docker compose
 
 ### Generate protobuf and install without docker compose
 
@@ -103,7 +103,7 @@ sudo docker-compose up
 **Step 1: Change directory to server directory**
 
 ```shell
-cd server
+cd servers
 ```
 
 **Step 2: Install package and generate protobuf**
@@ -159,9 +159,9 @@ npm run <start-command>
 
 ### Services (Backend)
 
-> -   Demand Service: [https://demand.kabgo.mtech.id.vn](https://demand.kabgo.mtech.id.vn)
-> -   Supply Service: [https://supply.kabgo.mtech.id.vn](https://supply.kabgo.mtech.id.vn)
-> -   Admin Service: [https://admin.kabgo.mtech.id.vn](https://admin.kabgo.mtech.id.vn)
+> -   Demand Service: [https://demand.kabgo.mtech.id.vn/status](https://demand.kabgo.mtech.id.vn/status)
+> -   Supply Service: [https://supply.kabgo.mtech.id.vn/status](https://supply.kabgo.mtech.id.vn/status)
+> -   Admin Service: [https://admin.kabgo.mtech.id.vn/status](https://admin.kabgo.mtech.id.vn/status)
 
 ### Clients (Frontend)
 

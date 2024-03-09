@@ -20,6 +20,7 @@ export interface DriverInformation {
   id: string;
   firstName: string;
   lastName: string;
+  phoneNumber: string;
   password: string;
   dob: string;
   gender: string;
@@ -27,6 +28,8 @@ export interface DriverInformation {
   verified: boolean;
   avatar: string;
   email: string;
+  referralCode: string;
+  city: string;
 }
 
 export interface DriverList {
@@ -98,6 +101,7 @@ function createBaseDriverInformation(): DriverInformation {
     id: "",
     firstName: "",
     lastName: "",
+    phoneNumber: "",
     password: "",
     dob: "",
     gender: "",
@@ -105,6 +109,8 @@ function createBaseDriverInformation(): DriverInformation {
     verified: false,
     avatar: "",
     email: "",
+    referralCode: "",
+    city: "",
   };
 }
 
@@ -119,26 +125,35 @@ export const DriverInformation = {
     if (message.lastName !== "") {
       writer.uint32(26).string(message.lastName);
     }
+    if (message.phoneNumber !== "") {
+      writer.uint32(34).string(message.phoneNumber);
+    }
     if (message.password !== "") {
-      writer.uint32(34).string(message.password);
+      writer.uint32(42).string(message.password);
     }
     if (message.dob !== "") {
-      writer.uint32(42).string(message.dob);
+      writer.uint32(50).string(message.dob);
     }
     if (message.gender !== "") {
-      writer.uint32(50).string(message.gender);
+      writer.uint32(58).string(message.gender);
     }
     if (message.address !== "") {
-      writer.uint32(58).string(message.address);
+      writer.uint32(66).string(message.address);
     }
     if (message.verified === true) {
-      writer.uint32(64).bool(message.verified);
+      writer.uint32(72).bool(message.verified);
     }
     if (message.avatar !== "") {
-      writer.uint32(74).string(message.avatar);
+      writer.uint32(82).string(message.avatar);
     }
     if (message.email !== "") {
-      writer.uint32(82).string(message.email);
+      writer.uint32(90).string(message.email);
+    }
+    if (message.referralCode !== "") {
+      writer.uint32(98).string(message.referralCode);
+    }
+    if (message.city !== "") {
+      writer.uint32(106).string(message.city);
     }
     return writer;
   },
@@ -176,49 +191,70 @@ export const DriverInformation = {
             break;
           }
 
-          message.password = reader.string();
+          message.phoneNumber = reader.string();
           continue;
         case 5:
           if (tag !== 42) {
             break;
           }
 
-          message.dob = reader.string();
+          message.password = reader.string();
           continue;
         case 6:
           if (tag !== 50) {
             break;
           }
 
-          message.gender = reader.string();
+          message.dob = reader.string();
           continue;
         case 7:
           if (tag !== 58) {
             break;
           }
 
-          message.address = reader.string();
+          message.gender = reader.string();
           continue;
         case 8:
-          if (tag !== 64) {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.address = reader.string();
+          continue;
+        case 9:
+          if (tag !== 72) {
             break;
           }
 
           message.verified = reader.bool();
-          continue;
-        case 9:
-          if (tag !== 74) {
-            break;
-          }
-
-          message.avatar = reader.string();
           continue;
         case 10:
           if (tag !== 82) {
             break;
           }
 
+          message.avatar = reader.string();
+          continue;
+        case 11:
+          if (tag !== 90) {
+            break;
+          }
+
           message.email = reader.string();
+          continue;
+        case 12:
+          if (tag !== 98) {
+            break;
+          }
+
+          message.referralCode = reader.string();
+          continue;
+        case 13:
+          if (tag !== 106) {
+            break;
+          }
+
+          message.city = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -234,6 +270,7 @@ export const DriverInformation = {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       firstName: isSet(object.firstName) ? globalThis.String(object.firstName) : "",
       lastName: isSet(object.lastName) ? globalThis.String(object.lastName) : "",
+      phoneNumber: isSet(object.phoneNumber) ? globalThis.String(object.phoneNumber) : "",
       password: isSet(object.password) ? globalThis.String(object.password) : "",
       dob: isSet(object.dob) ? globalThis.String(object.dob) : "",
       gender: isSet(object.gender) ? globalThis.String(object.gender) : "",
@@ -241,6 +278,8 @@ export const DriverInformation = {
       verified: isSet(object.verified) ? globalThis.Boolean(object.verified) : false,
       avatar: isSet(object.avatar) ? globalThis.String(object.avatar) : "",
       email: isSet(object.email) ? globalThis.String(object.email) : "",
+      referralCode: isSet(object.referralCode) ? globalThis.String(object.referralCode) : "",
+      city: isSet(object.city) ? globalThis.String(object.city) : "",
     };
   },
 
@@ -254,6 +293,9 @@ export const DriverInformation = {
     }
     if (message.lastName !== "") {
       obj.lastName = message.lastName;
+    }
+    if (message.phoneNumber !== "") {
+      obj.phoneNumber = message.phoneNumber;
     }
     if (message.password !== "") {
       obj.password = message.password;
@@ -276,6 +318,12 @@ export const DriverInformation = {
     if (message.email !== "") {
       obj.email = message.email;
     }
+    if (message.referralCode !== "") {
+      obj.referralCode = message.referralCode;
+    }
+    if (message.city !== "") {
+      obj.city = message.city;
+    }
     return obj;
   },
 
@@ -287,6 +335,7 @@ export const DriverInformation = {
     message.id = object.id ?? "";
     message.firstName = object.firstName ?? "";
     message.lastName = object.lastName ?? "";
+    message.phoneNumber = object.phoneNumber ?? "";
     message.password = object.password ?? "";
     message.dob = object.dob ?? "";
     message.gender = object.gender ?? "";
@@ -294,6 +343,8 @@ export const DriverInformation = {
     message.verified = object.verified ?? false;
     message.avatar = object.avatar ?? "";
     message.email = object.email ?? "";
+    message.referralCode = object.referralCode ?? "";
+    message.city = object.city ?? "";
     return message;
   },
 };

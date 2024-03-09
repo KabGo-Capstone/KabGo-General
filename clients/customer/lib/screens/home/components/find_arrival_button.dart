@@ -18,14 +18,13 @@ class FindArrivalButton extends StatelessWidget {
               context,
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 300),
-                pageBuilder:
-                    (context, animation, secondaryAnimation) =>
-                        const Search(),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const Search(),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   const begin = Offset(0, 1);
                   const end = Offset(0, 0);
-    
+
                   final tween = Tween(begin: begin, end: end);
                   return SlideTransition(
                     position: tween.animate(animation),
@@ -42,8 +41,7 @@ class FindArrivalButton extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(255, 73, 73, 73)
-                    .withOpacity(0.2),
+                color: const Color.fromARGB(255, 73, 73, 73).withOpacity(0.2),
                 spreadRadius: 0,
                 blurRadius: 10,
                 offset: const Offset(0, 3),
@@ -66,7 +64,7 @@ class FindArrivalButton extends StatelessWidget {
                 child: const FaIcon(
                   FontAwesomeIcons.solidCircleDot,
                   size: 16,
-                  color: Color(0xffED6C66),
+                  color: Color(0xffFA4848),
                 ),
               ),
               const SizedBox(

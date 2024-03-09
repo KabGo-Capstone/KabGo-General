@@ -21,7 +21,7 @@ import { Layout, Menu, theme } from "antd";
 
 const { Sider } = Layout;
 
-const labels = ["Dashboard", "Admin", "Tài xế", "Khách hàng", "Service phương tiện", "Loại Phương Tiện", "Hóa Đơn"];
+const labels = ["Dashboard", "Admin", "Tài xế", "Khách hàng", "Loại Phương Tiện", "Hóa Đơn"];
 
 
 const items: MenuProps['items'] = [
@@ -29,7 +29,7 @@ const items: MenuProps['items'] = [
     UserOutlined,
     CarOutlined,
     UsergroupAddOutlined,
-    ShopOutlined,
+    // ShopOutlined,
     AppstoreOutlined,
     FileTextOutlined,
   ].map((icon, index) => ({
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
       <Menu
         theme="light"
         mode="inline"
-        defaultSelectedKeys={["4"]}
+        defaultSelectedKeys={["3"]}
         items={items}
       />
     </Sider>

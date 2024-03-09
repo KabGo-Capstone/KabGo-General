@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
+import 'package:driver/screens/register_screen/remind_info/remind_person_infor.dart';
+import 'package:driver/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PersonImage extends StatefulWidget {
@@ -12,34 +14,13 @@ class PersonImage extends StatefulWidget {
 
 class _PersonImageState extends State<PersonImage> {
   File? _image;
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: COLOR_WHITE,
-        actions: [
-          OutlinedButton(
-            onPressed: () {
-              print('Cần hỗ trợ');
-            },
-            style: ButtonStyle(
-              minimumSize: MaterialStateProperty.all(const Size(0, 0)),
-              padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5)),
-              side: MaterialStateProperty.all(const BorderSide(
-                  color: Color.fromARGB(255, 97, 97, 97), width: 0.7)),
-            ),
-            child: const Text(
-              'Cần hỗ trợ?',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          )
-        ],
-      ),
+      appBar: const AppBarCustom(title: ''),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusScope.of(context).unfocus(),
@@ -62,35 +43,83 @@ class _PersonImageState extends State<PersonImage> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 30,
-              ),
               Row(
+                children: [
+                  Image.asset(
+                    'assets/images/register/info_v1.png',
+                    width: screenWidth *
+                        0.8, // Đặt chiều rộng của ảnh là 80% chiều rộng màn hình
+                  ),
+                ],
+              ),
+              const Center(
+                  child: Text(
+                'Xin chào Vinh!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              )),
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FittedBox(
                     fit: BoxFit.contain,
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
+                      backgroundColor: Colors.grey[200],
                       radius: 64,
                       foregroundImage:
                           _image != null ? FileImage(_image!) : null,
-                      child: const Text(
-                        'Ảnh',
-                        style: TextStyle(fontSize: 24),
-                      ),
+                      child: _image == null
+                          ? const Icon(
+                              Icons.picture_in_picture_sharp,
+                              size: 50,
+                              color: COLOR_GRAY,
+                            )
+                          : null,
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
-                  TextButton(
-                    onPressed: () async {},
-                    child: const Text('Chọn 1 ảnh'),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // await pickImage(context: context, setImage: _setImage);
+                      // context.pushNamed('remind_person_image');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RemindPersonImage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Tải ảnh lên',
+                      style: TextStyle(color: COLOR_TEXT_MAIN),
+                    ),
                   ),
                 ],
               )
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+        child: ElevatedButton(
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(kOrange),
+          ),
+          child: const Text(
+            'Lưu',
+            style: TextStyle(
+              fontSize: 16,
+              color: kWhiteColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

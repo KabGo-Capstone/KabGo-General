@@ -1,58 +1,64 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import './index.css';
+import "./index.css";
 
-import App from './App';
+import App from "./App";
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
 
 import { store } from "~/store";
 import { ConfigProvider } from "antd";
-import {StyleProvider} from '@ant-design/cssinjs';
+import { StyleProvider } from "@ant-design/cssinjs";
 
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    gql,
+} from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5003/graph',
-  cache: new InMemoryCache(),
+    uri: `${process.env.REACT_APP_BACKEND_HOST ?? 'http://localhost:5003'}/graph`,
+    cache: new InMemoryCache(),
 });
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById("root") as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    {/* <Provider store={store}> */}
-      <ConfigProvider
-        theme={{
-          token: {
-            fontFamily: "Montserrat",
-            colorPrimary: '#F86C1D',
-            fontSize: 13
-          },
-          components: {
-            Button: {
-              colorPrimary: '#F86C1D',
-            },
-            Table: {
-              rowHoverBg: '#FFF4EF',
-            },
-          }
-        }}>
-          <StyleProvider hashPriority= "high">
-            <ApolloProvider client={client}>
-              <App />
-            </ApolloProvider>
-          </StyleProvider>
-      </ConfigProvider>
-    {/* </Provider> */}
-  </BrowserRouter>
+    <BrowserRouter>
+        {/* <Provider store={store}> */}
+        <ConfigProvider
+            theme={{
+                token: {
+                    fontFamily: "Montserrat",
+                    colorPrimary: "#F86C1D",
+                    fontSize: 13,
+                },
+                components: {
+                    Button: {
+                        colorPrimary: "#F86C1D",
+                    },
+                    Table: {
+                        rowHoverBg: "#FFF4EF",
+                    },
+                },
+            }}
+        >
+            <StyleProvider hashPriority="high">
+                <ApolloProvider client={client}>
+                    <App />
+                </ApolloProvider>
+            </StyleProvider>
+        </ConfigProvider>
+        {/* </Provider> */}
+    </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -46,7 +46,7 @@ const NavBar: React.FC = () => {
         <Button className="!w-8 !h-8 !flex !items-center !justify-center !bg-gray-200 !hover:bg-gray-400 !mr-5">
           <ReloadOutlined />
         </Button>
-        <Typography.Text className="!text-gray-500 !text-lg !ml-2 !font-bold">Admin</Typography.Text>
+        <Typography.Text className="!text-gray-500 !text-lg !ml-2 !font-bold">Tài Xế</Typography.Text>
       </div>
 
       <div className="flex items-center !gap-6">

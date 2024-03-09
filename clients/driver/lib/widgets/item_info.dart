@@ -22,9 +22,14 @@ class _ItemInfoState extends State<ItemInfo> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.title!,
-            style: const TextStyle(fontWeight: FontWeight.w500),
+          Expanded(
+            child: Text(
+              widget.title!,
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
           ),
           Row(
             children: [

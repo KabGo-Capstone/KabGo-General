@@ -1,4 +1,5 @@
 import 'package:customer/providers/app_language.dart';
+import 'package:customer/screens/create_route/create_route.dart';
 import 'package:customer/screens/home/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -70,13 +71,19 @@ class App extends ConsumerWidget {
           ),
         ),
         textTheme: ThemeData().textTheme.copyWith(
-              titleLarge: GoogleFonts.montserrat(color: const Color(0xffF86C1D), fontWeight: FontWeight.w600, fontSize: 18),
-              titleMedium: GoogleFonts.montserrat(color: const Color.fromARGB(255, 50, 50, 50), fontWeight: FontWeight.w700, fontSize: 16),
-              titleSmall: GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 18),
+              titleLarge:
+                  GoogleFonts.montserrat(color: const Color(0xffF86C1D), fontWeight: FontWeight.w600, fontSize: 18),
+              titleMedium: GoogleFonts.montserrat(
+                  color: const Color.fromARGB(255, 50, 50, 50), fontWeight: FontWeight.w700, fontSize: 16),
+              titleSmall:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 18),
 
-              bodySmall: GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w700, fontSize: 16),
-              bodyMedium: GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w500, fontSize: 14),
-              bodyLarge: GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 14),
+              bodySmall:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w700, fontSize: 16),
+              bodyMedium:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w500, fontSize: 14),
+              bodyLarge:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 14),
               headlineMedium: GoogleFonts.montserrat(
                 color: const Color.fromARGB(255, 70, 70, 70),
                 fontSize: 14,
@@ -112,6 +119,7 @@ class App extends ConsumerWidget {
       ),
       home: const Home(),
       // home: const Search(),
+      // home: const CreateRoute(),
     );
   }
 }
