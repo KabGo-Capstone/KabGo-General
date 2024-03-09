@@ -64,7 +64,7 @@ class ServiceApprovalController implements IController {
                 supply: supply,
             })
         }
-
+        
         return serviceApprovals
     }
 

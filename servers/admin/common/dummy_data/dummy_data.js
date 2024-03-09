@@ -101,6 +101,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     // Add more objects as needed
     {
@@ -120,6 +124,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },  
     {
         id: '3',
@@ -138,6 +146,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     {
         id: '4',
@@ -156,6 +168,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     {
         id: '5',
@@ -174,6 +190,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     {
         id: '6',
@@ -192,6 +212,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "229 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     {
         id: '7',
@@ -210,6 +234,10 @@ export const serviceApprovals = [
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
         currentAddress: "331 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
     {
         id: '8',
@@ -227,7 +255,11 @@ export const serviceApprovals = [
         vehicleImgBacksight: 'https://example.com',
         vehicleImgLeftsight: 'https://example.com',
         vehicleImgRightsight: 'https://example.com',
-        currentAddress: "335 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        currentAddress: "335 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",
+        vehicleRegistrationFrontsight: 'https://example.com',
+        vehicleRegistrationBacksight: 'https://example.com',
+        vehicleInsuranceFrontsight: 'https://example.com',
+        vehicleInsuranceBacksight: 'https://example.com',
     },
 ];
 
@@ -244,7 +276,8 @@ export const supplies = [
       verified: false,
       avatar: 'https://example.com',
       email: "nguyenducminh@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },
     {
       id: '2',
@@ -258,7 +291,8 @@ export const supplies = [
       verified: true,
       avatar: 'https://example.com',
       email: "khoanguyen@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },  
     {
       id: '3',
@@ -272,7 +306,8 @@ export const supplies = [
       verified: false,
       avatar: 'https://example.com',
       email: "huynguyen@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },
     {
        id: '4',
@@ -286,7 +321,8 @@ export const supplies = [
        verified: true,
        avatar: 'https://example.com',
        email: "khangdinh@gmail.com",
-       referralCode: '123'
+       referralCode: '123',
+       city: 'Thành phố Hồ Chí Minh'
     },
     {
        id: '5',
@@ -300,7 +336,8 @@ export const supplies = [
        verified: true,
        avatar: 'https://example.com',
        email: "thanhbui@gmail.com",
-       referralCode: '123'
+       referralCode: '123',
+       city: 'Thành phố Hồ Chí Minh'
     },
 ];
 

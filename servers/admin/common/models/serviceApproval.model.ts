@@ -18,6 +18,10 @@ export interface IServiceApproval {
     vehicleImgLeftsight: string,
     vehicleImgRightsight: string,
     currentAddress: string,
+    vehicleRegistrationFrontsight: string,
+    vehicleRegistrationBacksight: string,
+    vehicleInsuranceFrontsight: string,
+    vehicleInsuranceBacksight: string,
 }
 
 const ServiceApprovalSchema = new mongoose.Schema<IServiceApproval>(
@@ -38,6 +42,10 @@ const ServiceApprovalSchema = new mongoose.Schema<IServiceApproval>(
         vehicleImgLeftsight: { type: String },
         vehicleImgRightsight: { type: String },
         currentAddress: { type: String },
+        vehicleRegistrationFrontsight:{ type: String },
+        vehicleRegistrationBacksight: { type: String },
+        vehicleInsuranceFrontsight: { type: String },
+        vehicleInsuranceBacksight: { type: String },
     },
 )
 

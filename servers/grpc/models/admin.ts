@@ -12,15 +12,14 @@ import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "";
 
-export interface ReqUpdateUrlImage {
-  url: string;
+export interface ReqUpdateData {
   supplyID: string;
   property: string;
+  value: string;
 }
 
-export interface ReqUpdateCurrentAddress {
+export interface ReqCreateData {
   supplyID: string;
-  currentAddress: string;
 }
 
 export interface ServiceApprovalInformation {
@@ -40,6 +39,10 @@ export interface ServiceApprovalInformation {
   vehicleImgLeftsight: string;
   vehicleImgRightsight: string;
   currentAddress: string;
+  vehicleRegistrationFrontsight: string;
+  vehicleRegistrationBacksight: string;
+  vehicleInsuranceFrontsight: string;
+  vehicleInsuranceBacksight: string;
 }
 
 export interface ServiceInformation {
@@ -47,6 +50,22 @@ export interface ServiceInformation {
   name: string;
   description: string;
   basePrice: number;
+}
+
+export interface ReqCreateVehicleData {
+  supplyID: string;
+  name: string;
+  identityNumber: string;
+  color: string;
+  brand: string;
+}
+
+export interface VehicleInformation {
+  id: string;
+  name: string;
+  identityNumber: string;
+  color: string;
+  brand: string;
 }
 
 export interface ServiceApprovalList {
@@ -60,28 +79,28 @@ export interface ServiceList {
 export interface ServiceApprovalEmptyRequest {
 }
 
-function createBaseReqUpdateUrlImage(): ReqUpdateUrlImage {
-  return { url: "", supplyID: "", property: "" };
+function createBaseReqUpdateData(): ReqUpdateData {
+  return { supplyID: "", property: "", value: "" };
 }
 
-export const ReqUpdateUrlImage = {
-  encode(message: ReqUpdateUrlImage, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.url !== "") {
-      writer.uint32(10).string(message.url);
-    }
+export const ReqUpdateData = {
+  encode(message: ReqUpdateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.supplyID !== "") {
-      writer.uint32(18).string(message.supplyID);
+      writer.uint32(10).string(message.supplyID);
     }
     if (message.property !== "") {
-      writer.uint32(26).string(message.property);
+      writer.uint32(18).string(message.property);
+    }
+    if (message.value !== "") {
+      writer.uint32(26).string(message.value);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): ReqUpdateUrlImage {
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReqUpdateData {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseReqUpdateUrlImage();
+    const message = createBaseReqUpdateData();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -90,21 +109,21 @@ export const ReqUpdateUrlImage = {
             break;
           }
 
-          message.url = reader.string();
+          message.supplyID = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.supplyID = reader.string();
+          message.property = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.property = reader.string();
+          message.value = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -115,59 +134,56 @@ export const ReqUpdateUrlImage = {
     return message;
   },
 
-  fromJSON(object: any): ReqUpdateUrlImage {
+  fromJSON(object: any): ReqUpdateData {
     return {
-      url: isSet(object.url) ? globalThis.String(object.url) : "",
       supplyID: isSet(object.supplyID) ? globalThis.String(object.supplyID) : "",
       property: isSet(object.property) ? globalThis.String(object.property) : "",
+      value: isSet(object.value) ? globalThis.String(object.value) : "",
     };
   },
 
-  toJSON(message: ReqUpdateUrlImage): unknown {
+  toJSON(message: ReqUpdateData): unknown {
     const obj: any = {};
-    if (message.url !== "") {
-      obj.url = message.url;
-    }
     if (message.supplyID !== "") {
       obj.supplyID = message.supplyID;
     }
     if (message.property !== "") {
       obj.property = message.property;
     }
+    if (message.value !== "") {
+      obj.value = message.value;
+    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ReqUpdateUrlImage>, I>>(base?: I): ReqUpdateUrlImage {
-    return ReqUpdateUrlImage.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<ReqUpdateData>, I>>(base?: I): ReqUpdateData {
+    return ReqUpdateData.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ReqUpdateUrlImage>, I>>(object: I): ReqUpdateUrlImage {
-    const message = createBaseReqUpdateUrlImage();
-    message.url = object.url ?? "";
+  fromPartial<I extends Exact<DeepPartial<ReqUpdateData>, I>>(object: I): ReqUpdateData {
+    const message = createBaseReqUpdateData();
     message.supplyID = object.supplyID ?? "";
     message.property = object.property ?? "";
+    message.value = object.value ?? "";
     return message;
   },
 };
 
-function createBaseReqUpdateCurrentAddress(): ReqUpdateCurrentAddress {
-  return { supplyID: "", currentAddress: "" };
+function createBaseReqCreateData(): ReqCreateData {
+  return { supplyID: "" };
 }
 
-export const ReqUpdateCurrentAddress = {
-  encode(message: ReqUpdateCurrentAddress, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const ReqCreateData = {
+  encode(message: ReqCreateData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.supplyID !== "") {
       writer.uint32(10).string(message.supplyID);
-    }
-    if (message.currentAddress !== "") {
-      writer.uint32(18).string(message.currentAddress);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): ReqUpdateCurrentAddress {
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReqCreateData {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseReqUpdateCurrentAddress();
+    const message = createBaseReqCreateData();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -178,13 +194,6 @@ export const ReqUpdateCurrentAddress = {
 
           message.supplyID = reader.string();
           continue;
-        case 2:
-          if (tag !== 18) {
-            break;
-          }
-
-          message.currentAddress = reader.string();
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -194,31 +203,24 @@ export const ReqUpdateCurrentAddress = {
     return message;
   },
 
-  fromJSON(object: any): ReqUpdateCurrentAddress {
-    return {
-      supplyID: isSet(object.supplyID) ? globalThis.String(object.supplyID) : "",
-      currentAddress: isSet(object.currentAddress) ? globalThis.String(object.currentAddress) : "",
-    };
+  fromJSON(object: any): ReqCreateData {
+    return { supplyID: isSet(object.supplyID) ? globalThis.String(object.supplyID) : "" };
   },
 
-  toJSON(message: ReqUpdateCurrentAddress): unknown {
+  toJSON(message: ReqCreateData): unknown {
     const obj: any = {};
     if (message.supplyID !== "") {
       obj.supplyID = message.supplyID;
     }
-    if (message.currentAddress !== "") {
-      obj.currentAddress = message.currentAddress;
-    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ReqUpdateCurrentAddress>, I>>(base?: I): ReqUpdateCurrentAddress {
-    return ReqUpdateCurrentAddress.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<ReqCreateData>, I>>(base?: I): ReqCreateData {
+    return ReqCreateData.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ReqUpdateCurrentAddress>, I>>(object: I): ReqUpdateCurrentAddress {
-    const message = createBaseReqUpdateCurrentAddress();
+  fromPartial<I extends Exact<DeepPartial<ReqCreateData>, I>>(object: I): ReqCreateData {
+    const message = createBaseReqCreateData();
     message.supplyID = object.supplyID ?? "";
-    message.currentAddress = object.currentAddress ?? "";
     return message;
   },
 };
@@ -241,6 +243,10 @@ function createBaseServiceApprovalInformation(): ServiceApprovalInformation {
     vehicleImgLeftsight: "",
     vehicleImgRightsight: "",
     currentAddress: "",
+    vehicleRegistrationFrontsight: "",
+    vehicleRegistrationBacksight: "",
+    vehicleInsuranceFrontsight: "",
+    vehicleInsuranceBacksight: "",
   };
 }
 
@@ -293,6 +299,18 @@ export const ServiceApprovalInformation = {
     }
     if (message.currentAddress !== "") {
       writer.uint32(130).string(message.currentAddress);
+    }
+    if (message.vehicleRegistrationFrontsight !== "") {
+      writer.uint32(138).string(message.vehicleRegistrationFrontsight);
+    }
+    if (message.vehicleRegistrationBacksight !== "") {
+      writer.uint32(146).string(message.vehicleRegistrationBacksight);
+    }
+    if (message.vehicleInsuranceFrontsight !== "") {
+      writer.uint32(154).string(message.vehicleInsuranceFrontsight);
+    }
+    if (message.vehicleInsuranceBacksight !== "") {
+      writer.uint32(162).string(message.vehicleInsuranceBacksight);
     }
     return writer;
   },
@@ -416,6 +434,34 @@ export const ServiceApprovalInformation = {
 
           message.currentAddress = reader.string();
           continue;
+        case 17:
+          if (tag !== 138) {
+            break;
+          }
+
+          message.vehicleRegistrationFrontsight = reader.string();
+          continue;
+        case 18:
+          if (tag !== 146) {
+            break;
+          }
+
+          message.vehicleRegistrationBacksight = reader.string();
+          continue;
+        case 19:
+          if (tag !== 154) {
+            break;
+          }
+
+          message.vehicleInsuranceFrontsight = reader.string();
+          continue;
+        case 20:
+          if (tag !== 162) {
+            break;
+          }
+
+          message.vehicleInsuranceBacksight = reader.string();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -447,6 +493,18 @@ export const ServiceApprovalInformation = {
       vehicleImgLeftsight: isSet(object.vehicleImgLeftsight) ? globalThis.String(object.vehicleImgLeftsight) : "",
       vehicleImgRightsight: isSet(object.vehicleImgRightsight) ? globalThis.String(object.vehicleImgRightsight) : "",
       currentAddress: isSet(object.currentAddress) ? globalThis.String(object.currentAddress) : "",
+      vehicleRegistrationFrontsight: isSet(object.vehicleRegistrationFrontsight)
+        ? globalThis.String(object.vehicleRegistrationFrontsight)
+        : "",
+      vehicleRegistrationBacksight: isSet(object.vehicleRegistrationBacksight)
+        ? globalThis.String(object.vehicleRegistrationBacksight)
+        : "",
+      vehicleInsuranceFrontsight: isSet(object.vehicleInsuranceFrontsight)
+        ? globalThis.String(object.vehicleInsuranceFrontsight)
+        : "",
+      vehicleInsuranceBacksight: isSet(object.vehicleInsuranceBacksight)
+        ? globalThis.String(object.vehicleInsuranceBacksight)
+        : "",
     };
   },
 
@@ -500,6 +558,18 @@ export const ServiceApprovalInformation = {
     if (message.currentAddress !== "") {
       obj.currentAddress = message.currentAddress;
     }
+    if (message.vehicleRegistrationFrontsight !== "") {
+      obj.vehicleRegistrationFrontsight = message.vehicleRegistrationFrontsight;
+    }
+    if (message.vehicleRegistrationBacksight !== "") {
+      obj.vehicleRegistrationBacksight = message.vehicleRegistrationBacksight;
+    }
+    if (message.vehicleInsuranceFrontsight !== "") {
+      obj.vehicleInsuranceFrontsight = message.vehicleInsuranceFrontsight;
+    }
+    if (message.vehicleInsuranceBacksight !== "") {
+      obj.vehicleInsuranceBacksight = message.vehicleInsuranceBacksight;
+    }
     return obj;
   },
 
@@ -524,6 +594,10 @@ export const ServiceApprovalInformation = {
     message.vehicleImgLeftsight = object.vehicleImgLeftsight ?? "";
     message.vehicleImgRightsight = object.vehicleImgRightsight ?? "";
     message.currentAddress = object.currentAddress ?? "";
+    message.vehicleRegistrationFrontsight = object.vehicleRegistrationFrontsight ?? "";
+    message.vehicleRegistrationBacksight = object.vehicleRegistrationBacksight ?? "";
+    message.vehicleInsuranceFrontsight = object.vehicleInsuranceFrontsight ?? "";
+    message.vehicleInsuranceBacksight = object.vehicleInsuranceBacksight ?? "";
     return message;
   },
 };
@@ -628,6 +702,244 @@ export const ServiceInformation = {
     message.name = object.name ?? "";
     message.description = object.description ?? "";
     message.basePrice = object.basePrice ?? 0;
+    return message;
+  },
+};
+
+function createBaseReqCreateVehicleData(): ReqCreateVehicleData {
+  return { supplyID: "", name: "", identityNumber: "", color: "", brand: "" };
+}
+
+export const ReqCreateVehicleData = {
+  encode(message: ReqCreateVehicleData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.supplyID !== "") {
+      writer.uint32(10).string(message.supplyID);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    if (message.identityNumber !== "") {
+      writer.uint32(26).string(message.identityNumber);
+    }
+    if (message.color !== "") {
+      writer.uint32(34).string(message.color);
+    }
+    if (message.brand !== "") {
+      writer.uint32(42).string(message.brand);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReqCreateVehicleData {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseReqCreateVehicleData();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.supplyID = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.identityNumber = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.color = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.brand = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ReqCreateVehicleData {
+    return {
+      supplyID: isSet(object.supplyID) ? globalThis.String(object.supplyID) : "",
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      identityNumber: isSet(object.identityNumber) ? globalThis.String(object.identityNumber) : "",
+      color: isSet(object.color) ? globalThis.String(object.color) : "",
+      brand: isSet(object.brand) ? globalThis.String(object.brand) : "",
+    };
+  },
+
+  toJSON(message: ReqCreateVehicleData): unknown {
+    const obj: any = {};
+    if (message.supplyID !== "") {
+      obj.supplyID = message.supplyID;
+    }
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.identityNumber !== "") {
+      obj.identityNumber = message.identityNumber;
+    }
+    if (message.color !== "") {
+      obj.color = message.color;
+    }
+    if (message.brand !== "") {
+      obj.brand = message.brand;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ReqCreateVehicleData>, I>>(base?: I): ReqCreateVehicleData {
+    return ReqCreateVehicleData.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ReqCreateVehicleData>, I>>(object: I): ReqCreateVehicleData {
+    const message = createBaseReqCreateVehicleData();
+    message.supplyID = object.supplyID ?? "";
+    message.name = object.name ?? "";
+    message.identityNumber = object.identityNumber ?? "";
+    message.color = object.color ?? "";
+    message.brand = object.brand ?? "";
+    return message;
+  },
+};
+
+function createBaseVehicleInformation(): VehicleInformation {
+  return { id: "", name: "", identityNumber: "", color: "", brand: "" };
+}
+
+export const VehicleInformation = {
+  encode(message: VehicleInformation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    if (message.identityNumber !== "") {
+      writer.uint32(26).string(message.identityNumber);
+    }
+    if (message.color !== "") {
+      writer.uint32(34).string(message.color);
+    }
+    if (message.brand !== "") {
+      writer.uint32(42).string(message.brand);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): VehicleInformation {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseVehicleInformation();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.identityNumber = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.color = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.brand = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): VehicleInformation {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      identityNumber: isSet(object.identityNumber) ? globalThis.String(object.identityNumber) : "",
+      color: isSet(object.color) ? globalThis.String(object.color) : "",
+      brand: isSet(object.brand) ? globalThis.String(object.brand) : "",
+    };
+  },
+
+  toJSON(message: VehicleInformation): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.identityNumber !== "") {
+      obj.identityNumber = message.identityNumber;
+    }
+    if (message.color !== "") {
+      obj.color = message.color;
+    }
+    if (message.brand !== "") {
+      obj.brand = message.brand;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<VehicleInformation>, I>>(base?: I): VehicleInformation {
+    return VehicleInformation.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<VehicleInformation>, I>>(object: I): VehicleInformation {
+    const message = createBaseVehicleInformation();
+    message.id = object.id ?? "";
+    message.name = object.name ?? "";
+    message.identityNumber = object.identityNumber ?? "";
+    message.color = object.color ?? "";
+    message.brand = object.brand ?? "";
     return message;
   },
 };
@@ -809,32 +1121,32 @@ export const AdminService = {
     responseSerialize: (value: ServiceList) => Buffer.from(ServiceList.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ServiceList.decode(value),
   },
-  uploadUrlImage: {
-    path: "/Admin/uploadUrlImage",
+  createServiceApproval: {
+    path: "/Admin/createServiceApproval",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: ReqUpdateUrlImage) => Buffer.from(ReqUpdateUrlImage.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => ReqUpdateUrlImage.decode(value),
+    requestSerialize: (value: ReqCreateData) => Buffer.from(ReqCreateData.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ReqCreateData.decode(value),
     responseSerialize: (value: ServiceApprovalInformation) =>
       Buffer.from(ServiceApprovalInformation.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
   },
-  /**
-   * rpc uploadDriverLicenseBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadPersonalImg(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgLeftsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgRightsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   */
-  updateCurrentAddress: {
-    path: "/Admin/updateCurrentAddress",
+  createVehicleInformation: {
+    path: "/Admin/createVehicleInformation",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: ReqUpdateCurrentAddress) => Buffer.from(ReqUpdateCurrentAddress.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => ReqUpdateCurrentAddress.decode(value),
+    requestSerialize: (value: ReqCreateVehicleData) => Buffer.from(ReqCreateVehicleData.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ReqCreateVehicleData.decode(value),
+    responseSerialize: (value: ServiceApprovalInformation) =>
+      Buffer.from(ServiceApprovalInformation.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
+  },
+  updateServiceApproval: {
+    path: "/Admin/updateServiceApproval",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: ReqUpdateData) => Buffer.from(ReqUpdateData.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ReqUpdateData.decode(value),
     responseSerialize: (value: ServiceApprovalInformation) =>
       Buffer.from(ServiceApprovalInformation.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
@@ -843,18 +1155,9 @@ export const AdminService = {
 
 export interface AdminServer extends UntypedServiceImplementation {
   getServices: handleUnaryCall<ServiceApprovalEmptyRequest, ServiceList>;
-  uploadUrlImage: handleUnaryCall<ReqUpdateUrlImage, ServiceApprovalInformation>;
-  /**
-   * rpc uploadDriverLicenseBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadPersonalImg(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgLeftsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgRightsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   */
-  updateCurrentAddress: handleUnaryCall<ReqUpdateCurrentAddress, ServiceApprovalInformation>;
+  createServiceApproval: handleUnaryCall<ReqCreateData, ServiceApprovalInformation>;
+  createVehicleInformation: handleUnaryCall<ReqCreateVehicleData, ServiceApprovalInformation>;
+  updateServiceApproval: handleUnaryCall<ReqUpdateData, ServiceApprovalInformation>;
 }
 
 export interface AdminClient extends Client {
@@ -873,42 +1176,47 @@ export interface AdminClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ServiceList) => void,
   ): ClientUnaryCall;
-  uploadUrlImage(
-    request: ReqUpdateUrlImage,
+  createServiceApproval(
+    request: ReqCreateData,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
   ): ClientUnaryCall;
-  uploadUrlImage(
-    request: ReqUpdateUrlImage,
+  createServiceApproval(
+    request: ReqCreateData,
     metadata: Metadata,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
   ): ClientUnaryCall;
-  uploadUrlImage(
-    request: ReqUpdateUrlImage,
+  createServiceApproval(
+    request: ReqCreateData,
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
   ): ClientUnaryCall;
-  /**
-   * rpc uploadDriverLicenseBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadPersonalImg(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadIdentityImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgLeftsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   * rpc uploadVehicleImgRightsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-   */
-  updateCurrentAddress(
-    request: ReqUpdateCurrentAddress,
+  createVehicleInformation(
+    request: ReqCreateVehicleData,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
   ): ClientUnaryCall;
-  updateCurrentAddress(
-    request: ReqUpdateCurrentAddress,
+  createVehicleInformation(
+    request: ReqCreateVehicleData,
     metadata: Metadata,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
   ): ClientUnaryCall;
-  updateCurrentAddress(
-    request: ReqUpdateCurrentAddress,
+  createVehicleInformation(
+    request: ReqCreateVehicleData,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateServiceApproval(
+    request: ReqUpdateData,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateServiceApproval(
+    request: ReqUpdateData,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateServiceApproval(
+    request: ReqUpdateData,
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,

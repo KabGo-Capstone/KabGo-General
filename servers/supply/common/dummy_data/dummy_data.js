@@ -11,7 +11,8 @@ export const supplies = [
       verified: false,
       avatar: 'https://example.com',
       email: "nguyenducminh@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },
     {
       id: '2',
@@ -25,7 +26,8 @@ export const supplies = [
       verified: true,
       avatar: 'https://example.com',
       email: "khoanguyen@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },  
     {
       id: '3',
@@ -39,7 +41,8 @@ export const supplies = [
       verified: false,
       avatar: 'https://example.com',
       email: "huynguyen@gmail.com",
-      referralCode: '123'
+      referralCode: '123',
+      city: 'Thành phố Hồ Chí Minh'
     },
     {
        id: '4',
@@ -53,7 +56,8 @@ export const supplies = [
        verified: true,
        avatar: 'https://example.com',
        email: "khangdinh@gmail.com",
-       referralCode: '123'
+       referralCode: '123',
+       city: 'Thành phố Hồ Chí Minh'
     },
     {
        id: '5',
@@ -67,6 +71,7 @@ export const supplies = [
        verified: true,
        avatar: 'https://example.com',
        email: "thanhbui@gmail.com",
-       referralCode: '123'
+       referralCode: '123',
+       city: 'Thành phố Hồ Chí Minh'
     },
 ];

@@ -47,7 +47,6 @@ class MulterCloudinaryUploader {
                     })
                     .then((result: UploadApiResponse) => {
                         req.cloudinaryResult = result
-                        console.log('aaa', result)
                         next()
                     })
                     .catch((err) => next(err))
@@ -56,13 +55,17 @@ class MulterCloudinaryUploader {
         }
     }
 
+    public multiple(fieldName: string, maxCount: number = 10) {
+        return this.upload.array(fieldName, maxCount);
+    }
+
     private dataUri(req: Request) {
         const dUri = new DatauriParser()
         return req.file
             ? dUri.format(
-                  path.extname(req.file.originalname).toString(),
-                  req.file.buffer
-              )
+                path.extname(req.file.originalname).toString(),
+                req.file.buffer
+            )
             : null
     }
 

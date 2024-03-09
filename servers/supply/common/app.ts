@@ -25,6 +25,7 @@ import { ConfigOptions } from 'cloudinary'
 import Logger from './utils/logger'
 import gRPC from './services/grpc'
 import DemandStub from './services/demand.service'
+import AdminStub from './services/admin.service'
 
 type MongoConnection = {
     uri: string
@@ -192,6 +193,7 @@ class Application {
 
                 gRPC.start()
 
+                AdminStub.client()
                 DemandStub.client()
 
                 socketIO.init(server)

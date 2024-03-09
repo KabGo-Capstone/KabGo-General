@@ -1,12 +1,12 @@
 import {
-    ReqUpdateUrlImage,
-    ReqUpdateCurrentAddress,
     ServiceApprovalInformation,
-    ServiceInformation,
-    ServiceApprovalList,
     ServiceList,
     ServiceApprovalEmptyRequest,
-    AdminClient
+    AdminClient,
+    ReqUpdateData,
+    ReqCreateData,
+    VehicleInformation,
+    ReqCreateVehicleData
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -19,7 +19,7 @@ class AdminStub {
 
     private constructor() {
         this.adminsStub = new AdminClient(
-            `${process.env.ADMIN_GRPC_CLIENT_HOST ?? '127.0.0.1'}:${process.env.ADMIN_GRPC_CLIENT_PORT ?? 50052}`,
+            `${process.env.ADMIN_GRPC_CLIENT_HOST ?? '127.0.0.1'}:${process.env.ADMIN_GRPC_CLIENT_PORT ?? 50053}`,
             grpc.credentials.createInsecure()
         )
 
@@ -31,7 +31,7 @@ class AdminStub {
                 console.log(`Client connect error: ${error.message}`)
             } else {
                 Logger.info(
-                    chalk.green('Connect to supply grpc server successfully')
+                    chalk.green('Connect to admin grpc server successfully')
                 )
                 this.test()
             }
@@ -62,15 +62,15 @@ class AdminStub {
         })
     }
 
-    public uploadUrlImage(url: string, supplyID: string, property: string) {
+    public createServiceApproval(
+        supplyID: string,
+    ) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
-            const message = ReqUpdateUrlImage.create({
-                url: url,
+            const message = ReqCreateData.create({
                 supplyID: supplyID,
-                property: property
             })
 
-            this.adminsStub.uploadUrlImage(
+            this.adminsStub.createServiceApproval(
                 message,
                 (err: any, data: ServiceApprovalInformation) => {
                     if (err) {
@@ -85,14 +85,47 @@ class AdminStub {
         })
     }
 
-    public updateCurrentAddress(supplyID: string, currentAddress: string) {
+    public createVehicleInformation(
+        supplyID: string,
+        name: string,
+        identityNumber: string,
+        color: string,
+        brand: string,
+    ) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
-            const message = ReqUpdateCurrentAddress.create({
+            const message = ReqCreateVehicleData.create({
                 supplyID: supplyID,
-                currentAddress: currentAddress
+                name: name,
+                identityNumber: identityNumber,
+                color: color,
+                brand: brand,
             })
 
-            this.adminsStub.updateCurrentAddress(
+            this.adminsStub.createVehicleInformation(
+                message,
+                (err: any, data: ServiceApprovalInformation) => {
+                    if (err) {
+                        reject(err)
+                        Logger.error(err)
+                    } else {
+                        resolve(data)
+                        // console.log(data)
+                    }
+                }
+            )
+        })
+    }
+
+
+    public updateServiceApproval(supplyID: string, property: string, value: string) {
+        return new Promise<ServiceApprovalInformation>((resolve, reject) => {
+            const message = ReqUpdateData.create({
+                supplyID: supplyID,
+                property: property,
+                value: value
+            })
+
+            this.adminsStub.updateServiceApproval(
                 message,
                 (err: any, data: ServiceApprovalInformation) => {
                     if (err) {

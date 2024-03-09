@@ -29,6 +29,7 @@ export interface DriverInformation {
   avatar: string;
   email: string;
   referralCode: string;
+  city: string;
 }
 
 export interface DriverList {
@@ -109,6 +110,7 @@ function createBaseDriverInformation(): DriverInformation {
     avatar: "",
     email: "",
     referralCode: "",
+    city: "",
   };
 }
 
@@ -149,6 +151,9 @@ export const DriverInformation = {
     }
     if (message.referralCode !== "") {
       writer.uint32(98).string(message.referralCode);
+    }
+    if (message.city !== "") {
+      writer.uint32(106).string(message.city);
     }
     return writer;
   },
@@ -244,6 +249,13 @@ export const DriverInformation = {
 
           message.referralCode = reader.string();
           continue;
+        case 13:
+          if (tag !== 106) {
+            break;
+          }
+
+          message.city = reader.string();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -267,6 +279,7 @@ export const DriverInformation = {
       avatar: isSet(object.avatar) ? globalThis.String(object.avatar) : "",
       email: isSet(object.email) ? globalThis.String(object.email) : "",
       referralCode: isSet(object.referralCode) ? globalThis.String(object.referralCode) : "",
+      city: isSet(object.city) ? globalThis.String(object.city) : "",
     };
   },
 
@@ -308,6 +321,9 @@ export const DriverInformation = {
     if (message.referralCode !== "") {
       obj.referralCode = message.referralCode;
     }
+    if (message.city !== "") {
+      obj.city = message.city;
+    }
     return obj;
   },
 
@@ -328,6 +344,7 @@ export const DriverInformation = {
     message.avatar = object.avatar ?? "";
     message.email = object.email ?? "";
     message.referralCode = object.referralCode ?? "";
+    message.city = object.city ?? "";
     return message;
   },
 };

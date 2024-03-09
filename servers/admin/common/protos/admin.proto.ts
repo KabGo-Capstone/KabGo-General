@@ -1,13 +1,15 @@
 import {
-    ReqUpdateUrlImage,
-    ReqUpdateCurrentAddress,
     ServiceApprovalInformation,
     ServiceInformation,
     ServiceApprovalList,
     ServiceList,
     ServiceApprovalEmptyRequest,
     AdminClient,
-    AdminServer
+    AdminServer,
+    ReqUpdateData,
+    ReqCreateData,
+    VehicleInformation,
+    ReqCreateVehicleData
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -27,6 +29,7 @@ class AdminService implements AdminServer {
         call: grpc.ServerUnaryCall<ServiceApprovalEmptyRequest, ServiceList>,
         callback: grpc.sendUnaryData<ServiceList>
     ) {
+
         const SERVICES = await getServiceData();
         const service = SERVICES;
 
@@ -48,12 +51,110 @@ class AdminService implements AdminServer {
         }
     }
 
-
-    public async uploadUrlImage(
-        call: grpc.ServerUnaryCall<ReqUpdateUrlImage, ServiceApprovalInformation>,
+    public async createServiceApproval(
+        call: grpc.ServerUnaryCall<ReqCreateData, ServiceApprovalInformation>,
         callback: grpc.sendUnaryData<ServiceApprovalInformation>
     ) {
+
+        let SERVICEAPPROVALS = await getServiceApprovalData();
+
+        const maxId = Math.max(...SERVICEAPPROVALS.map(el => parseInt(el.id)))
+
+        await ServiceApprovalModel.create({
+            id: (maxId + 1).toString(),
+            supplyID: call.request.supplyID,
+            serviceID: "1",
+            vehicleID: "",
+            status: "pending",
+            createdDate: new Date().toDateString(),
+            driverLicenseFrontsight: "",
+            driverLicenseBacksight: "",
+            personalImg: "",
+            identityImgFrontsight: "",
+            identityImgBacksight: "",
+            vehicleImgFrontsight: "",
+            vehicleImgBacksight: "",
+            vehicleImgLeftsight: "",
+            vehicleImgRightsight: "",
+            currentAddress: "",
+            vehicleRegistrationFrontsight: "",
+            vehicleRegistrationBacksight: "",
+            vehicleInsuranceFrontsight: "",
+            vehicleInsuranceBacksight: "",
+        })
+
+        SERVICEAPPROVALS = await getServiceApprovalData();
+
+        const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
+            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+        )
+
+        const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
+
+        if (serviceApprovalIndex !== -1) {
+            callback(null, ServiceApprovalInformation.create(serviceApproval))
+        } else {
+            callback(
+                {
+                    message: 'Service approval not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+
+    }
+
+    public async createVehicleInformation(
+        call: grpc.ServerUnaryCall<ReqCreateVehicleData, ServiceApprovalInformation>,
+        callback: grpc.sendUnaryData<ServiceApprovalInformation>
+    ) {
+
+        let VEHICLES = await getVehicleData();
+
+        const maxId = Math.max(...VEHICLES.map(el => parseInt(el.id)))
+
+        await VehicleModel.create({
+            id: (maxId + 1).toString(),
+            name: call.request.name,
+            identityNumber: call.request.identityNumber,
+            color: call.request.color,
+            brand: call.request.brand,
+        })
+
+        await ServiceApprovalModel.updateOne({ supplyID: call.request.supplyID }, { vehicleID: (maxId + 1).toString() })
+
+        console.log(call.request.supplyID)
         const SERVICEAPPROVALS = await getServiceApprovalData();
+
+        const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
+            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+        )
+
+        const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
+
+        if (serviceApprovalIndex !== -1) {
+            callback(null, ServiceApprovalInformation.create(serviceApproval))
+        } else {
+            callback(
+                {
+                    message: 'Service approval not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+
+    }
+
+
+    public async updateServiceApproval(
+        call: grpc.ServerUnaryCall<ReqUpdateData, ServiceApprovalInformation>,
+        callback: grpc.sendUnaryData<ServiceApprovalInformation>
+    ) {
+
+        const SERVICEAPPROVALS = await getServiceApprovalData();
+
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
             (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
         )
@@ -61,8 +162,8 @@ class AdminService implements AdminServer {
         const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
 
         await ServiceApprovalModel.updateOne(
-            { supplyID: call.request.supplyID }, 
-            { [call.request.property]: call.request.url }
+            { supplyID: call.request.supplyID },
+            { [call.request.property]: call.request.value }
         );
         // driver.verified = true
 
@@ -79,35 +180,6 @@ class AdminService implements AdminServer {
         }
     }
 
-    public async updateCurrentAddress(
-        call: grpc.ServerUnaryCall<ReqUpdateCurrentAddress, ServiceApprovalInformation>,
-        callback: grpc.sendUnaryData<ServiceApprovalInformation>
-    ) {
-        const SERVICEAPPROVALS = await getServiceApprovalData();
-        const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
-            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
-        )
-
-        const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
-
-        await ServiceApprovalModel.updateOne(
-            { supplyID: call.request.supplyID }, 
-            { currentAddress: call.request.currentAddress }
-        );
-        // driver.verified = true
-
-        if (serviceApprovalIndex !== -1) {
-            callback(null, ServiceApprovalInformation.create(serviceApproval))
-        } else {
-            callback(
-                {
-                    message: 'Service approval not found',
-                    code: grpc.status.INVALID_ARGUMENT,
-                },
-                null
-            )
-        }
-    }
 
 }
 

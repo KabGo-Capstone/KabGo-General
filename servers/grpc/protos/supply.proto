@@ -17,6 +17,7 @@ message DriverInformation {
 	string avatar = 10;
 	string email = 11;
 	string referralCode = 12;
+	string city = 13;
 }
 
 message DriverList {

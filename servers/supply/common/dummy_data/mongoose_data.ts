@@ -16,7 +16,8 @@ export const getSupplies = async () => {
             verified: getDriver[i].verified,
             avatar: getDriver[i].avatar,
             email: getDriver[i].email,
-            referralCode: getDriver[i].referralCode
+            referralCode: getDriver[i].referralCode,
+            city: getDriver[i].city
         })
     }
     return DRIVERS;

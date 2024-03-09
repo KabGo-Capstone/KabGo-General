@@ -1,14 +1,13 @@
 syntax = "proto3";
 
-message ReqUpdateUrlImage{
-    string url = 1;
-    string supplyID = 2;
-    string property = 3;
+message ReqUpdateData{
+    string supplyID = 1;
+    string property = 2;
+    string value = 3;
 }
 
-message ReqUpdateCurrentAddress{
+message ReqCreateData{
     string supplyID = 1;
-    string currentAddress = 2;
 }
 
 message ServiceApprovalInformation {
@@ -28,6 +27,10 @@ message ServiceApprovalInformation {
     string vehicleImgLeftsight = 14;
     string vehicleImgRightsight = 15;
     string currentAddress = 16;
+    string vehicleRegistrationFrontsight = 17;
+    string vehicleRegistrationBacksight = 18;
+    string vehicleInsuranceFrontsight = 19;
+    string vehicleInsuranceBacksight = 20;
 }
 
 message ServiceInformation {
@@ -35,6 +38,22 @@ message ServiceInformation {
     string name = 2;
     string description = 3;
     double basePrice = 4;
+}
+
+message ReqCreateVehicleData{
+    string supplyID = 1;
+    string name = 2;
+    string identityNumber = 3;
+    string color = 4;
+    string brand = 5;
+}
+
+message VehicleInformation {
+    string id = 1;
+    string name = 2;
+    string identityNumber = 3;
+    string color = 4;
+    string brand = 5;
 }
 
 message ServiceApprovalList {
@@ -51,14 +70,7 @@ message ServiceApprovalEmptyRequest {
 
 service Admin {
 	rpc getServices(ServiceApprovalEmptyRequest) returns (ServiceList);
-    rpc uploadUrlImage(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadDriverLicenseBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadPersonalImg(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadIdentityImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadIdentityImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadVehicleImgFrontsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadVehicleImgBacksight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadVehicleImgLeftsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    // rpc uploadVehicleImgRightsight(ReqUpdateUrlImage) returns (ServiceApprovalInformation);
-    rpc updateCurrentAddress(ReqUpdateCurrentAddress) returns (ServiceApprovalInformation);
+    rpc createServiceApproval(ReqCreateData) returns (ServiceApprovalInformation);
+    rpc createVehicleInformation(ReqCreateVehicleData) returns (ServiceApprovalInformation);
+    rpc updateServiceApproval(ReqUpdateData) returns (ServiceApprovalInformation);
 }

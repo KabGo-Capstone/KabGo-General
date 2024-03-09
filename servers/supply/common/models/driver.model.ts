@@ -13,7 +13,8 @@ export interface IDriver {
     verified: boolean,
     avatar: string,
     email: string,
-    referralCode: string
+    referralCode: string,
+    city: string
 }
 
 const DriverSchema = new mongoose.Schema<IDriver>(
@@ -30,6 +31,7 @@ const DriverSchema = new mongoose.Schema<IDriver>(
         avatar: { type: String },
         email: { type: String },
         referralCode: { type: String },
+        city: { type: String },
     },
 
 )
