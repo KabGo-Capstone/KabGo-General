@@ -1,46 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LoginHeader extends StatelessWidget {
-  const LoginHeader({super.key});
-
+class LoginTitle extends StatelessWidget {
+  const LoginTitle({super.key});
   @override
   Widget build(BuildContext context) {
-    double aspectRatio = (MediaQuery.of(context).size.height) / MediaQuery.of(context).size.width;
-
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (MediaQuery.of(context).size.height >= 820)
-          AspectRatio(
-            aspectRatio: 1 / (aspectRatio * 0.12),
-            child: Image.asset(
-              'assets/logo-only.png',
-              fit: BoxFit.contain,
+        Text(
+          'KabGo Driver - Partner',
+          style: GoogleFonts.montserratAlternates(
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        const SizedBox(
-          height: 18,
-        ),
-        Text(
-          'KabGo Driver',
-          style: TextStyle(
-            fontSize: 28,
-            color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.bold,
-          ),
         ),
         const SizedBox(
-          height: 10,
+          height: 14,
         ),
-        Text(
-          'Nâng tầm trải nghiệm \nMở rộng cơ hội tìm kiếm thu nhập',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            height: 1.35,
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 300),
+          child: RichText(
+            text: TextSpan(
+              style: GoogleFonts.montserrat(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 35,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              text: 'Drive and ',
+              children: [
+                TextSpan(
+                  text: 'earn',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const TextSpan(
+                  text: ' with KabGo.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        )
       ],
     );
   }

@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+message ReqUpdateData{
+    string supplyID = 1;
+    string property = 2;
+    string value = 3;
+}
+
+message ReqCreateData{
+    string supplyID = 1;
+}
+
+message ServiceApprovalInformation {
+    string id = 1;
+    string supplyID = 2;
+    string serviceID = 3;
+    string vehicleID = 4;
+    string status = 5;
+    string createdDate = 6;
+    string driverLicenseFrontsight = 7;
+    string driverLicenseBacksight = 8;
+    string personalImg = 9;
+    string identityImgFrontsight = 10;
+    string identityImgBacksight = 11;
+    string vehicleImgFrontsight = 12;
+    string vehicleImgBacksight = 13;
+    string vehicleImgLeftsight = 14;
+    string vehicleImgRightsight = 15;
+    string currentAddress = 16;
+    string vehicleRegistrationFrontsight = 17;
+    string vehicleRegistrationBacksight = 18;
+    string vehicleInsuranceFrontsight = 19;
+    string vehicleInsuranceBacksight = 20;
+}
+
+message ServiceInformation {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    double basePrice = 4;
+}
+
+message ReqCreateVehicleData{
+    string supplyID = 1;
+    string name = 2;
+    string identityNumber = 3;
+    string color = 4;
+    string brand = 5;
+}
+
+message VehicleInformation {
+    string id = 1;
+    string name = 2;
+    string identityNumber = 3;
+    string color = 4;
+    string brand = 5;
+}
+
+message ServiceApprovalList {
+	repeated ServiceApprovalInformation serviceApprovals = 1;
+}
+
+message ServiceList {
+	repeated ServiceInformation services = 1;
+}
+
+message ServiceApprovalEmptyRequest {
+
+}
+
+service Admin {
+	rpc getServices(ServiceApprovalEmptyRequest) returns (ServiceList);
+    rpc createServiceApproval(ReqCreateData) returns (ServiceApprovalInformation);
+    rpc createVehicleInformation(ReqCreateVehicleData) returns (ServiceApprovalInformation);
+    rpc updateServiceApproval(ReqUpdateData) returns (ServiceApprovalInformation);
+}

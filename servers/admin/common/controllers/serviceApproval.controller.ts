@@ -6,7 +6,7 @@ import catchAsync from '../utils/catch.error'
 import DTOValidation from '../middlewares/validation.middleware'
 import UserDTO from '../dtos/user.example.dto'
 import Jwt, { JsonWebToken } from '../utils/jwt'
-// import GMailer from '../services/mailer.builder'
+import GMailer from '../services/mailer.builder'
 import cacheMiddleware from '../middlewares/cache.middleware'
 import redis from '../services/redis'
 import MulterCloudinaryUploader from '../multer'
@@ -14,12 +14,20 @@ import Logger from '../utils/logger'
 import * as DummyData from '../dummy_data/dummy_data'
 import SupplyStub from '../services/supply.service'
 
-const serviceApprovalData = DummyData.serviceApprovals
-const vehicleData = DummyData.vehicles
-const serviceData = DummyData.services
+import ServiceApprovalModel from '../models/serviceApproval.model'
+import ServiceModel from '../models/service.model'
+import VehicleModel from '../models/vehicle.model'
+
+import { getServiceApprovalData } from '../dummy_data/service_approval_data'
+import { getServiceData } from '../dummy_data/service_data'
+import { getVehicleData } from '../dummy_data/vehicle_data'
+
+// const serviceApprovalData = DummyData.serviceApprovals
+// const vehicleData = DummyData.vehicles
+// const serviceData = DummyData.services
 const supplyClient = SupplyStub.client()
 
-class DriverController implements IController {
+class ServiceApprovalController implements IController {
     readonly path: string = '/driver/approval'
     readonly router: Router = Router()
 
@@ -31,10 +39,15 @@ class DriverController implements IController {
             '/:id',
             catchAsync(this.deleteDriverApproval.bind(this))
         )
-        // this.router.post('/create', catchAsync(this.createDriver))
+        this.router.get('/create-db', catchAsync(this.createDB))
+        this.router.get('/delete-db', catchAsync(this.deleteDB))
     }
 
     private async getDetailsServiceApproval() {
+
+        const serviceApprovalData = await getServiceApprovalData();
+        const vehicleData = await getVehicleData();
+        const serviceData = await getServiceData();
         const serviceApprovals = []
 
         for await (const service of serviceApprovalData) {
@@ -51,7 +64,7 @@ class DriverController implements IController {
                 supply: supply,
             })
         }
-
+        
         return serviceApprovals
     }
 
@@ -70,14 +83,31 @@ class DriverController implements IController {
         res: Response,
         next: NextFunction
     ) {
+        const serviceApprovalData = await getServiceApprovalData();
+        const vehicleData = await getVehicleData();
+        const serviceData = await getServiceData();
+
         const approvalIndex = serviceApprovalData.findIndex(
             (el) => el.id === req.params.id
         )
-        serviceApprovalData[approvalIndex].status = 'approved'
+
+        await ServiceApprovalModel.updateOne({ id: req.params.id }, { status: 'approved' });
+        // serviceApprovalData[approvalIndex].status = 'approved'
 
         const supplyVerivied = await supplyClient.verify(
             serviceApprovalData[approvalIndex].supplyID
         )
+
+        const supply = await supplyClient.findById(serviceApprovalData[approvalIndex].supplyID)
+
+       
+        if(supply && supply.email!== '') {
+            await GMailer.sendMail({
+                to: supply.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Hồ sơ hợp lệ, bạn đã trở thành đối tác của chúng tôi</h3>',
+            });
+        }
 
         return res.status(200).json({
             data: {
@@ -100,14 +130,30 @@ class DriverController implements IController {
         res: Response,
         next: NextFunction
     ) {
+        const serviceApprovalData = await getServiceApprovalData();
+        const vehicleData = await getVehicleData();
+        const serviceData = await getServiceData();
+
         const approvalIndex = serviceApprovalData.findIndex(
             (el) => el.id === req.params.id
         )
-        serviceApprovalData[approvalIndex].status = 'pending'
+        await ServiceApprovalModel.updateOne({ id: req.params.id }, { status: 'pending' });
+        // serviceApprovalData[approvalIndex].status = 'pending'
 
         const supplyUnVerivied = await supplyClient.unverify(
             serviceApprovalData[approvalIndex].supplyID
         )
+
+        const supply = await supplyClient.findById(serviceApprovalData[approvalIndex].supplyID)
+
+       
+        if(supply && supply.email!== '') {
+            await GMailer.sendMail({
+                to: supply.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Hồ sơ không hợp lệ, bạn vui lòng thử lại sau</h3>',
+            });
+        }
 
         return res.status(200).json({
             data: {
@@ -130,32 +176,54 @@ class DriverController implements IController {
         res: Response,
         next: NextFunction
     ) {
+        const serviceApprovalData = await getServiceApprovalData();
         const index = serviceApprovalData.findIndex(
             (data) => data.id === req.params.id
         )
 
-        serviceApprovalData.splice(index, 1)
+        await ServiceApprovalModel.deleteOne({ id: req.params.id });
+
+        // serviceApprovalData.splice(index, 1)
 
         const serviceApprovals = await this.getDetailsServiceApproval()
 
         return res.status(200).json({ data: serviceApprovals })
     }
 
-    private async createDriver(
+    private async createDB(
         req: Request,
         res: Response,
         next: NextFunction
     ) {
-        const supplyData = (await supplyClient.find()).drivers
-
-        const createData = {
-            id: String(supplyData.length + 1),
-            ...req.body,
+        for await (const serviceApproval of DummyData.serviceApprovals) {
+            await ServiceApprovalModel.create(serviceApproval);
         }
 
-        supplyData.push(createData)
-        return res.status(200).json({ data: supplyData })
+        for await (const service of DummyData.services) {
+            await ServiceModel.create(service);
+        }
+
+        for await (const vehicle of DummyData.vehicles) {
+            await VehicleModel.create(vehicle);
+        }
+
+        return res.status(200).json({ data: 'Create data successfully' })
+    }
+
+    private async deleteDB(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+
+        await ServiceApprovalModel.deleteMany();
+
+        await ServiceModel.deleteMany();
+
+        await VehicleModel.deleteMany();
+
+        return res.status(200).json({ data: 'Delete data successfully' })
     }
 }
 
-export default new DriverController()
+export default new ServiceApprovalController()

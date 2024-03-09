@@ -21,7 +21,7 @@ Let's started !!
 **Step 1: Change directory to server directory**
 
 ```shell
-cd server
+cd servers
 ```
 
 **Step 2: Install package and generate protobuf**
@@ -94,7 +94,7 @@ sudo docker-compose up
 
 ---
 
-## Local Installation with docker compose
+## Local Installation without docker compose
 
 ### Generate protobuf and install without docker compose
 
@@ -103,7 +103,7 @@ sudo docker-compose up
 **Step 1: Change directory to server directory**
 
 ```shell
-cd server
+cd servers
 ```
 
 **Step 2: Install package and generate protobuf**

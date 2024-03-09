@@ -8,10 +8,10 @@ class WButton extends StatelessWidget {
   final Widget? label;
   final Widget? child;
   final ButtonStyle? style;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const WButton({
-    Key? key, // Thêm dòng này
+    super.key, // Thêm dòng này
     this.width,
     this.height,
     this.radius,
@@ -21,7 +21,7 @@ class WButton extends StatelessWidget {
     this.child,
     this.style,
     required this.onPressed, // Thay đổi dòng này
-  }) : super(key: key); // Thêm dòng này
+  }); // Thêm dòng này
   // const WButton({super.key, this.width, this.height, this.radius, this.shadow, this.icon, this.label, this.child, this.style, required this.onPressed});
 
   @override

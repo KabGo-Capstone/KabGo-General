@@ -6,7 +6,6 @@ export interface IUser {
     id?: string
     avatar?: string
     username?: string
-
     firstname: string
     lastname: string
     password: string

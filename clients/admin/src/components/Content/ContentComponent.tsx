@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Input, Layout, theme } from "antd";
-import { Space, Table, Tag } from "antd";
+import { Space, Table, Tag, message } from "antd";
 import type { InputRef, TableProps } from "antd";
 import axiosClient from "~/utils/axiosClient";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const ContentComponent: React.FC = () => {
   const [disApproveDriver, { data: disApprove_mutation_data, loading: disApprove_mutation_loading, error: disApprove_mutation_error}] = useMutation(QUERY.DISAPPROVE_DRIVER);
   const [deleteServiceApproval, {data: delete_mutation_data, loading: delete_mutation_loading, error: delete_mutation_error}] = useMutation(QUERY.DELETE_SERVICE_APPROVAL);
  
-  const [myData, setData] = useState<IDriver[]>([]);
+  const [dataSource, setDataSource] = useState<IDriver[]>([]);
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState<string>('');
@@ -168,13 +168,19 @@ const ContentComponent: React.FC = () => {
       dataIndex: "address",
       key: "address",
       ...getColumnSearchProps('address'),
-      width: "23%",
+      width: "28%",
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      ...getColumnSearchProps('status'),
+      filters: [
+        { text: 'Đã duyệt', value: 'approved' },
+        { text: 'Chờ xử lý', value: 'pending' },
+      ],
+      onFilter: (value: any, record) => {
+        return record.status === value;
+      },
       render: (_, record) => (
         <Tag color={record.status === "approved" ? 'green' : 'blue'} className="!text-sm !p-1.5 !pl-3 !pr-3">
           {record?.status === "approved" ? "Đã duyệt" : "Chờ xử lý"}
@@ -186,18 +192,18 @@ const ContentComponent: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <div className="!flex gap-2">
-          {/* {record.status === "approved" ? <Button className="!w-1/3" onClick={() => handleDisapprove(record)}>
+          {record.status === "approved" ? <Button style={{ width: '80px'}} onClick={() => handleDisapprove(record)}>
             Hủy
           </Button> :
-            <Button className="!w-1/3" onClick={() => handleVerify(record)}>
+            <Button style={{ width: '80px'}} className="!bg-green-600 !border-transparent !text-white !hover:bg-green-700" onClick={() => handleVerify(record)}>
               Duyệt
             </Button >}
 
-          <Button className="!w-1/3 !bg-red-500 !text-white !hover:bg-red-700" onClick={() => handleDelete(record)}>
+          <Button style={{ width: '80px'}} className="!bg-red-500 !text-white !border-transparent" onClick={() => handleDelete(record)}>
             Xóa
-          </Button> */}
+          </Button>
 
-          {record.status === "approved" ? <Button style={{ width: '80px'}} onClick={() => handleDisapproveByGraph(record)}>
+          {/* {record.status === "approved" ? <Button style={{ width: '80px'}} onClick={() => handleDisapproveByGraph(record)}>
             Hủy
           </Button> :
             <Button style={{ width: '80px'}} className="!bg-green-600 !border-transparent !text-white !hover:bg-green-700" onClick={() => handleVerifyByGraph(record)}>
@@ -206,7 +212,7 @@ const ContentComponent: React.FC = () => {
 
           <Button style={{ width: '80px'}} className="!bg-red-500 !text-white !border-transparent" onClick={() => handleDeleteByGraph(record)}>
             Xóa
-          </Button>
+          </Button> */}
        
 
           <Button onClick={() => {
@@ -226,12 +232,12 @@ const ContentComponent: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, [loading]);
+  }, []);
 
   const fetchData = async () => {
     try {
-      // updateData();
-      updateDataByGraph();
+      updateData();
+      // updateDataByGraph();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -240,8 +246,19 @@ const ContentComponent: React.FC = () => {
   const updateDataByGraph = async () => {
     try {
       const response: any = await refetch();
-      if (response.data) setData(response.data.serviceApprovals);
-      console.log('response: ', response);
+      if (!error && response.data) {
+        setTimeout(() => {
+          setIsTableLoading(false);
+          message.success({
+            content: 'Dữ liệu được tải hoàn tất!',
+            style: {
+              fontFamily: 'Montserrat',
+              fontSize: 16,
+            }
+          }, 1.2);
+        setDataSource(response.data.serviceApprovals);
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -249,6 +266,7 @@ const ContentComponent: React.FC = () => {
 
   const handleVerifyByGraph = async (record: IDriver) => {
     try {
+        setIsTableLoading(true);
         await approveDriver({variables: {
             service_approval_id: record.id,
           }
@@ -261,6 +279,7 @@ const ContentComponent: React.FC = () => {
 
   const handleDisapproveByGraph = async (record: IDriver) => {
     try {
+      setIsTableLoading(true);
       await disApproveDriver({variables: {
         service_approval_id: record.id,
         }
@@ -273,6 +292,7 @@ const ContentComponent: React.FC = () => {
 
   const handleDeleteByGraph = async (record: IDriver) => {
     try {
+      setIsTableLoading(true);
       await deleteServiceApproval({variables: {
         service_approval_id: record.id,
         }
@@ -287,7 +307,19 @@ const ContentComponent: React.FC = () => {
   const updateData = async () => {
     try {
       const response = await axiosClient.get("/v1/driver/approval");
-      setData(response.data);
+      if (response.data) {
+        setTimeout(() => {
+          setIsTableLoading(false);
+          message.success({
+            content: 'Dữ liệu được tải hoàn tất!',
+            style: {
+              fontFamily: 'Montserrat',
+              fontSize: 16,
+            }
+          }, 1.2);
+            setDataSource(response.data);
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error updating data:", error);
     }
@@ -295,7 +327,8 @@ const ContentComponent: React.FC = () => {
 
   const handleDelete = async (record: IDriver) => {
     try {
-      await axiosClient.delete("/v1/driver/approval/" + record?.supply?.id);
+      setIsTableLoading(true);
+      await axiosClient.delete("/v1/driver/approval/" + record?.id);
       updateData();
     } catch (error) {
       console.error("Error delete driver:", error);
@@ -304,6 +337,7 @@ const ContentComponent: React.FC = () => {
 
   const handleVerify = async (record: IDriver) => {
     try {
+      setIsTableLoading(true);
       await axiosClient.post("/v1/driver/approval/approve/" + record?.id);
       updateData();
     } catch (error) {
@@ -313,6 +347,7 @@ const ContentComponent: React.FC = () => {
 
   const handleDisapprove = async (record: IDriver) => {
     try {
+      setIsTableLoading(true);
       await axiosClient.patch("/v1/driver/approval/disapprove/" + record?.id);
       updateData();
     } catch (error) {
@@ -321,31 +356,28 @@ const ContentComponent: React.FC = () => {
   };
 
 
-  return data ? (
-    <Content
-      style={{ overflow: "initial" }}
-      className="!mt-4 !mb-0 !mx-3.5 !p-0"
-    >
+  return <Content style={{ overflow: "initial" }} className="!mt-4 !mb-0 !mx-3.5 !p-0">
       <div
         style={{
           padding: 24,
           textAlign: "center",
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
-        }}
-      >
-        {
-          data ?
-            <Table
-              columns={columns}
-              dataSource={myData}
-              // loading = {isTableLoading}
-            /> : <p>loading</p>
-        }
-
+        }}>
+          <Table
+            columns={columns}
+            dataSource={dataSource}
+            loading = {isTableLoading}
+            pagination={{
+              total: dataSource.length,
+              pageSize: 6,
+              showSizeChanger: false, // Turn off feature to change page size
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+            }}
+          /> 
       </div>
     </Content>
-  ) : <p>loading...</p>;
+  
 };
 
 export default ContentComponent;

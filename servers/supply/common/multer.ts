@@ -34,6 +34,7 @@ class MulterCloudinaryUploader {
 
     public uploadCloud(folder: string = 'images') {
         return async (req: Request, res: Response, next: NextFunction) => {
+
             const fileStream = this.dataUri(req)
 
             if (req.file && fileStream) {
@@ -54,13 +55,17 @@ class MulterCloudinaryUploader {
         }
     }
 
+    public multiple(fieldName: string, maxCount: number = 10) {
+        return this.upload.array(fieldName, maxCount);
+    }
+
     private dataUri(req: Request) {
         const dUri = new DatauriParser()
         return req.file
             ? dUri.format(
-                  path.extname(req.file.originalname).toString(),
-                  req.file.buffer
-              )
+                path.extname(req.file.originalname).toString(),
+                req.file.buffer
+            )
             : null
     }
 

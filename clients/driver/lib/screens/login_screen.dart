@@ -1,9 +1,8 @@
-import 'package:driver/configs/router.dart';
 import 'package:driver/screens/register_screen/register_screen.dart';
-import 'package:driver/widgets/login_screen/carousel/carousel.dart';
 import 'package:driver/widgets/login_screen/footer/footer.dart';
 import 'package:driver/widgets/login_screen/header/header.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatelessWidget {
   static const path = '/login';
@@ -13,30 +12,28 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
-      color: Colors.white,
-      padding:
-          EdgeInsets.symmetric(vertical: MediaQuery.of(context).padding.top),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/images/login/background.png'),
+            fit: BoxFit.cover),
+      ),
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Spacer(),
-              if (screenHeight >= 720) const LoginHeader(),
-              const Carousel(),
-              if (screenHeight < 880) const Spacer(),
-              if (screenHeight >= 880) const SizedBox(height: 30),
-              LoginFooter(
-                onRegisterPressed: () {
-                  // Chuyển sang trang đăng ký khi nút được nhấn
-                  router.push(RegisterScreen.path);
-                },
-              ),
-              if (screenHeight >= 880) const Spacer(),
+              const Spacer(flex: 2),
+              const LoginTitle(),
+              const Spacer(flex: 4),
+              LoginFooter(onRegisterPressed: () {
+                Future.delayed(const Duration(milliseconds: 250), () {
+                  context.pushNamed(RegisterScreen.name);
+                });
+              }),
+              const Spacer()
             ],
           ),
         ),
