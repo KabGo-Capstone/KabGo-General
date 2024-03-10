@@ -6,7 +6,8 @@ import {
     ReqUpdateData,
     ReqCreateData,
     VehicleInformation,
-    ReqCreateVehicleData
+    ReqCreateVehicleData,
+    ReqUpdateIdentityInfo
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -126,6 +127,29 @@ class AdminStub {
             })
 
             this.adminsStub.updateServiceApproval(
+                message,
+                (err: any, data: ServiceApprovalInformation) => {
+                    if (err) {
+                        reject(err)
+                        Logger.error(err)
+                    } else {
+                        resolve(data)
+                        // console.log(data)
+                    }
+                }
+            )
+        })
+    }
+
+    public updateIdentityInfo(supplyID: string, identityDate: string, identityLocation: string) {
+        return new Promise<ServiceApprovalInformation>((resolve, reject) => {
+            const message = ReqUpdateIdentityInfo.create({
+                supplyID: supplyID,
+                identityDate: identityDate,
+                identityLocation: identityLocation
+            })
+
+            this.adminsStub.updateIdentityInfo(
                 message,
                 (err: any, data: ServiceApprovalInformation) => {
                     if (err) {

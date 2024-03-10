@@ -105,6 +105,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     // Add more objects as needed
     {
@@ -128,6 +130,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },  
     {
         id: '3',
@@ -150,6 +154,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     {
         id: '4',
@@ -172,6 +178,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     {
         id: '5',
@@ -194,6 +202,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     {
         id: '6',
@@ -216,6 +226,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     {
         id: '7',
@@ -238,6 +250,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
     {
         id: '8',
@@ -260,6 +274,8 @@ export const serviceApprovals = [
         vehicleRegistrationBacksight: 'https://example.com',
         vehicleInsuranceFrontsight: 'https://example.com',
         vehicleInsuranceBacksight: 'https://example.com',
+        identityDate: '',
+        identityLocation: ''
     },
 ];
 

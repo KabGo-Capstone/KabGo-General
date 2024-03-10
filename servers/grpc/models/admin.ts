@@ -18,6 +18,12 @@ export interface ReqUpdateData {
   value: string;
 }
 
+export interface ReqUpdateIdentityInfo {
+  supplyID: string;
+  identityDate: string;
+  identityLocation: string;
+}
+
 export interface ReqCreateData {
   supplyID: string;
 }
@@ -43,6 +49,8 @@ export interface ServiceApprovalInformation {
   vehicleRegistrationBacksight: string;
   vehicleInsuranceFrontsight: string;
   vehicleInsuranceBacksight: string;
+  identityDate: string;
+  identityLocation: string;
 }
 
 export interface ServiceInformation {
@@ -168,6 +176,95 @@ export const ReqUpdateData = {
   },
 };
 
+function createBaseReqUpdateIdentityInfo(): ReqUpdateIdentityInfo {
+  return { supplyID: "", identityDate: "", identityLocation: "" };
+}
+
+export const ReqUpdateIdentityInfo = {
+  encode(message: ReqUpdateIdentityInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.supplyID !== "") {
+      writer.uint32(10).string(message.supplyID);
+    }
+    if (message.identityDate !== "") {
+      writer.uint32(18).string(message.identityDate);
+    }
+    if (message.identityLocation !== "") {
+      writer.uint32(26).string(message.identityLocation);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ReqUpdateIdentityInfo {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseReqUpdateIdentityInfo();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.supplyID = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.identityDate = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.identityLocation = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ReqUpdateIdentityInfo {
+    return {
+      supplyID: isSet(object.supplyID) ? globalThis.String(object.supplyID) : "",
+      identityDate: isSet(object.identityDate) ? globalThis.String(object.identityDate) : "",
+      identityLocation: isSet(object.identityLocation) ? globalThis.String(object.identityLocation) : "",
+    };
+  },
+
+  toJSON(message: ReqUpdateIdentityInfo): unknown {
+    const obj: any = {};
+    if (message.supplyID !== "") {
+      obj.supplyID = message.supplyID;
+    }
+    if (message.identityDate !== "") {
+      obj.identityDate = message.identityDate;
+    }
+    if (message.identityLocation !== "") {
+      obj.identityLocation = message.identityLocation;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ReqUpdateIdentityInfo>, I>>(base?: I): ReqUpdateIdentityInfo {
+    return ReqUpdateIdentityInfo.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ReqUpdateIdentityInfo>, I>>(object: I): ReqUpdateIdentityInfo {
+    const message = createBaseReqUpdateIdentityInfo();
+    message.supplyID = object.supplyID ?? "";
+    message.identityDate = object.identityDate ?? "";
+    message.identityLocation = object.identityLocation ?? "";
+    return message;
+  },
+};
+
 function createBaseReqCreateData(): ReqCreateData {
   return { supplyID: "" };
 }
@@ -247,6 +344,8 @@ function createBaseServiceApprovalInformation(): ServiceApprovalInformation {
     vehicleRegistrationBacksight: "",
     vehicleInsuranceFrontsight: "",
     vehicleInsuranceBacksight: "",
+    identityDate: "",
+    identityLocation: "",
   };
 }
 
@@ -311,6 +410,12 @@ export const ServiceApprovalInformation = {
     }
     if (message.vehicleInsuranceBacksight !== "") {
       writer.uint32(162).string(message.vehicleInsuranceBacksight);
+    }
+    if (message.identityDate !== "") {
+      writer.uint32(170).string(message.identityDate);
+    }
+    if (message.identityLocation !== "") {
+      writer.uint32(178).string(message.identityLocation);
     }
     return writer;
   },
@@ -462,6 +567,20 @@ export const ServiceApprovalInformation = {
 
           message.vehicleInsuranceBacksight = reader.string();
           continue;
+        case 21:
+          if (tag !== 170) {
+            break;
+          }
+
+          message.identityDate = reader.string();
+          continue;
+        case 22:
+          if (tag !== 178) {
+            break;
+          }
+
+          message.identityLocation = reader.string();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -505,6 +624,8 @@ export const ServiceApprovalInformation = {
       vehicleInsuranceBacksight: isSet(object.vehicleInsuranceBacksight)
         ? globalThis.String(object.vehicleInsuranceBacksight)
         : "",
+      identityDate: isSet(object.identityDate) ? globalThis.String(object.identityDate) : "",
+      identityLocation: isSet(object.identityLocation) ? globalThis.String(object.identityLocation) : "",
     };
   },
 
@@ -570,6 +691,12 @@ export const ServiceApprovalInformation = {
     if (message.vehicleInsuranceBacksight !== "") {
       obj.vehicleInsuranceBacksight = message.vehicleInsuranceBacksight;
     }
+    if (message.identityDate !== "") {
+      obj.identityDate = message.identityDate;
+    }
+    if (message.identityLocation !== "") {
+      obj.identityLocation = message.identityLocation;
+    }
     return obj;
   },
 
@@ -598,6 +725,8 @@ export const ServiceApprovalInformation = {
     message.vehicleRegistrationBacksight = object.vehicleRegistrationBacksight ?? "";
     message.vehicleInsuranceFrontsight = object.vehicleInsuranceFrontsight ?? "";
     message.vehicleInsuranceBacksight = object.vehicleInsuranceBacksight ?? "";
+    message.identityDate = object.identityDate ?? "";
+    message.identityLocation = object.identityLocation ?? "";
     return message;
   },
 };
@@ -1151,6 +1280,16 @@ export const AdminService = {
       Buffer.from(ServiceApprovalInformation.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
   },
+  updateIdentityInfo: {
+    path: "/Admin/updateIdentityInfo",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: ReqUpdateIdentityInfo) => Buffer.from(ReqUpdateIdentityInfo.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ReqUpdateIdentityInfo.decode(value),
+    responseSerialize: (value: ServiceApprovalInformation) =>
+      Buffer.from(ServiceApprovalInformation.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
+  },
 } as const;
 
 export interface AdminServer extends UntypedServiceImplementation {
@@ -1158,6 +1297,7 @@ export interface AdminServer extends UntypedServiceImplementation {
   createServiceApproval: handleUnaryCall<ReqCreateData, ServiceApprovalInformation>;
   createVehicleInformation: handleUnaryCall<ReqCreateVehicleData, ServiceApprovalInformation>;
   updateServiceApproval: handleUnaryCall<ReqUpdateData, ServiceApprovalInformation>;
+  updateIdentityInfo: handleUnaryCall<ReqUpdateIdentityInfo, ServiceApprovalInformation>;
 }
 
 export interface AdminClient extends Client {
@@ -1217,6 +1357,21 @@ export interface AdminClient extends Client {
   ): ClientUnaryCall;
   updateServiceApproval(
     request: ReqUpdateData,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateIdentityInfo(
+    request: ReqUpdateIdentityInfo,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateIdentityInfo(
+    request: ReqUpdateIdentityInfo,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  updateIdentityInfo(
+    request: ReqUpdateIdentityInfo,
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
