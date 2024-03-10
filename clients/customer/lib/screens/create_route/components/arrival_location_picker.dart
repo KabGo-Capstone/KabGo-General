@@ -143,6 +143,7 @@ class _ArrivalLocationPickerState extends ConsumerState<ArrivalLocationPicker> {
           const Spacer(),
           BottomButton(
               backButton: () {
+                ref.read(stepProvider.notifier).setStep('default');
                 ref
                     .read(arrivalLocationProvider.notifier)
                     .setArrivalLocation(LocationModel());

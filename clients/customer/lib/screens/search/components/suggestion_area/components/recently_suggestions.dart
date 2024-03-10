@@ -1,4 +1,5 @@
 import 'package:customer/data/data.dart';
+import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/widgets/current_location_item.dart';
 import 'package:customer/widgets/saved_location_item.dart';
@@ -25,7 +26,7 @@ class _RecentlySuggestionsState extends ConsumerState<RecentlySuggestions> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    currentLocation = ref.read(departureLocationProvider);
+    currentLocation = ref.read(currentLocationProvider);
   }
 
   @override

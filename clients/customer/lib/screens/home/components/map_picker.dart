@@ -29,10 +29,7 @@ class MapPicker extends ConsumerWidget {
                   children: [
                     Text(
                       'Xin chào,',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontSize: 14),
                     ),
                   ],
                 ),
@@ -49,22 +46,14 @@ class MapPicker extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () {
-                      ref
-                          .read(stepProvider.notifier)
-                          .setStep('arrival_location_picker');
-                      ref
-                          .read(mapProvider.notifier)
-                          .setMapAction('arrival_location_picker');
+                      ref.read(stepProvider.notifier).setStep('arrival_location_picker');
+                      ref.read(mapProvider.notifier).setMapAction('arrival_location_picker');
                       Navigator.push(
                           context,
                           PageRouteBuilder(
-                            transitionDuration:
-                                const Duration(milliseconds: 200),
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const CreateRoute(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
+                            transitionDuration: const Duration(milliseconds: 200),
+                            pageBuilder: (context, animation, secondaryAnimation) => const CreateRoute(),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
                               const begin = Offset(1, 0);
                               const end = Offset(0, 0);
 
@@ -83,10 +72,7 @@ class MapPicker extends ConsumerWidget {
                     ),
                     label: const Text(
                       'Bản đồ',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -96,15 +82,15 @@ class MapPicker extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Đinh Nguyễn Duy Khang',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.55,
+                  child: const Text(
+                    'Đinh Nguyễn Duy Khang',
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
                 ),
                 const SizedBox(
-                  width: 30,
+                  width: 10,
                 ),
                 Expanded(
                   child: Column(

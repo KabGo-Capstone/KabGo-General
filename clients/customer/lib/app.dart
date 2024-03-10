@@ -1,5 +1,7 @@
+import 'package:customer/providers/app_language.dart';
 import 'package:customer/screens/create_route/create_route.dart';
 import 'package:customer/screens/home/home.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,11 +12,34 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final authState = ref.watch(authProvider);
+    // final isAuth = authState.valueOrNull != null;
+    // Widget currentPage = const SplashScreen();
+    // if (ref.read(stepProvider) == 'splash_page' &&
+    //     !authState.isLoading &&
+    //     !authState.hasError) {
+    //   if (isAuth) {
+    //     login(authState.value!, ref);
+    //   }
+    //   currentPage = isAuth ? const HomeScreen() : const LoginPage();
+    // } else if (ref.read(stepProvider) == 'login_page' &&
+    //     !authState.isLoading &&
+    //     !authState.hasError) {
+    //   if (isAuth) {
+    //     login(authState.value!, ref);
+    //   }
+    //
+    //   currentPage = const HomeScreen();
+    // }
+
+    final currentLanguage = ref.watch(languageProvider);
+
     return MaterialApp(
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('vn', ''),
-      ],
+      // Modified by Quang Thanh to handle localization
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: Locale(currentLanguage),
+
       debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
         appBarTheme: const AppBarTheme(
@@ -46,31 +71,19 @@ class App extends ConsumerWidget {
           ),
         ),
         textTheme: ThemeData().textTheme.copyWith(
-              titleLarge: GoogleFonts.montserrat(
-                  color: const Color(0xffF86C1D),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18),
+              titleLarge:
+                  GoogleFonts.montserrat(color: const Color(0xffF86C1D), fontWeight: FontWeight.w600, fontSize: 18),
               titleMedium: GoogleFonts.montserrat(
-                  color: const Color.fromARGB(255, 50, 50, 50),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16),
-              titleSmall: GoogleFonts.montserrat(
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18),
+                  color: const Color.fromARGB(255, 50, 50, 50), fontWeight: FontWeight.w700, fontSize: 16),
+              titleSmall:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 18),
 
-              bodySmall: GoogleFonts.montserrat(
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16),
-              bodyMedium: GoogleFonts.montserrat(
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14),
-              bodyLarge: GoogleFonts.montserrat(
-                  color: const Color(0xff6A6A6A),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14),
+              bodySmall:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w700, fontSize: 16),
+              bodyMedium:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w500, fontSize: 14),
+              bodyLarge:
+                  GoogleFonts.montserrat(color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 14),
               headlineMedium: GoogleFonts.montserrat(
                 color: const Color.fromARGB(255, 70, 70, 70),
                 fontSize: 14,
@@ -91,10 +104,7 @@ class App extends ConsumerWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 12,
               ),
-              labelLarge: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18),
+              labelLarge: GoogleFonts.montserrat(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),
               labelMedium: GoogleFonts.montserrat(
                 color: const Color(0xffFFFFFF),
                 fontWeight: FontWeight.w700,

@@ -3,7 +3,6 @@ import 'package:customer/models/location_model.dart';
 import 'package:customer/models/place_auto_complate_response.dart';
 import 'package:customer/utils/Google_Api_Key.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -61,7 +60,7 @@ class _InputSearchState extends State<SearchInput> {
 
   @override
   void initState() {
-    _value = widget.value;
+    // _value = widget.value;
     inputController.text = widget.value;
     _searchFocus.addListener(_onFocusChange);
     super.initState();
@@ -79,11 +78,19 @@ class _InputSearchState extends State<SearchInput> {
     widget.focus(_searchFocus.hasFocus);
   }
 
+  var borderSide = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6),
+    borderSide: const BorderSide(
+      width: 1,
+      color: Color.fromARGB(255, 242, 242, 242),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     print('===========> SEARCH_INPUT BUILD');
 
-    if (widget.value.isNotEmpty && _value!.isEmpty) {
+    if (widget.value != _value) {
       inputController.text = widget.value;
       _value = widget.value;
     }
@@ -156,22 +163,9 @@ class _InputSearchState extends State<SearchInput> {
           hintStyle: Theme.of(context).textTheme.labelSmall,
           contentPadding: const EdgeInsets.all(0),
           fillColor: const Color.fromARGB(255, 249, 249, 249),
-          filled: true,
-          isDense: true,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              width: 1,
-              color: Color.fromARGB(255, 242, 242, 242),
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
-            borderSide: const BorderSide(
-              width: 1,
-              color: Color.fromARGB(255, 242, 242, 242),
-            ),
-          ),
+          filled: onFocus,
+          enabledBorder: borderSide,
+          focusedBorder: borderSide,
         ),
       ),
       animationStart: 0,

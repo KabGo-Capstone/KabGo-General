@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MoreWayToMove extends StatelessWidget {
   const MoreWayToMove({
@@ -12,8 +14,7 @@ class MoreWayToMove extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 15),
-          child: Text('Thêm nhiều cách để di chuyển',
-              style: Theme.of(context).textTheme.titleMedium),
+          child: Text('Thêm nhiều cách để di chuyển', style: Theme.of(context).textTheme.titleMedium),
         ),
         const SizedBox(
           height: 10,
@@ -29,19 +30,18 @@ class MoreWayToMove extends StatelessWidget {
                   width: 15,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.height * 0.30,
-                  height: 80,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xffdfffe9),
+                    color: const Color.fromARGB(255, 216, 208, 233),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.15,
                         decoration: const BoxDecoration(
                           color: Colors.transparent,
                           shape: BoxShape.circle,
@@ -62,14 +62,14 @@ class MoreWayToMove extends StatelessWidget {
                           children: [
                             Text(
                               'Vi vu cùng bạn bè ngay',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 13),
+                              style: TextStyle(color: Colors.black, fontSize: 13),
                             ),
-                            Text(
-                              'Thêm lên đến 4 điểm dừng',
-                              maxLines: 2,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 13),
+                            Expanded(
+                              child: Text(
+                                'Thêm lên đến 4 điểm dừng',
+                                maxLines: 2,
+                                style: TextStyle(color: Colors.black, fontSize: 13),
+                              ),
                             )
                           ],
                         ),
@@ -81,19 +81,18 @@ class MoreWayToMove extends StatelessWidget {
                   width: 10,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.height * 0.30,
-                  height: 80,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFE9DF),
+                    color: const Color.fromARGB(255, 255, 233, 223),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 42,
+                        width: MediaQuery.of(context).size.width * 0.15,
                         height: 42,
                         decoration: const BoxDecoration(
                           color: Colors.transparent,

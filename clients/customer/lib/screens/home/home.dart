@@ -107,9 +107,9 @@ class _HomeState extends ConsumerState<Home> {
     LocationModel currentLocationModel = await setAddressByPosition(latLng);
     currentLocationModel.structuredFormatting!.formatSecondaryText();
     ref.read(currentLocationProvider.notifier).setCurrentLocation(currentLocationModel);
-    ref
-        .read(departureLocationProvider.notifier)
-        .setDepartureLocation(currentLocationModel);
+    // ref
+    //     .read(departureLocationProvider.notifier)
+    //     .setDepartureLocation(currentLocationModel);
         // ref
         // .read(arrivalLocationProvider.notifier)
         // .setArrivalLocation(currentLocationModel);
