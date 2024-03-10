@@ -21,7 +21,7 @@ class RemindIdBefore extends ConsumerStatefulWidget {
 class _RemindIdBeforeState extends ConsumerState<RemindIdBefore> {
   void _setImage(File image) {
     print(image);
-    ref.read(driverProvider.notifier).setImage(image);
+    ref.read(driverProvider.notifier).setIdImageBefore(image);
     // setState(() {});
   }
 

@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driver_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_pick_date.dart';
 import 'package:driver/widgets/build_text.dart';
@@ -25,16 +28,71 @@ class IdPersonInfo extends ConsumerStatefulWidget {
 class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
   TextEditingController licenseDate = TextEditingController();
   TextEditingController licenseDateController = TextEditingController();
-  File? _image;
+  File? imageBefore;
+  File? imageAfter;
   String? selectedPlaceOfIssue;
+
+  late String? idDriver;
+
+  handleRegister() async {
+    idDriver = ref.watch(driverInfoRegisterProvider).id ?? '1';
+    imageBefore = ref.watch(driverProvider).fileIdImgBefore;
+    imageAfter = ref.watch(driverProvider).fileIdImgAfter;
+    print("idDriver");
+    print(imageBefore);
+    print(imageAfter);
+
+    if (imageBefore != null && imageAfter != null) {
+      var dataImageBefore = FormData.fromMap({
+        'image': [await MultipartFile.fromFile(imageBefore!.path)],
+        'id': '6'
+      });
+
+      var dataImageAfter = FormData.fromMap({
+        'image': [await MultipartFile.fromFile(imageBefore!.path)],
+        'id': '6'
+      });
+
+      try {
+        final dioClient = DioClient();
+
+        final responseImgBefore = await dioClient.request(
+          '/upload/identity-img-frontsight',
+          options: Options(method: 'POST'),
+          data: dataImageBefore,
+        );
+
+        final responseImgAfter = await dioClient.request(
+          '/upload/identity-img-backsight',
+          options: Options(method: 'POST'),
+          data: dataImageAfter,
+        );
+        print('API');
+        print(responseImgBefore.data);
+        print(responseImgAfter.data);
+
+        if (responseImgBefore.statusCode == 200) {
+          // ignore: use_build_context_synchronously
+          // Navigator.pop(context);
+        } else {
+          // Handle error
+        }
+      } catch (e) {
+        // Handle error
+      }
+    } else {
+      print('Image is null!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     print('id_person rebuild');
-    _image = ref.watch(driverProvider).file;
+    imageBefore = ref.watch(driverProvider).fileIdImgBefore;
+    imageAfter = ref.watch(driverProvider).fileIdImgAfter;
 
     // _image = ref.read(driverProvider).file;
-    print(_image);
+    print(ref.watch(driverProvider).fileIdImgBefore);
     return Scaffold(
       appBar: const AppBarCustom(title: ''),
       backgroundColor: kWhiteColor,
@@ -95,11 +153,11 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RemindIdBefore(),
-                                ),
-                                );
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RemindIdBefore(),
+                              ),
+                            );
                           },
                           child: FittedBox(
                             fit: BoxFit.contain,
@@ -111,8 +169,8 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: imageBefore != null
+                                    ? Image.file(imageBefore!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -184,8 +242,8 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: imageAfter != null
+                                    ? Image.file(imageAfter!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -317,7 +375,7 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
         child: ElevatedButton(
           onPressed: () async {
-            Navigator.pop(context);
+            handleRegister();
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kOrange),

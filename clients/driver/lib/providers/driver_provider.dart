@@ -10,14 +10,29 @@ class DriverNotifier extends StateNotifier<DriverModel> {
     state = value;
   }
 
-  void setImage(File img) {
-    DriverModel driverModel = DriverModel(date: state.date);
-    driverModel.file = img;
+  void setIdImageBefore(File img) {
+    DriverModel driverModel = DriverModel(
+        date: state.date,
+        fileIdImgAfter: state.fileIdImgAfter,
+        personImage: state.personImage);
+    driverModel.fileIdImgBefore = img;
+    state = driverModel;
+  }
+
+  void setIdImageAfter(File img) {
+    DriverModel driverModel = DriverModel(
+        date: state.date,
+        fileIdImgBefore: state.fileIdImgBefore,
+        personImage: state.personImage);
+    driverModel.fileIdImgAfter = img;
     state = driverModel;
   }
 
   void setPersonImage(File personImg) {
-    DriverModel driverModel = DriverModel(date: state.date, file: state.file);
+    DriverModel driverModel = DriverModel(
+        date: state.date,
+        fileIdImgBefore: state.fileIdImgBefore,
+        fileIdImgAfter: state.fileIdImgAfter);
     driverModel.personImage = personImg;
     state = driverModel;
   }

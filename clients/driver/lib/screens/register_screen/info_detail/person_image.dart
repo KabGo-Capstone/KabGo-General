@@ -22,40 +22,38 @@ class _PersonImageState extends ConsumerState<PersonImage> {
   late String? idDriver;
 
   handleRegister() async {
-    idDriver = ref.watch(driverInfoRegisterProvider).id;
+    idDriver = ref.watch(driverInfoRegisterProvider).id ?? '1';
     image = ref.watch(driverProvider).personImage;
     print(idDriver);
     print(image);
-    // var data = json.encode({'id': idDriver, 'serviceId': ''});
 
-    var dataSend = FormData.fromMap({
-      'files': [
-        await MultipartFile.fromFile(image!.path, filename: 'after_id1.JPG')
-      ],
-      'id': '6'
-    });
-    try {
-      final dioClient = DioClient();
+    if (image != null) {
+      var dataSend = FormData.fromMap({
+        'image': [await MultipartFile.fromFile(image!.path)],
+        'id': idDriver
+      });
 
-      final response = await dioClient.request(
-        '/upload/personal-img',
-        options: Options(method: 'POST'),
-        data: dataSend,
-      );
-      print(response.data);
+      try {
+        final dioClient = DioClient();
 
-      if (response.statusCode == 200) {
-        // ignore: use_build_context_synchronously
-        // Navigator.pop(context);
+        final response = await dioClient.request(
+          '/upload/personal-img',
+          options: Options(method: 'POST'),
+          data: dataSend,
+        );
+        print(response.data);
 
-        // print(response.data['data']['id']);
-      } else {
-        // Xử lý lỗi nếu có
-        print('Error: ${response.statusCode}');
+        if (response.statusCode == 200) {
+          // ignore: use_build_context_synchronously
+          Navigator.pop(context);
+        } else {
+          // Handle error
+        }
+      } catch (e) {
+        // Handle error
       }
-    } catch (e) {
-      // Xử lý lỗi nếu có
-      print('Error: $e');
+    } else {
+      print('Image is null!');
     }
   }
 
