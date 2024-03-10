@@ -1,6 +1,8 @@
 import 'package:driver/models/user_register.dart';
 import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/screens/login_screen.dart';
+import 'package:driver/screens/register_screen/info_detail/id_person.dart';
+import 'package:driver/screens/register_screen/info_register.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
 import 'package:driver/screens/register_screen/register_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_person_infor.dart';
@@ -15,7 +17,7 @@ final router = Provider<GoRouter>(
     final phoneNumberAuthState = ref.watch(phoneAuthProvider);
 
     return GoRouter(
-      initialLocation: LoginScreen.path,
+      initialLocation: InfoRegister.path,
       routes: [
         GoRoute(
           path: LoginScreen.path,
@@ -42,17 +44,29 @@ final router = Provider<GoRouter>(
           },
         ),
         GoRoute(
+          path: InfoRegister.path,
+          name: InfoRegister.name,
+          builder: (context, state) {
+            return const InfoRegister(
+              selectedService: 'KabGo Bike',
+            );
+          },
+        ),
+        GoRoute(
           path: '/remind_person_image',
           name: 'remind_person_image',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               child: const RemindPersonImage(),
               transitionDuration: const Duration(microseconds: 250),
-              transitionsBuilder: (BuildContext context, Animation<double> animation,
-                  Animation<double> secondaryAnimation, Widget child) {
+              transitionsBuilder: (BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                  Widget child) {
                 return SlideTransition(
-                  position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-                      .animate(animation),
+                  position:
+                      Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                          .animate(animation),
                   child: child,
                 );
               },

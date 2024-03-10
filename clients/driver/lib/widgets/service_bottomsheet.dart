@@ -1,9 +1,10 @@
 import 'package:driver/constants/colors.dart';
+import 'package:driver/models/driver_service.dart';
 import 'package:flutter/material.dart';
 
 class ServiceBottomSheetWidget extends StatelessWidget {
-  final List<String> services;
-  final void Function(String) onServiceSelected;
+  final List<Service> services;
+  final void Function(Service) onServiceSelected;
 
   const ServiceBottomSheetWidget({
     super.key,
@@ -51,7 +52,8 @@ class ServiceBottomSheetWidget extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      service,
+                      service
+                          .name, // Truy cập vào thuộc tính name của đối tượng Service
                       style: const TextStyle(
                         fontSize: 16,
                         color: COLOR_TEXT_MAIN,

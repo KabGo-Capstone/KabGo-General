@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/models/user_register.dart';
 import 'package:driver/screens/register_screen/select_service.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -18,21 +22,50 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  late int _remainingSeconds;
-  late Timer _timer;
-
   final TextEditingController otpCode = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  void sendCategory(var data) async {
+    try {
+      final dioClient = DioClient();
+      String baseURL = dotenv.env['API_BASE_URL']!;
+      print('$baseURL/register');
+
+      final response = await dioClient.request(
+        '/verify-user-registration',
+        options: Options(method: 'POST'),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SelectService(),
+          ),
+        );
+        print('Xác minh otp thành công');
+      } else {
+        // Xử lý lỗi nếu có
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      print('Error: $e');
+    }
+  }
+
+  void saveForm() {
+    print('===== SAVE =====');
+    var data = json.encode({'otp': otpCode.text});
+    sendCategory(data);
+  }
 
   handleRegister(otpValue) {
     if (otpValue.length == 6) {
       debugPrint('Mã OTP: $otpValue');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SelectService(),
-        ),
-      );
+      saveForm();
     } else {
       debugPrint('Mã OTP không hợp lệ');
     }
@@ -41,32 +74,16 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
-    _remainingSeconds = 120;
-    _startTimer();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) {
-        return _timer.cancel();
-      }
-      setState(() {
-        _remainingSeconds = _remainingSeconds > 0 ? _remainingSeconds - 1 : 120;
-        if (_remainingSeconds == 0) {
-          // process send new OTP code
-        }
-      });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('rebuilt');
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -169,35 +186,78 @@ class _OTPScreenState extends State<OTPScreen> {
                       TextOverflow.clip,
                     ),
                   ),
-                  Center(
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'Yêu cầu mã mới sau ',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '$_remainingSeconds',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const TimeCounter(),
                   SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class TimeCounter extends StatefulWidget {
+  const TimeCounter({super.key});
+
+  @override
+  State<TimeCounter> createState() => _TimeCounterState();
+}
+
+class _TimeCounterState extends State<TimeCounter> {
+  late int _remainingSeconds;
+  late Timer _timer;
+  @override
+  void initState() {
+    super.initState();
+    _remainingSeconds = 120;
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        return _timer.cancel();
+      }
+      setState(() {
+        _remainingSeconds = _remainingSeconds > 0 ? _remainingSeconds - 1 : 120;
+        if (_remainingSeconds == 0) {
+          // process send new OTP code
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text.rich(
+        TextSpan(
+          children: [
+            const TextSpan(
+              text: 'Yêu cầu mã mới sau ',
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            TextSpan(
+              text: '$_remainingSeconds',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ],
         ),
       ),
     );

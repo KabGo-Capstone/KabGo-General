@@ -1,25 +1,32 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/regex.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/bottom_selector.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   static const path = '/register';
   static const name = 'register_screen';
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  bool isDataLoaded = false;
 
   final TextEditingController firstnameDriver = TextEditingController();
   final TextEditingController lastnameDriver = TextEditingController();
@@ -29,6 +36,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   late bool isChecked = false;
   late bool isValid = false;
+
+  void sendCategory(var data) async {
+    try {
+      final dioClient = DioClient();
+      // String baseURL = dotenv.env['API_BASE_URL']!;
+      // print('$baseURL/register');
+      // print(data);
+
+      final response = await dioClient.request(
+        '/register',
+        options: Options(method: 'POST'),
+        data: data,
+      );
+      print(response.data['data']['id']);
+
+      if (response.statusCode == 200) {
+        ref
+            .read(driverInfoRegisterProvider.notifier)
+            .setIdDriver(response.data['data']['id']);
+        ref
+            .read(driverInfoRegisterProvider.notifier)
+            .setLastName(response.data['data']['lastName']);
+
+        // ignore: use_build_context_synchronously
+        context.pushNamed(OTPScreen.name, extra: {
+          'firstname': firstnameDriver.text,
+          'lastname': lastnameDriver.text,
+          'phonenumber': phonenumberDriver.text,
+          'city': selectedCity,
+          'referrer': referrerDriver.text,
+        });
+        // print(response.data['data']['id']);
+      } else {
+        // Xử lý lỗi nếu có
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      print('Error: $e');
+    }
+  }
+
+  void saveForm() {
+    print('===== SAVE =====');
+    // print(firstnameDriver.text);
+    // print(lastnameDriver.text);
+    // print(phonenumberDriver.text);
+    // print(referrerDriver.text);
+    // print(selectedCity);
+
+    var data = json.encode({
+      'firstName': firstnameDriver.text,
+      'lastName': lastnameDriver.text,
+      'phoneNumber': phonenumberDriver.text,
+      'referralCode': referrerDriver.text,
+      'city': selectedCity
+    });
+
+    sendCategory(data);
+  }
 
   validFormField() {
     return firstnameDriver.text.isNotEmpty &&
@@ -49,17 +116,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     updateValidFormField();
   }
 
-  handleRegister() {
+  handleRegister() async {
     if (_formKey.currentState != null &&
         validFormField() &&
         _formKey.currentState!.validate()) {
-      context.pushNamed(OTPScreen.name, extra: {
-        'firstname': firstnameDriver.text,
-        'lastname': lastnameDriver.text,
-        'phonenumber': phonenumberDriver.text,
-        'city': selectedCity,
-        'referrer': referrerDriver.text,
-      });
+      saveForm();
     }
   }
 

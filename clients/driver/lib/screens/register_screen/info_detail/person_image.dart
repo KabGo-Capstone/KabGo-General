@@ -1,23 +1,70 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/driver_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_person_infor.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PersonImage extends StatefulWidget {
+class PersonImage extends ConsumerStatefulWidget {
   const PersonImage({super.key});
 
   @override
-  State<PersonImage> createState() => _PersonImageState();
+  ConsumerState<PersonImage> createState() => _PersonImageState();
 }
 
-class _PersonImageState extends State<PersonImage> {
-  File? _image;
+class _PersonImageState extends ConsumerState<PersonImage> {
+  File? image;
+  late String? idDriver;
+
+  handleRegister() async {
+    idDriver = ref.watch(driverInfoRegisterProvider).id;
+    image = ref.watch(driverProvider).personImage;
+    print(idDriver);
+    print(image);
+    // var data = json.encode({'id': idDriver, 'serviceId': ''});
+
+    var dataSend = FormData.fromMap({
+      'files': [
+        await MultipartFile.fromFile(image!.path, filename: 'after_id1.JPG')
+      ],
+      'id': '6'
+    });
+    try {
+      final dioClient = DioClient();
+
+      final response = await dioClient.request(
+        '/upload/personal-img',
+        options: Options(method: 'POST'),
+        data: dataSend,
+      );
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        // Navigator.pop(context);
+
+        // print(response.data['data']['id']);
+      } else {
+        // Xử lý lỗi nếu có
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
+    print('id_person rebuild');
+    image = ref.watch(driverProvider).personImage;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const AppBarCustom(title: ''),
@@ -54,7 +101,7 @@ class _PersonImageState extends State<PersonImage> {
               ),
               const Center(
                   child: Text(
-                'Xin chào Vinh!',
+                'Xin chào!',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               )),
               const SizedBox(
@@ -68,9 +115,8 @@ class _PersonImageState extends State<PersonImage> {
                     child: CircleAvatar(
                       backgroundColor: Colors.grey[200],
                       radius: 64,
-                      foregroundImage:
-                          _image != null ? FileImage(_image!) : null,
-                      child: _image == null
+                      foregroundImage: image != null ? FileImage(image!) : null,
+                      child: image == null
                           ? const Icon(
                               Icons.picture_in_picture_sharp,
                               size: 50,
@@ -80,9 +126,13 @@ class _PersonImageState extends State<PersonImage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
-                  ElevatedButton(
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.w400, fontSize: 16),
+                    ),
                     onPressed: () async {
                       // await pickImage(context: context, setImage: _setImage);
                       // context.pushNamed('remind_person_image');
@@ -108,7 +158,7 @@ class _PersonImageState extends State<PersonImage> {
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
         child: ElevatedButton(
           onPressed: () async {
-            Navigator.pop(context);
+            handleRegister();
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kOrange),

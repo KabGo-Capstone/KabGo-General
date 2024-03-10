@@ -13,6 +13,8 @@ import 'package:driver/widgets/item_info.dart';
 import 'package:flutter/material.dart';
 
 class InfoRegister extends StatefulWidget {
+  static const path = '/info_register';
+  static const name = 'info';
   final String selectedService;
   const InfoRegister({
     super.key,

@@ -3,22 +3,26 @@ import 'dart:io';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/providers/driver_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_pick_date.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class IdPersonInfo extends StatefulWidget {
+class IdPersonInfo extends ConsumerStatefulWidget {
+  static const path = '/id_person';
+  static const name = 'id_person';
   const IdPersonInfo({super.key});
 
   @override
-  State<IdPersonInfo> createState() => _IdPersonInfoState();
+  ConsumerState<IdPersonInfo> createState() => _IdPersonInfoState();
 }
 
-class _IdPersonInfoState extends State<IdPersonInfo> {
+class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
   TextEditingController licenseDate = TextEditingController();
   TextEditingController licenseDateController = TextEditingController();
   File? _image;
@@ -26,6 +30,11 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
 
   @override
   Widget build(BuildContext context) {
+    print('id_person rebuild');
+    _image = ref.watch(driverProvider).file;
+
+    // _image = ref.read(driverProvider).file;
+    print(_image);
     return Scaffold(
       appBar: const AppBarCustom(title: ''),
       backgroundColor: kWhiteColor,
@@ -86,11 +95,11 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RemindIdBefore(),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RemindIdBefore(),
+                                ),
+                                );
                           },
                           child: FittedBox(
                             fit: BoxFit.contain,
@@ -232,6 +241,8 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w400, color: kGrey0),
                   value: selectedPlaceOfIssue,
                   onChanged: (newValue) {
                     setState(() {
@@ -244,7 +255,7 @@ class _IdPersonInfoState extends State<IdPersonInfo> {
                       child: Text(
                         place,
                         style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w100),
+                            fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     );
                   }).toList(),

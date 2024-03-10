@@ -7,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class DioClient {
   final Dio _api;
   String baseURL = dotenv.env['API_BASE_URL']!;
-  String accessToken = dotenv.env['ACCESS_TOKEN']!;
+  // String accessToken = dotenv.env['ACCESS_TOKEN']!;
 
   DioClient() : _api = Dio() {
     _configureInterceptors();
@@ -18,8 +18,8 @@ class DioClient {
       onRequest: (options, handler) async {
         options.baseUrl = baseURL;
         options.headers = {
-          'Access-Token': accessToken,
-          'Content-Type': 'application/json; charset=UTF-8',
+          // 'Access-Token': accessToken,
+          'Content-Type': 'application/json'
         };
 
         return handler.next(options);
