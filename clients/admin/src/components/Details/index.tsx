@@ -30,7 +30,7 @@ const Details: React.FC = () => {
     },
     {
       title: 'Step 2',
-      content: <Step2Content />,
+      content: <Step2Content record={record} />,
     },
     {
       title: 'Step 3',
