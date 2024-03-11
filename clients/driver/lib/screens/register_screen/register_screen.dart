@@ -66,7 +66,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           'phonenumber': phonenumberDriver.text,
           'city': selectedCity,
           'referrer': referrerDriver.text,
-          'email': 'htvinh201@gmail.com'
         });
         // print(response.data['data']['id']);
       } else {
@@ -92,7 +91,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       'lastName': lastnameDriver.text,
       'phoneNumber': phonenumberDriver.text,
       'referralCode': referrerDriver.text,
-      'city': selectedCity
+      'city': selectedCity,
+      'email': 'htvinh201@gmail.com'
     });
 
     sendCategory(data);
