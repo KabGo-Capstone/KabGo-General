@@ -39,12 +39,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   void sendCategory(var data) async {
     try {
-      String baseURL = dotenv.env['API_BASE_URL']!;
-      print('$baseURL/register');
       final dioClient = DioClient();
-      print(data);
-
-      print(dioClient);
+      // String baseURL = dotenv.env['API_BASE_URL']!;
+      // print('$baseURL/register');
+      // print(data);
 
       final response = await dioClient.request(
         '/register',
