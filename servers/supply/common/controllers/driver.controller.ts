@@ -156,7 +156,7 @@ class DriverController implements IController {
                 address: "",
                 verified: false,
                 avatar: "",
-                email: "",
+                email: req.body.email,
                 referralCode: req.body.referralCode,
                 city: req.body.city
 
