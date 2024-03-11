@@ -30,9 +30,9 @@ const Step4Content: React.FC<any> = ({ record }) => {
     >
       <Typography.Text className="!text-2xl flex justify-center font-bold !mb-2">Giấy phép lái xe</Typography.Text>
       <Typography.Text className="!text-2xl flex justify-center font-bold !mb-2">Bảo hiểm xe</Typography.Text>
-      {renderCard("Mặt trước", NoImg)}
+      {renderCard("Mặt trước", record?.driverLicenseFrontsight)}
       {renderCard("Mặt trước", record?.vehicleInsuranceFrontsight)}
-      {renderCard("Mặt sau", NoImg)}
+      {renderCard("Mặt sau", record?.driverLicenseBacksight)}
       {renderCard("Mặt sau", record?.vehicleInsuranceBacksight)}
     </div>
   );
