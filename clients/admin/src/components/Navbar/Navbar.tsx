@@ -44,7 +44,9 @@ const NavBar: React.FC = () => {
           }} />
         </Button>
         <Button className="!w-8 !h-8 !flex !items-center !justify-center !bg-gray-200 !hover:bg-gray-400 !mr-5">
-          <ReloadOutlined />
+          <ReloadOutlined onClick={()=>{
+            navigate(0);
+          }}/>
         </Button>
         <Typography.Text className="!text-gray-500 !text-lg !ml-2 !font-bold">Tài Xế</Typography.Text>
       </div>
