@@ -276,22 +276,22 @@ class _InfoRegisterState extends ConsumerState<InfoRegister> {
                             isCompleted:
                                 ref.watch(statusProvider).isCompletedInsurance),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BankInfo(),
-                            ),
-                          );
-                        },
-                        splashColor: const Color.fromARGB(55, 255, 153, 0),
-                        highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: ItemInfo(
-                            title: 'Liên kết email',
-                            isCompleted:
-                                ref.watch(statusProvider).isCompletedEmail),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => const BankInfo(),
+                      //       ),
+                      //     );
+                      //   },
+                      //   splashColor: const Color.fromARGB(55, 255, 153, 0),
+                      //   highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                      //   child: ItemInfo(
+                      //       title: 'Liên kết email',
+                      //       isCompleted:
+                      //           ref.watch(statusProvider).isCompletedEmail),
+                      // ),
                     ],
                   )
                 ],
