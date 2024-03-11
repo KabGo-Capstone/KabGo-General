@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, Typography, theme } from "antd";
+import NoImg from '../../assets/images/no_img.jpg';
 
 const Step1Content: React.FC<any> = ({ record }) => {
     const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
@@ -60,8 +61,10 @@ const Step1Content: React.FC<any> = ({ record }) => {
                 <div className="!flex !flex-col gap-8 !w-2/5">
                     <Typography.Text className="!font-bold !text-2xl !flex !justify-center">Ảnh đại diện</Typography.Text>
                     <div className="!flex !justify-center">
-                        {/* <UploadImg /> */}
-                        {record && <img src={record.personalImg} alt="Personal" className="rounded-full !w-80 !h-80"/>}
+                        {record && record.personalImg ?
+                            <img src={record.personalImg} alt="Personal" className="rounded-full !w-60 !h-60" /> :
+                            <img src={NoImg} alt="Alternative" className="rounded-full !w-60 !h-60" />
+                        }
                     </div>
                 </div>
             </div>
