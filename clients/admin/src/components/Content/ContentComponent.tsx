@@ -16,10 +16,10 @@ const { Content } = Layout;
 const ContentComponent: React.FC = () => {
   // setup GraphQL queries
   const { loading, error, data, refetch } = useQuery(QUERY.SERVICE_APPROVALS);
-  const [approveDriver, { data: approve_mutation_data, loading: approve_mutation_loading, error: approve_mutation_error}] = useMutation(QUERY.APPROVE_DRIVER);
-  const [disApproveDriver, { data: disApprove_mutation_data, loading: disApprove_mutation_loading, error: disApprove_mutation_error}] = useMutation(QUERY.DISAPPROVE_DRIVER);
-  const [deleteServiceApproval, {data: delete_mutation_data, loading: delete_mutation_loading, error: delete_mutation_error}] = useMutation(QUERY.DELETE_SERVICE_APPROVAL);
- 
+  const [approveDriver, { data: approve_mutation_data, loading: approve_mutation_loading, error: approve_mutation_error }] = useMutation(QUERY.APPROVE_DRIVER);
+  const [disApproveDriver, { data: disApprove_mutation_data, loading: disApprove_mutation_loading, error: disApprove_mutation_error }] = useMutation(QUERY.DISAPPROVE_DRIVER);
+  const [deleteServiceApproval, { data: delete_mutation_data, loading: delete_mutation_loading, error: delete_mutation_error }] = useMutation(QUERY.DELETE_SERVICE_APPROVAL);
+
   const [dataSource, setDataSource] = useState<IDriver[]>([]);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const ContentComponent: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState<string>('');
   const searchInput = useRef<InputRef>(null);
   const [isTableLoading, setIsTableLoading] = useState<boolean>(true);
- 
+
   // search item in column
   const handleSearch = (
     selectedKeys: string[],
@@ -59,20 +59,20 @@ const ContentComponent: React.FC = () => {
         />
         <Space>
           <Button
-            className = "!flex !justify-center !items-center !gap-0"
+            className="!flex !justify-center !items-center !gap-0"
             type="primary"
             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
             icon={<SearchOutlined />}
             style={{ width: 90 }}
-            size = "middle"
+            size="middle"
           >
             Search
           </Button>
           <Button
-            className= "!flex !justify-center !items-center"
+            className="!flex !justify-center !items-center"
             onClick={() => clearFilters && handleReset(clearFilters)}
             size="small"
-            style={{ width: 90}}
+            style={{ width: 90 }}
           >
             Reset
           </Button>
@@ -94,34 +94,34 @@ const ContentComponent: React.FC = () => {
               close();
             }}
           >
-           Close
+            Close
           </Button>
         </Space>
       </div>
     ),
     filterIcon: (filtered: boolean) => (
-      <SearchOutlined className = {filtered ? "!text-primary" : ''}/>
+      <SearchOutlined className={filtered ? "!text-primary" : ''} />
     ),
     onFilter: (value, record) => {
       if (dataIndex === 'name') {
         return record.supply['firstName']
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()) 
-        || record.supply['lastName']
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes((value as string).toLowerCase())
+          || record.supply['lastName']
+            .toString()
+            .toLowerCase()
+            .includes((value as string).toLowerCase())
       }
       if (record[dataIndex]) {
         return record[dataIndex].toString().toLowerCase().includes((value as string).toLowerCase());
       }
       if (record.supply[dataIndex]) {
-       return record.supply[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes((value as string).toLowerCase()) 
-      } 
+        return record.supply[dataIndex]
+          .toString()
+          .toLowerCase()
+          .includes((value as string).toLowerCase())
+      }
       return false;
     },
     onFilterDropdownOpenChange: (visible) => {
@@ -132,19 +132,19 @@ const ContentComponent: React.FC = () => {
     render: (text, record) => {
       if (dataIndex === 'name') {
         return searchedColumn === dataIndex ? <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[searchText]}
-        autoEscape
-        textToHighlight={`${record['supply']['firstName'] ?? ''} ${record['supply']['lastName'] ?? ''}`}
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={`${record['supply']['firstName'] ?? ''} ${record['supply']['lastName'] ?? ''}`}
         /> : `${record['supply']['firstName']} ${record['supply']['lastName']}`
       }
       return searchedColumn === dataIndex ?
-      <Highlighter
-      highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-      searchWords={[searchText]}
-      autoEscape
-      textToHighlight={record['supply'][dataIndex] ? record['supply'][dataIndex].toString() : ''}
-    /> : record['supply'][dataIndex]
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={record['supply'][dataIndex] ? record['supply'][dataIndex].toString() : ''}
+        /> : record['supply'][dataIndex]
     }
   });
 
@@ -192,14 +192,14 @@ const ContentComponent: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <div className="!flex gap-2">
-          {record.status === "approved" ? <Button style={{ width: '80px'}} onClick={() => handleDisapprove(record)}>
+          {record.status === "approved" ? <Button style={{ width: '80px' }} onClick={() => handleDisapprove(record)}>
             Hủy
           </Button> :
-            <Button style={{ width: '80px'}} className="!bg-green-600 !border-transparent !text-white !hover:bg-green-700" onClick={() => handleVerify(record)}>
+            <Button style={{ width: '80px' }} className="!bg-green-600 !border-transparent !text-white !hover:bg-green-700" onClick={() => handleVerify(record)}>
               Duyệt
             </Button >}
 
-          <Button style={{ width: '80px'}} className="!bg-red-500 !text-white !border-transparent" onClick={() => handleDelete(record)}>
+          <Button style={{ width: '80px' }} className="!bg-red-500 !text-white !border-transparent" onClick={() => handleDelete(record)}>
             Xóa
           </Button>
 
@@ -213,7 +213,7 @@ const ContentComponent: React.FC = () => {
           <Button style={{ width: '80px'}} className="!bg-red-500 !text-white !border-transparent" onClick={() => handleDeleteByGraph(record)}>
             Xóa
           </Button> */}
-       
+
 
           <Button onClick={() => {
             navigate("/details", { state: { record } });
@@ -256,7 +256,7 @@ const ContentComponent: React.FC = () => {
               fontSize: 16,
             }
           }, 1.2);
-        setDataSource(response.data.serviceApprovals);
+          setDataSource(response.data.serviceApprovals);
         }, 1000);
       }
     } catch (error) {
@@ -266,12 +266,13 @@ const ContentComponent: React.FC = () => {
 
   const handleVerifyByGraph = async (record: IDriver) => {
     try {
-        setIsTableLoading(true);
-        await approveDriver({variables: {
-            service_approval_id: record.id,
-          }
-        });
-        await updateDataByGraph();
+      setIsTableLoading(true);
+      await approveDriver({
+        variables: {
+          service_approval_id: record.id,
+        }
+      });
+      await updateDataByGraph();
     } catch (error) {
       console.error("Error verifying driver:", error);
     }
@@ -280,8 +281,9 @@ const ContentComponent: React.FC = () => {
   const handleDisapproveByGraph = async (record: IDriver) => {
     try {
       setIsTableLoading(true);
-      await disApproveDriver({variables: {
-        service_approval_id: record.id,
+      await disApproveDriver({
+        variables: {
+          service_approval_id: record.id,
         }
       });
       await updateDataByGraph();
@@ -293,8 +295,9 @@ const ContentComponent: React.FC = () => {
   const handleDeleteByGraph = async (record: IDriver) => {
     try {
       setIsTableLoading(true);
-      await deleteServiceApproval({variables: {
-        service_approval_id: record.id,
+      await deleteServiceApproval({
+        variables: {
+          service_approval_id: record.id,
         }
       });
       await updateDataByGraph();
@@ -317,7 +320,8 @@ const ContentComponent: React.FC = () => {
               fontSize: 16,
             }
           }, 1.2);
-            setDataSource(response.data);
+          const reversedData = response.data.reverse();
+          setDataSource(response.data);
         }, 1000);
       }
     } catch (error) {
@@ -357,27 +361,27 @@ const ContentComponent: React.FC = () => {
 
 
   return <Content style={{ overflow: "initial" }} className="!mt-4 !mb-0 !mx-3.5 !p-0">
-      <div
-        style={{
-          padding: 24,
-          textAlign: "center",
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}>
-          <Table
-            columns={columns}
-            dataSource={dataSource}
-            loading = {isTableLoading}
-            pagination={{
-              total: dataSource.length,
-              pageSize: 6,
-              showSizeChanger: false, // Turn off feature to change page size
-              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-            }}
-          /> 
-      </div>
-    </Content>
-  
+    <div
+      style={{
+        padding: 24,
+        textAlign: "center",
+        background: colorBgContainer,
+        borderRadius: borderRadiusLG,
+      }}>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        loading={isTableLoading}
+        pagination={{
+          total: dataSource.length,
+          pageSize: 6,
+          showSizeChanger: false, // Turn off feature to change page size
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        }}
+      />
+    </div>
+  </Content>
+
 };
 
 export default ContentComponent;
