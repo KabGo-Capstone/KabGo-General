@@ -45,8 +45,8 @@ const renderCard = (title: string, imageSource: any) => (
     {/* <img src={imageSource} alt={title} className="w-3/5 h-auto" /> */}
     <div>
       <Image
-        height={200}
-        width={300}
+        // height={200}
+        width={200}
         src={imageSource || NoImg}
         placeholder={
           <Image

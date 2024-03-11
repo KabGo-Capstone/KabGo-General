@@ -62,7 +62,7 @@ const Step1Content: React.FC<any> = ({ record }) => {
                     <Typography.Text className="!font-bold !text-2xl !flex !justify-center">Ảnh đại diện</Typography.Text>
                     <div className="!flex !justify-center">
                         {record && record.personalImg ?
-                            <img src={record.personalImg} alt="Personal" className="rounded-full !w-60 !h-60" /> :
+                            <img src={record.personalImg} alt="Personal" className="!w-1/2" /> :
                             <img src={NoImg} alt="Alternative" className="rounded-full !w-60 !h-60" />
                         }
                     </div>
