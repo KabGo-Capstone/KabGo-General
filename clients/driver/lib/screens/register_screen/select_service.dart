@@ -5,6 +5,7 @@ import 'package:driver/constants/colors.dart';
 import 'package:driver/models/driver_service.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/screens/register_screen/info_register.dart';
+import 'package:driver/screens/register_screen/register_screen.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/service_bottomsheet.dart';
@@ -23,7 +24,7 @@ class _SelectServiceState extends ConsumerState<SelectService> {
   late String selectedServiceId;
   String selectedService = 'Chọn 1 dịch vụ';
   bool isDataLoaded = false;
-  late final String? idDriver;
+  late String? idDriver;
 
   Future<void> fetchData() async {
     var data = json.encode({'otp': '123456'});
@@ -67,7 +68,7 @@ class _SelectServiceState extends ConsumerState<SelectService> {
   }
 
   handleRegister() async {
-    idDriver = ref.watch(driverInfoRegisterProvider).id;
+    final idDriver = ref.watch(driverInfoRegisterProvider).id;
     print(idDriver);
     var data = json.encode({'id': idDriver, 'serviceId': selectedServiceId});
     try {

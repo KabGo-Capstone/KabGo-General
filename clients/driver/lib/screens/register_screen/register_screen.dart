@@ -66,6 +66,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           'phonenumber': phonenumberDriver.text,
           'city': selectedCity,
           'referrer': referrerDriver.text,
+          'email': 'htvinh201@gmail.com'
         });
         // print(response.data['data']['id']);
       } else {
