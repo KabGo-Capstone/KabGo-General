@@ -48,7 +48,7 @@ const Step1Content: React.FC<any> = ({ record }) => {
                             <Input value={record?.supply.email} readOnly={true} />
                         </Form.Item>
                         <Form.Item label="Địa chỉ nhà">
-                            <Input value={record?.supply.address} readOnly={true} />
+                            <Input value={record?.currentAddress} readOnly={true} />
                         </Form.Item>
                         <Form.Item label="Dịch vụ đăng ký">
                             <Input value={record?.service.name} readOnly={true} />
