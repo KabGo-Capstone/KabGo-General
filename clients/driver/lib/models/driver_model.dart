@@ -5,8 +5,13 @@ class DriverModel {
   File? fileIdImgBefore;
   File? fileIdImgAfter;
   String? date;
+  String? placeOfIssue;
   File? personImage;
 
   DriverModel(
-      {this.fileIdImgBefore, this.fileIdImgAfter, this.date, this.personImage});
+      {this.fileIdImgBefore,
+      this.fileIdImgAfter,
+      this.date,
+      this.placeOfIssue,
+      this.personImage});
 }

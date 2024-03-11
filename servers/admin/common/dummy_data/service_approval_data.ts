@@ -25,6 +25,8 @@ export const getServiceApprovalData = async () => {
             vehicleRegistrationBacksight: getDataFromDB[i].vehicleRegistrationBacksight,
             vehicleInsuranceFrontsight: getDataFromDB[i].vehicleInsuranceFrontsight,
             vehicleInsuranceBacksight: getDataFromDB[i].vehicleInsuranceBacksight,
+            identityDate: getDataFromDB[i].identityDate,
+            identityLocation: getDataFromDB[i].identityLocation
         })
     }
     return data;

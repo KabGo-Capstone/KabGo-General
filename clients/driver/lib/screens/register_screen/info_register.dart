@@ -11,8 +11,9 @@ import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/item_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class InfoRegister extends StatefulWidget {
+class InfoRegister extends ConsumerStatefulWidget {
   static const path = '/info_register';
   static const name = 'info';
   final String selectedService;
@@ -22,12 +23,21 @@ class InfoRegister extends StatefulWidget {
   });
 
   @override
-  State<InfoRegister> createState() => _InfoRegisterState();
+  ConsumerState<InfoRegister> createState() => _InfoRegisterState();
 }
 
-class _InfoRegisterState extends State<InfoRegister> {
-  bool isCompleted = false;
-  bool isCompleted2 = true;
+class _InfoRegisterState extends ConsumerState<InfoRegister> {
+  // bool isCompletedImgPerson = false;
+  // bool isCompletedID = false;
+  // bool isCompletedLicense = false;
+  // bool isCompletedEmergency = false;
+  // bool isCompletedImgVehicle = false;
+  // bool isCompletedRegisterVehicle = false;
+  // bool isCompletedInsurance = false;
+  // bool isCompletedEmail = false;
+
+  bool isCompletedAll = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,20 +175,6 @@ class _InfoRegisterState extends State<InfoRegister> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const BankInfo(),
-                            ),
-                          );
-                        },
-                        splashColor: const Color.fromARGB(55, 255, 153, 0),
-                        highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Tài khoản ngân hàng', isCompleted: false),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
                               builder: (context) => const VehicleInfo(),
                             ),
                           );
@@ -215,6 +211,20 @@ class _InfoRegisterState extends State<InfoRegister> {
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
                         child: const ItemInfo(
                             title: 'Bảo hiểm xe', isCompleted: false),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BankInfo(),
+                            ),
+                          );
+                        },
+                        splashColor: const Color.fromARGB(55, 255, 153, 0),
+                        highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                        child: const ItemInfo(
+                            title: 'Liên kết email', isCompleted: false),
                       ),
                     ],
                   )

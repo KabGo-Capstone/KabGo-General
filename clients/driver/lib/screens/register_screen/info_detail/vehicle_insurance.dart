@@ -1,25 +1,113 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/driver_insurance_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_insurance_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_insurance_before.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VehicleInsurance extends StatefulWidget {
+class VehicleInsurance extends ConsumerStatefulWidget {
   const VehicleInsurance({super.key});
 
   @override
-  State<VehicleInsurance> createState() => _VehicleInsuranceState();
+  ConsumerState<VehicleInsurance> createState() => _VehicleInsuranceState();
 }
 
-class _VehicleInsuranceState extends State<VehicleInsurance> {
-  File? _image;
-  String? selectedPlaceOfIssue;
+class _VehicleInsuranceState extends ConsumerState<VehicleInsurance> {
+  File? imageInsuranceFront;
+  File? imageInsuranceBack;
+
+  late String? idDriver;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  handleRegister() async {
+    idDriver = ref.watch(driverInfoRegisterProvider).id ?? '6';
+    imageInsuranceFront =
+        ref.watch(driverInsuranceProvider).imgDriverInsuranceFront;
+    imageInsuranceBack =
+        ref.watch(driverInsuranceProvider).imgDriverInsuranceBack;
+    // print('idDriver');
+    // print(imageBefore);
+    // print(imageAfter);
+    // print(licenseDateController.text);
+    // print(selectedPlaceOfIssue);
+
+    if (imageInsuranceFront != null && imageInsuranceBack != null) {
+      setState(() {
+        isLoading = true;
+      });
+      var dataImageBefore = FormData.fromMap({
+        'image': [await MultipartFile.fromFile(imageInsuranceFront!.path)],
+        'id': idDriver
+      });
+
+      var dataImageAfter = FormData.fromMap({
+        'image': [await MultipartFile.fromFile(imageInsuranceBack!.path)],
+        'id': idDriver
+      });
+
+      try {
+        final dioClient = DioClient();
+
+        final responseImgBefore = await dioClient.request(
+          '/upload/vehicle-insurance-frontsight',
+          options: Options(method: 'POST'),
+          data: dataImageBefore,
+        );
+
+        final responseImgAfter = await dioClient.request(
+          '/upload/vehicle-insurance-backsight',
+          options: Options(method: 'POST'),
+          data: dataImageAfter,
+        );
+
+        // print('API');
+        // print(responseImgBefore.data);
+        // print(responseImgAfter.data);
+
+        if (responseImgBefore.statusCode == 200 &&
+            responseImgAfter.statusCode == 200) {
+          setState(() {
+            isLoading = false;
+          });
+          // ignore: use_build_context_synchronously
+          // Navigator.pop(context);
+        } else {
+          // Handle error
+        }
+      } catch (e) {
+        // Handle error
+      }
+    } else {
+      print('Image is null!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    imageInsuranceFront =
+        ref.watch(driverInsuranceProvider).imgDriverInsuranceFront;
+    imageInsuranceBack =
+        ref.watch(driverInsuranceProvider).imgDriverInsuranceBack;
+
+    print(imageInsuranceBack);
+    print(imageInsuranceFront);
     return Scaffold(
       appBar: const AppBarCustom(title: ''),
       backgroundColor: kWhiteColor,
@@ -97,8 +185,8 @@ class _VehicleInsuranceState extends State<VehicleInsurance> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: imageInsuranceFront != null
+                                    ? Image.file(imageInsuranceFront!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -171,8 +259,8 @@ class _VehicleInsuranceState extends State<VehicleInsurance> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Center(
-                                child: _image != null
-                                    ? Image.file(_image!)
+                                child: imageInsuranceBack != null
+                                    ? Image.file(imageInsuranceBack!)
                                     : const SizedBox(
                                         child: Column(
                                             mainAxisAlignment:
@@ -207,7 +295,8 @@ class _VehicleInsuranceState extends State<VehicleInsurance> {
         padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
         child: ElevatedButton(
           onPressed: () async {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            handleRegister();
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(kOrange),

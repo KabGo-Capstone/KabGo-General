@@ -40,6 +40,7 @@ class DriverController implements IController {
         this.router.post('/update-address', catchAsync(this.updateAddress))
         this.router.post('/update-email', catchAsync(this.updateEmail))
         this.router.post('/update-vehicle', catchAsync(this.updateVehicle))
+        this.router.post('/update-identity-info', catchAsync(this.updateIdentityInfo))
 
         this.router.post('/submit-driver', catchAsync(this.submitDriver))
 
@@ -216,18 +217,24 @@ class DriverController implements IController {
 
     private async updateService(req: Request, res: Response, next: NextFunction) {
         await adminClient.updateServiceApproval(req.body.id, 'serviceID', req.body.serviceId)
-        return res.status(200).json({ message: 'Update service successfully' })
+        return res.status(200).json({
+            message: 'Update service successfully',
+        })
     }
 
     private async updateAddress(req: Request, res: Response, next: NextFunction) {
         await adminClient.updateServiceApproval(req.body.id, 'currentAddress', req.body.currentAddress)
         await DriverModel.updateOne({ id: req.body.id }, { address: req.body.currentAddress })
-        return res.status(200).json({ message: 'Update address successfully' })
+        return res.status(200).json({
+            message: 'Update address successfully',
+        })
     }
 
     private async updateEmail(req: Request, res: Response, next: NextFunction) {
         await DriverModel.updateOne({ id: req.body.id }, { email: req.body.email })
-        return res.status(200).json({ message: 'Update email successfully' })
+        return res.status(200).json({
+            message: 'Update email successfully',
+        })
     }
 
     private async updateVehicle(req: Request, res: Response, next: NextFunction) {
@@ -241,11 +248,18 @@ class DriverController implements IController {
         return res.status(200).json({ message: 'Update vehicle successfully' })
     }
 
+    private async updateIdentityInfo(req: Request, res: Response, next: NextFunction) {
+        await adminClient.updateIdentityInfo(req.body.id, req.body.identityDate, req.body.identityLocation)
+        return res.status(200).json({
+            message: 'Update identity info successfully',
+        })
+    }
+
     private async submitDriver(req: Request, res: Response, next: NextFunction) {
 
-        const getDriverById = await DriverModel.findOne({id: req.body.id});
-       
-        if(getDriverById && getDriverById.email!== '') {
+        const getDriverById = await DriverModel.findOne({ id: req.body.id });
+
+        if (getDriverById && getDriverById.email !== '') {
             await GMailer.sendMail({
                 to: getDriverById.email,
                 subject: 'Trạng thái hồ sơ',
@@ -253,10 +267,10 @@ class DriverController implements IController {
             });
             return res.status(200).json({ message: 'We have received your profile, please wait for admin to approve your profile' })
         }
-        else{
+        else {
             return res.status(401).json({ message: 'Please link email to your account' })
         }
-        
+
     }
 
     private async createDB(

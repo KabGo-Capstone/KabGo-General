@@ -40,6 +40,10 @@ class DriverNotifier extends StateNotifier<DriverModel> {
   void setDate(String date) {
     state.date = date;
   }
+
+  void setPlaceOfIssue(String place) {
+    state.placeOfIssue = place;
+  }
 }
 
 final driverProvider = StateNotifierProvider<DriverNotifier, DriverModel>(

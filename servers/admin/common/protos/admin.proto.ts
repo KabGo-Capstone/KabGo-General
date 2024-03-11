@@ -9,7 +9,8 @@ import {
     ReqUpdateData,
     ReqCreateData,
     VehicleInformation,
-    ReqCreateVehicleData
+    ReqCreateVehicleData,
+    ReqUpdateIdentityInfo
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -163,6 +164,41 @@ class AdminService implements AdminServer {
         await ServiceApprovalModel.updateOne(
             { supplyID: call.request.supplyID },
             { [call.request.property]: call.request.value }
+        );
+        // driver.verified = true
+
+        if (serviceApprovalIndex !== -1) {
+            callback(null, ServiceApprovalInformation.create(serviceApproval))
+        } else {
+            callback(
+                {
+                    message: 'Service approval not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+    }
+
+    public async updateIdentityInfo(
+        call: grpc.ServerUnaryCall<ReqUpdateIdentityInfo, ServiceApprovalInformation>,
+        callback: grpc.sendUnaryData<ServiceApprovalInformation>
+    ) {
+
+        const SERVICEAPPROVALS = await getServiceApprovalData();
+
+        const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
+            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+        )
+
+        const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
+
+        await ServiceApprovalModel.updateOne(
+            { supplyID: call.request.supplyID },
+            { 
+                identityDate: call.request.identityDate,
+                identityLocation: call.request.identityLocation
+            }
         );
         // driver.verified = true
 
