@@ -10,7 +10,7 @@ import {
     ReqCreateData,
     VehicleInformation,
     ReqCreateVehicleData,
-    ReqUpdateIdentityInfo
+    ReqUpdateIdentityInfo,
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -30,9 +30,8 @@ class AdminService implements AdminServer {
         call: grpc.ServerUnaryCall<ServiceApprovalEmptyRequest, ServiceList>,
         callback: grpc.sendUnaryData<ServiceList>
     ) {
-
-        const SERVICES = await getServiceData();
-        const service = SERVICES;
+        const SERVICES = await getServiceData()
+        const service = SERVICES
 
         if (service && service.length > 0) {
             callback(
@@ -56,38 +55,38 @@ class AdminService implements AdminServer {
         call: grpc.ServerUnaryCall<ReqCreateData, ServiceApprovalInformation>,
         callback: grpc.sendUnaryData<ServiceApprovalInformation>
     ) {
+        let SERVICEAPPROVALS = await getServiceApprovalData()
 
-        let SERVICEAPPROVALS = await getServiceApprovalData();
-
-        const maxId = Math.max(...SERVICEAPPROVALS.map(el => parseInt(el.id)))
+        const maxId = Math.max(...SERVICEAPPROVALS.map((el) => parseInt(el.id)))
 
         await ServiceApprovalModel.create({
             id: (maxId + 1).toString(),
             supplyID: call.request.supplyID,
-            serviceID: "1",
-            vehicleID: "",
-            status: "pending",
+            serviceID: '1',
+            vehicleID: '',
+            status: 'pending',
             createdDate: new Date().toDateString(),
-            driverLicenseFrontsight: "",
-            driverLicenseBacksight: "",
-            personalImg: "",
-            identityImgFrontsight: "",
-            identityImgBacksight: "",
-            vehicleImgFrontsight: "",
-            vehicleImgBacksight: "",
-            vehicleImgLeftsight: "",
-            vehicleImgRightsight: "",
-            currentAddress: "",
-            vehicleRegistrationFrontsight: "",
-            vehicleRegistrationBacksight: "",
-            vehicleInsuranceFrontsight: "",
-            vehicleInsuranceBacksight: "",
+            driverLicenseFrontsight: '',
+            driverLicenseBacksight: '',
+            personalImg: '',
+            identityImgFrontsight: '',
+            identityImgBacksight: '',
+            vehicleImgFrontsight: '',
+            vehicleImgBacksight: '',
+            vehicleImgLeftsight: '',
+            vehicleImgRightsight: '',
+            currentAddress: '',
+            vehicleRegistrationFrontsight: '',
+            vehicleRegistrationBacksight: '',
+            vehicleInsuranceFrontsight: '',
+            vehicleInsuranceBacksight: '',
         })
 
-        SERVICEAPPROVALS = await getServiceApprovalData();
+        SERVICEAPPROVALS = await getServiceApprovalData()
 
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
-            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+            (serviceApproval) =>
+                serviceApproval.supplyID === call.request.supplyID
         )
 
         const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
@@ -103,17 +102,18 @@ class AdminService implements AdminServer {
                 null
             )
         }
-
     }
 
     public async createVehicleInformation(
-        call: grpc.ServerUnaryCall<ReqCreateVehicleData, ServiceApprovalInformation>,
+        call: grpc.ServerUnaryCall<
+            ReqCreateVehicleData,
+            ServiceApprovalInformation
+        >,
         callback: grpc.sendUnaryData<ServiceApprovalInformation>
     ) {
+        const VEHICLES = await getVehicleData()
 
-        let VEHICLES = await getVehicleData();
-
-        const maxId = Math.max(...VEHICLES.map(el => parseInt(el.id)))
+        const maxId = Math.max(...VEHICLES.map((el) => parseInt(el.id)))
 
         await VehicleModel.create({
             id: (maxId + 1).toString(),
@@ -123,12 +123,16 @@ class AdminService implements AdminServer {
             brand: call.request.brand,
         })
 
-        await ServiceApprovalModel.updateOne({ supplyID: call.request.supplyID }, { vehicleID: (maxId + 1).toString() })
+        await ServiceApprovalModel.updateOne(
+            { supplyID: call.request.supplyID },
+            { vehicleID: (maxId + 1).toString() }
+        )
 
-        const SERVICEAPPROVALS = await getServiceApprovalData();
+        const SERVICEAPPROVALS = await getServiceApprovalData()
 
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
-            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+            (serviceApproval) =>
+                serviceApproval.supplyID === call.request.supplyID
         )
 
         const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
@@ -144,19 +148,17 @@ class AdminService implements AdminServer {
                 null
             )
         }
-
     }
-
 
     public async updateServiceApproval(
         call: grpc.ServerUnaryCall<ReqUpdateData, ServiceApprovalInformation>,
         callback: grpc.sendUnaryData<ServiceApprovalInformation>
     ) {
-
-        const SERVICEAPPROVALS = await getServiceApprovalData();
+        const SERVICEAPPROVALS = await getServiceApprovalData()
 
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
-            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+            (serviceApproval) =>
+                serviceApproval.supplyID === call.request.supplyID
         )
 
         const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
@@ -164,7 +166,7 @@ class AdminService implements AdminServer {
         await ServiceApprovalModel.updateOne(
             { supplyID: call.request.supplyID },
             { [call.request.property]: call.request.value }
-        );
+        )
         // driver.verified = true
 
         if (serviceApprovalIndex !== -1) {
@@ -181,25 +183,28 @@ class AdminService implements AdminServer {
     }
 
     public async updateIdentityInfo(
-        call: grpc.ServerUnaryCall<ReqUpdateIdentityInfo, ServiceApprovalInformation>,
+        call: grpc.ServerUnaryCall<
+            ReqUpdateIdentityInfo,
+            ServiceApprovalInformation
+        >,
         callback: grpc.sendUnaryData<ServiceApprovalInformation>
     ) {
-
-        const SERVICEAPPROVALS = await getServiceApprovalData();
+        const SERVICEAPPROVALS = await getServiceApprovalData()
 
         const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
-            (serviceApproval) => serviceApproval.supplyID === call.request.supplyID
+            (serviceApproval) =>
+                serviceApproval.supplyID === call.request.supplyID
         )
 
         const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
 
         await ServiceApprovalModel.updateOne(
             { supplyID: call.request.supplyID },
-            { 
+            {
                 identityDate: call.request.identityDate,
-                identityLocation: call.request.identityLocation
+                identityLocation: call.request.identityLocation,
             }
-        );
+        )
         // driver.verified = true
 
         if (serviceApprovalIndex !== -1) {
@@ -214,8 +219,6 @@ class AdminService implements AdminServer {
             )
         }
     }
-
-
 }
 
 export { AdminService }
