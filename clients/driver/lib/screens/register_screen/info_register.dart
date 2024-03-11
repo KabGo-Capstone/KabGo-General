@@ -42,8 +42,7 @@ class _InfoRegisterState extends ConsumerState<InfoRegister> {
     print('Infor register rebuilt');
 
     final status = ref.watch(statusProvider);
-    isCompletedAll = status.isCompletedEmail &&
-        status.isCompletedEmergency &&
+    isCompletedAll = status.isCompletedEmergency &&
         status.isCompletedID &&
         status.isCompletedImgPerson &&
         status.isCompletedImgVehicle &&
