@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Image, theme } from "antd";
-import Motocycle from "../../assets/images/motocycle.png";
 
-const Step3Content = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
-
+const Step3Content: React.FC<any> = ({ record }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -14,14 +11,14 @@ const Step3Content = () => {
       <Typography.Text className="!text-2xl font-bold !mb-2">Hình ảnh xe đăng ký</Typography.Text>    
       <div className="flex justify-between space-x-4 !pl-3" style={{ padding: 24, background: colorBgContainer, borderRadius: borderRadiusLG }}>
       <div className="flex-1 space-y-4">
-        {renderCard("Đằng trước:", Motocycle)}
-        {renderCard("Đằng sau:", Motocycle)}
+        {renderCard("Đằng trước:", record?.vehicleImgFrontsight)}
+        {renderCard("Đằng sau:", record?.vehicleImgBacksight)}
       </div>
 
       {/* Second Column for Vehicle Image */}
       <div className="flex-1 flex flex-col items-center">
-        {renderCard("Bên phải:", Motocycle)}
-        {renderCard("Bên trái:", Motocycle)}
+        {renderCard("Bên phải:", record?.vehicleImgRightsight)}
+        {renderCard("Bên trái:", record?.vehicleImgLeftsight)}
       </div>
     </div>
     </div>

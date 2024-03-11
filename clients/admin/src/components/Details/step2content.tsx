@@ -1,12 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Image, theme } from "antd";
-import IdentityCard from "../../assets/images/identity card.jpg";
-import IdentityCard2 from "../../assets/images/identity card 2.jpg";
-import GiayDKXe from "../../assets/images/giay_dk_xe.jpg";
 
-const Step2Content = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
-
+const Step2Content: React.FC<any> = ({ record }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -14,16 +9,16 @@ const Step2Content = () => {
   return (
     <div className="flex justify-between space-x-4" style={{ padding: 24, background: colorBgContainer, borderRadius: borderRadiusLG }}>
       <div className="flex-1 space-y-4">
-        {renderCard("CCCD/CMND/Hộ chiếu", "Mặt trước:", IdentityCard)}
-        {renderCard("CCCD/CMND/Hộ chiếu", "Mặt sau:", IdentityCard2)}
+        {renderCard("CCCD/CMND/Hộ chiếu", "Mặt trước:", record?.identityImgFrontsight)}
+        {renderCard("CCCD/CMND/Hộ chiếu", "Mặt sau:", record?.identityImgBacksight)}
       </div>
 
       {/* Vertical Line */}
       <div className="!border-l !border-gray-300 !h-full"></div>
 
       <div className="flex-1 flex flex-col items-center">
-        {renderCard("Giấy đăng ký xe", "Mặt trước:", GiayDKXe)}
-        {renderCard("Giấy đăng ký xe", "Mặt sau:", GiayDKXe)}
+        {renderCard("Giấy đăng ký xe", "Mặt trước:", record?.vehicleRegistrationFrontsight)}
+        {renderCard("Giấy đăng ký xe", "Mặt sau:", record?.vehicleRegistrationBacksight)}
       </div>
     </div>
   );

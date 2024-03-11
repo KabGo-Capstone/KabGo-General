@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Typography, Image, theme } from "antd";
 import GiayPhepLaiXe from '../../assets/images/giay_phep_lai_xe.jpg';
-import BaoHiemXe from '../../assets/images/bao_hiem_Xe.jpg';
+// import BaoHiemXe from '../../assets/images/bao_hiem_Xe.jpg';
 
-const Step4Content = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
-
+const Step4Content: React.FC<any> = ({ record }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -21,8 +19,8 @@ const Step4Content = () => {
       {/* Second Column for Vehicle Image */}
       <div className="flex-1 flex flex-col items-center space-y-4">
         <Typography.Text className="!text-2xl font-bold !mb-2">Bảo hiểm xe</Typography.Text>
-        {renderCard("Mặt trước", BaoHiemXe)}
-        {renderCard("Mặt sau", BaoHiemXe)}
+        {renderCard("Mặt trước", record?.vehicleInsuranceFrontsight)}
+        {renderCard("Mặt sau", record?.vehicleInsuranceBacksight)}
       </div>
     </div>
   );
