@@ -111,13 +111,13 @@ class _DrivingRegisterState extends ConsumerState<DrivingRegister> {
         );
 
         final responseImgAfter = await dioClient.request(
-          '/upload/vehicle-img-backsight',
+          '/upload/vehicle-registration-backsight',
           options: Options(method: 'POST'),
           data: dataImageAfter,
         );
 
         final responseIdentity = await dioClient.request(
-          '/update-service',
+          '/update-vehicle',
           options: Options(method: 'POST'),
           data: dataUpdateVehicle,
         );
