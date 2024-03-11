@@ -9,7 +9,7 @@ import * as grpc from '@grpc/grpc-js'
 // import { supplies as DRIVERS } from '../dummy_data/dummy_data'
 
 import { getSupplies } from '../dummy_data/mongoose_data'
-import DriverModel from 'common/models/driver.model';
+import DriverModel from '../models/driver.model'
 
 class DriverService implements DriverServer {
     [name: string]: grpc.UntypedHandleCall
@@ -18,8 +18,8 @@ class DriverService implements DriverServer {
         call: grpc.ServerUnaryCall<DriverEmptyRequest, DriverList>,
         callback: grpc.sendUnaryData<DriverList>
     ) {
-        const DRIVERS = await getSupplies();
-        const driver = DRIVERS;
+        const DRIVERS = await getSupplies()
+        const driver = DRIVERS
 
         if (driver && driver.length > 0) {
             callback(
@@ -43,7 +43,7 @@ class DriverService implements DriverServer {
         call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
         callback: grpc.sendUnaryData<DriverInformation>
     ) {
-        const DRIVERS = await getSupplies();
+        const DRIVERS = await getSupplies()
         const driver = DRIVERS.find((driver) => driver.id === call.request.id)
 
         if (driver) {
@@ -63,13 +63,13 @@ class DriverService implements DriverServer {
         call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
         callback: grpc.sendUnaryData<DriverInformation>
     ) {
-        const DRIVERS = await getSupplies();
+        const DRIVERS = await getSupplies()
         const driverIndex = DRIVERS.findIndex(
             (driver) => driver.id === call.request.id
         )
 
         const driver = DRIVERS[driverIndex]
-        await DriverModel.updateOne({ id: call.request.id }, { verified: true });
+        await DriverModel.updateOne({ id: call.request.id }, { verified: true })
         // driver.verified = true
 
         if (driverIndex !== -1) {
@@ -89,15 +89,17 @@ class DriverService implements DriverServer {
         call: grpc.ServerUnaryCall<DriverID, DriverInformation>,
         callback: grpc.sendUnaryData<DriverInformation>
     ) {
-
-        const DRIVERS = await getSupplies();
+        const DRIVERS = await getSupplies()
 
         const driverIndex = DRIVERS.findIndex(
             (driver) => driver.id === call.request.id
         )
 
         const driver = DRIVERS[driverIndex]
-        await DriverModel.updateOne({ id: call.request.id }, { verified: false });
+        await DriverModel.updateOne(
+            { id: call.request.id },
+            { verified: false }
+        )
         // driver.verified = false
 
         if (driverIndex !== -1) {
