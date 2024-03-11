@@ -2,24 +2,27 @@ import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
 import 'package:driver/functions/pick_image.dart';
+import 'package:driver/providers/driver_insurance_provider.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RemindInsuranceAfter extends StatefulWidget {
+class RemindInsuranceAfter extends ConsumerStatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
   const RemindInsuranceAfter({super.key});
 
   @override
-  State<RemindInsuranceAfter> createState() =>
+  ConsumerState<RemindInsuranceAfter> createState() =>
       _RemindInsuranceBeforeAfterState();
 }
 
-class _RemindInsuranceBeforeAfterState extends State<RemindInsuranceAfter> {
+class _RemindInsuranceBeforeAfterState
+    extends ConsumerState<RemindInsuranceAfter> {
   void _setImage(File image) {
-    setState(() {});
+    ref.read(driverInsuranceProvider.notifier).setDrivingLicenseBack(image);
   }
 
   @override

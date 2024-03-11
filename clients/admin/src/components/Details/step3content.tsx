@@ -30,10 +30,10 @@ const Step3Content: React.FC<any> = ({ record }) => {
         className="grid grid-cols-2 gap-4"
         style={{ padding: 24, background: colorBgContainer, borderRadius: borderRadiusLG }}
       >
-        {renderCard("Đằng trước:", record?.vehicleImgFrontsight)}
-        {renderCard("Đằng sau:", record?.vehicleImgBacksight)}
-        {renderCard("Bên phải:", record?.vehicleImgRightsight)}
-        {renderCard("Bên trái:", record?.vehicleImgLeftsight)}
+        {renderCard("Đằng trước", record?.vehicleImgFrontsight)}
+        {renderCard("Đằng sau", record?.vehicleImgBacksight)}
+        {renderCard("Bên phải", record?.vehicleImgRightsight)}
+        {renderCard("Bên trái", record?.vehicleImgLeftsight)}
       </div>
     </div>
   );
@@ -43,17 +43,19 @@ const renderCard = (title: string, imageSource: any) => (
   <div className="flex flex-col items-center">
     <Typography.Text className="!text-lg !mb-2">{title}</Typography.Text>
     {/* <img src={imageSource} alt={title} className="w-3/5 h-auto" /> */}
-    <Image
-      width={300}
-      src={imageSource || NoImg}
-      placeholder={
-        <Image
-          preview={false}
-          src={imageSource || NoImg}
-          width={200}
-        />
-      }
-    />
+    <div>
+      <Image
+        height={200}
+        width={300}
+        src={imageSource || NoImg}
+        placeholder={
+          <Image
+            preview={false}
+            src={imageSource || NoImg}
+          />
+        }
+      />
+    </div>
   </div>
 );
 

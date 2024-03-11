@@ -29,10 +29,10 @@ const Step2Content: React.FC<any> = ({ record }) => {
       className="grid grid-cols-2 gap-4"
       style={{ padding: 24, background: colorBgContainer, borderRadius: borderRadiusLG }}
     >
-      {renderCard("CCCD/CMND/Hộ chiếu", "Mặt trước:", record?.identityImgFrontsight)}
-      {renderCard("CCCD/CMND/Hộ chiếu", "Mặt sau:", record?.identityImgBacksight)}
-      {renderCard("Giấy đăng ký xe", "Mặt trước:", record?.vehicleRegistrationFrontsight)}
-      {renderCard("Giấy đăng ký xe", "Mặt sau:", record?.vehicleRegistrationBacksight)}
+      {renderCard("CCCD/CMND/Hộ chiếu", "Mặt trước", record?.identityImgFrontsight)}
+      {renderCard("CCCD/CMND/Hộ chiếu", "Mặt sau", record?.identityImgBacksight)}
+      {renderCard("Giấy đăng ký xe", "Mặt trước", record?.vehicleRegistrationFrontsight)}
+      {renderCard("Giấy đăng ký xe", "Mặt sau", record?.vehicleRegistrationBacksight)}
     </div>
 
   );
@@ -43,6 +43,7 @@ const renderCard = (title: string, subTitle: string, imageSource: any) => (
     <Typography.Text className="!text-2xl font-bold !mb-2">{title}</Typography.Text>
     <Typography.Text className="!text-lg !mb-2">{subTitle}</Typography.Text>
     <Image
+      height={200}
       width={300}
       src={imageSource || NoImg}
       // className="!bg-cover"

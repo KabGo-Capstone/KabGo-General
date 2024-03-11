@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
-import 'package:driver/screens/register_screen/info_detail/bank_info.dart';
+import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/status_provider.dart';
+import 'package:driver/screens/register_screen/info_detail/email_info.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_license.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_register.dart';
 import 'package:driver/screens/register_screen/info_detail/emergency_contact.dart';
@@ -7,12 +12,14 @@ import 'package:driver/screens/register_screen/info_detail/id_person.dart';
 import 'package:driver/screens/register_screen/info_detail/person_image.dart';
 import 'package:driver/screens/register_screen/info_detail/vehicle_info.dart';
 import 'package:driver/screens/register_screen/info_detail/vehicle_insurance.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/item_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class InfoRegister extends StatefulWidget {
+class InfoRegister extends ConsumerStatefulWidget {
   static const path = '/info_register';
   static const name = 'info';
   final String selectedService;
@@ -22,14 +29,67 @@ class InfoRegister extends StatefulWidget {
   });
 
   @override
-  State<InfoRegister> createState() => _InfoRegisterState();
+  ConsumerState<InfoRegister> createState() => _InfoRegisterState();
 }
 
-class _InfoRegisterState extends State<InfoRegister> {
-  bool isCompleted = false;
-  bool isCompleted2 = true;
+class _InfoRegisterState extends ConsumerState<InfoRegister> {
+  bool isCompletedAll = false;
+  bool isLoading = false;
+  String? idDriver;
+
   @override
   Widget build(BuildContext context) {
+    print('Infor register rebuilt');
+
+    final status = ref.watch(statusProvider);
+    isCompletedAll = status.isCompletedEmail &&
+        status.isCompletedEmergency &&
+        status.isCompletedID &&
+        status.isCompletedImgPerson &&
+        status.isCompletedImgVehicle &&
+        status.isCompletedInsurance &&
+        status.isCompletedLicense &&
+        status.isCompletedRegisterVehicle;
+
+    handleRegister() async {
+      idDriver = ref.watch(driverInfoRegisterProvider).id ?? '6';
+
+      if (idDriver != null) {
+        setState(() {
+          isLoading = true;
+        });
+
+        var data = json.encode({
+          'id': idDriver,
+        });
+
+        try {
+          final dioClient = DioClient();
+
+          final responseImgBefore = await dioClient.request(
+            '/submit-driver',
+            options: Options(method: 'POST'),
+            data: data,
+          );
+
+          if (responseImgBefore.statusCode == 200) {
+            ref.read(statusProvider.notifier).setInsurance(true);
+            setState(() {
+              isLoading = false;
+            });
+            // ignore: use_build_context_synchronously
+            // Navigator.pop(context);
+          } else {
+            // Handle error
+          }
+        } catch (e) {
+          // Handle error
+        }
+      } else {
+        print('Image is null!');
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const AppBarCustom(title: ''),
@@ -110,9 +170,10 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
+                        child: ItemInfo(
                           title: 'Ảnh cá nhân',
-                          isCompleted: true,
+                          isCompleted:
+                              ref.watch(statusProvider).isCompletedImgPerson,
                         ),
                       ),
                       InkWell(
@@ -126,8 +187,10 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'CCCD/CMND/Hộ chiếu', isCompleted: false),
+                        child: ItemInfo(
+                            title: 'CCCD/CMND/Hộ chiếu',
+                            isCompleted:
+                                ref.watch(statusProvider).isCompletedID),
                       ),
                       InkWell(
                         onTap: () {
@@ -140,8 +203,10 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Bằng lái xe', isCompleted: false),
+                        child: ItemInfo(
+                            title: 'Bằng lái xe',
+                            isCompleted:
+                                ref.watch(statusProvider).isCompletedLicense),
                       ),
                       InkWell(
                         onTap: () {
@@ -155,24 +220,11 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
+                        child: ItemInfo(
                             title:
                                 'Thông tin liên hệ khẩn cấp và địa chỉ tạm trú',
-                            isCompleted: false),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BankInfo(),
-                            ),
-                          );
-                        },
-                        splashColor: const Color.fromARGB(55, 255, 153, 0),
-                        highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Tài khoản ngân hàng', isCompleted: false),
+                            isCompleted:
+                                ref.watch(statusProvider).isCompletedEmergency),
                       ),
                       InkWell(
                         onTap: () {
@@ -185,8 +237,11 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Hình ảnh xe', isCompleted: false),
+                        child: ItemInfo(
+                            title: 'Hình ảnh xe',
+                            isCompleted: ref
+                                .watch(statusProvider)
+                                .isCompletedImgVehicle),
                       ),
                       InkWell(
                         onTap: () {
@@ -199,8 +254,11 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Giấy đăng ký xe', isCompleted: false),
+                        child: ItemInfo(
+                            title: 'Giấy đăng ký xe',
+                            isCompleted: ref
+                                .watch(statusProvider)
+                                .isCompletedRegisterVehicle),
                       ),
                       InkWell(
                         onTap: () {
@@ -213,8 +271,26 @@ class _InfoRegisterState extends State<InfoRegister> {
                         },
                         splashColor: const Color.fromARGB(55, 255, 153, 0),
                         highlightColor: const Color.fromARGB(55, 255, 153, 0),
-                        child: const ItemInfo(
-                            title: 'Bảo hiểm xe', isCompleted: false),
+                        child: ItemInfo(
+                            title: 'Bảo hiểm xe',
+                            isCompleted:
+                                ref.watch(statusProvider).isCompletedInsurance),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BankInfo(),
+                            ),
+                          );
+                        },
+                        splashColor: const Color.fromARGB(55, 255, 153, 0),
+                        highlightColor: const Color.fromARGB(55, 255, 153, 0),
+                        child: ItemInfo(
+                            title: 'Liên kết email',
+                            isCompleted:
+                                ref.watch(statusProvider).isCompletedEmail),
                       ),
                     ],
                   )
@@ -222,6 +298,28 @@ class _InfoRegisterState extends State<InfoRegister> {
               ),
             )
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+        child: ElevatedButton(
+          onPressed: isCompletedAll
+              ? () async {
+                  // Navigator.pop(context);
+                  handleRegister();
+                }
+              : null, // Không cho phép nhấn nếu isCompletedAll là false
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(kOrange),
+          ),
+          child: const Text(
+            'Nộp hồ sơ',
+            style: TextStyle(
+              fontSize: 16,
+              color: kWhiteColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );

@@ -2,9 +2,16 @@
 import 'dart:io';
 
 class DriverModel {
-  File? file;
+  File? fileIdImgBefore;
+  File? fileIdImgAfter;
   String? date;
+  String? placeOfIssue;
   File? personImage;
 
-  DriverModel({this.file, this.date, this.personImage});
+  DriverModel(
+      {this.fileIdImgBefore,
+      this.fileIdImgAfter,
+      this.date,
+      this.placeOfIssue,
+      this.personImage});
 }

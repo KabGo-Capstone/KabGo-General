@@ -2,24 +2,30 @@ import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
 import 'package:driver/functions/pick_image.dart';
+import 'package:driver/providers/vehicle_register_provider.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RemindCertificateBefore extends StatefulWidget {
+class RemindCertificateBefore extends ConsumerStatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
   const RemindCertificateBefore({super.key});
 
   @override
-  State<RemindCertificateBefore> createState() =>
+  ConsumerState<RemindCertificateBefore> createState() =>
       _RemindCertificateBeforeState();
 }
 
-class _RemindCertificateBeforeState extends State<RemindCertificateBefore> {
+class _RemindCertificateBeforeState
+    extends ConsumerState<RemindCertificateBefore> {
   void _setImage(File image) {
-    setState(() {});
+    ref
+        .read(vehicleRegisterNotifier.notifier)
+        .setVehicleRegisterImageFront(image);
+    // setState(() {});
   }
 
   @override

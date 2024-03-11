@@ -2,23 +2,26 @@ import 'dart:io';
 
 import 'package:driver/constants/colors.dart';
 import 'package:driver/functions/pick_image.dart';
+import 'package:driver/providers/vehicle_image_provider.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RemindVehicleFront extends StatefulWidget {
+class RemindVehicleFront extends ConsumerStatefulWidget {
   static const path = 'remind_person_image';
   static const name = 'remind_person_image';
   const RemindVehicleFront({super.key});
 
   @override
-  State<RemindVehicleFront> createState() => _RemindVehicleFrontState();
+  ConsumerState<RemindVehicleFront> createState() => _RemindVehicleFrontState();
 }
 
-class _RemindVehicleFrontState extends State<RemindVehicleFront> {
+class _RemindVehicleFrontState extends ConsumerState<RemindVehicleFront> {
   void _setImage(File image) {
-    setState(() {});
+    ref.read(vehicleImageProvider.notifier).setVehicleFront(image);
+    // setState(() {});
   }
 
   @override

@@ -49,7 +49,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         options: Options(method: 'POST'),
         data: data,
       );
-      print(response.data['data']['id']);
+      // print(response.data['data']['id']);
 
       if (response.statusCode == 200) {
         ref
