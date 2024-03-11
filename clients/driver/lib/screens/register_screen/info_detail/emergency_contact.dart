@@ -6,6 +6,7 @@ import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/emergency_contact_provider.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
@@ -90,6 +91,7 @@ class _EmergencyContactInfoState extends ConsumerState<EmergencyContactInfo> {
         // print(responseImgAfter.data);
 
         if (responseImgBefore.statusCode == 200) {
+          ref.read(statusProvider.notifier).setEmergency(true);
           setState(() {
             isLoading = false;
           });

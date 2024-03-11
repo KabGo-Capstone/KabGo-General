@@ -6,6 +6,7 @@ import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/providers/vehicle_register_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_certificate_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_certificate_before.dart';
@@ -127,6 +128,7 @@ class _DrivingRegisterState extends ConsumerState<DrivingRegister> {
         if (responseImgBefore.statusCode == 200 &&
             responseImgAfter.statusCode == 200 &&
             responseIdentity.statusCode == 200) {
+          ref.read(statusProvider.notifier).setRegisterVehicle(true);
           setState(() {
             isLoading = false; // Đặt isLoading là false khi xử lý xong
           });

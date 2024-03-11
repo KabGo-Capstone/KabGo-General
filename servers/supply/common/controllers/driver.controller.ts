@@ -298,6 +298,7 @@ class DriverController implements IController {
 
     private async uploadPersonalImg(req: Request, res: Response, next: NextFunction) {
         await adminClient.updateServiceApproval(req.body.id, 'personalImg', req.cloudinaryResult.secure_url || req.cloudinaryResult.url)
+        await DriverModel.updateOne({id: req.body.id}, {avatar: req.cloudinaryResult.secure_url || req.cloudinaryResult.url})
         return res.status(200).json({ message: 'Upload avatar successfully' })
     }
 

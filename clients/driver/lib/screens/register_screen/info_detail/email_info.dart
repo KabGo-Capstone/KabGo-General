@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_text.dart';
@@ -89,6 +90,7 @@ class _BankInfoState extends ConsumerState<BankInfo> {
         // print(responseImgAfter.data);
 
         if (responseUpdateEmail.statusCode == 200) {
+          ref.read(statusProvider.notifier).setStatusEmail(true);
           setState(() {
             isLoading = false;
           });

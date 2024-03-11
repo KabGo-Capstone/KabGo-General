@@ -17,7 +17,7 @@ final router = Provider<GoRouter>(
     final phoneNumberAuthState = ref.watch(phoneAuthProvider);
 
     return GoRouter(
-      initialLocation: InfoRegister.path,
+      initialLocation: LoginScreen.path,
       routes: [
         GoRoute(
           path: LoginScreen.path,

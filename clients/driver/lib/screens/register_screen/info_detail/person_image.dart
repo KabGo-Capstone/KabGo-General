@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driver_provider.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_person_infor.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
@@ -48,6 +49,7 @@ class _PersonImageState extends ConsumerState<PersonImage> {
         print(response.data);
 
         if (response.statusCode == 200) {
+          ref.read(statusProvider.notifier).setImgPerdon(true);
           setState(() {
             isLoading = false;
           });

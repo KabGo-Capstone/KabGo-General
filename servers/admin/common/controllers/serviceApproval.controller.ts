@@ -195,6 +195,7 @@ class ServiceApprovalController implements IController {
         res: Response,
         next: NextFunction
     ) {
+
         for await (const serviceApproval of DummyData.serviceApprovals) {
             await ServiceApprovalModel.create(serviceApproval);
         }

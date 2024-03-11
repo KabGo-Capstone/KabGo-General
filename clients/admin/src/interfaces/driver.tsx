@@ -1,9 +1,13 @@
 interface IDriver {
     createdDate: string;
     currentAddress: string;
-    driverLicense: string;
+    driverLicenseBacksight: string;
+    driverLicenseFrontsight: string;
     id: string;
-    identityImg: string;
+    identityDate: string;
+    identityImgBacksight: string;
+    identityImgFrontsight: string;
+    identityLocation: string;
     personalImg: string;
     service: {
         basePrice: string;
@@ -17,9 +21,17 @@ interface IDriver {
         color: string;
         id: string;
         name: string;
+        identityNumber: string;
     }
     vehicleID: string;
-    vehicleImg: string;
+    vehicleImgBacksight: string;
+    vehicleImgFrontsight: string;
+    vehicleImgLeftsight: string;
+    vehicleImgRightsight: string;
+    vehicleInsuranceBacksight: string;
+    vehicleInsuranceFrontsight: string;
+    vehicleRegistrationFrontsight: string;
+    vehicleRegistrationBacksight: string;
     status: string;
     supply: {
         id: string;
@@ -32,6 +44,9 @@ interface IDriver {
         firstName: string;
         lastName: string;
         address: string;
+        city: string;
+        phoneNumber: string;
+        referralCode: string;
     };
 }
 export default IDriver;

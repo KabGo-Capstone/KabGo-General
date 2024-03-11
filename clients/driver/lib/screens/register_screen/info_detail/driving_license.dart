@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driving_license.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_license_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_license_before.dart';
 import 'package:driver/services/dio_client.dart';
@@ -42,11 +43,6 @@ class _DivingLicenseState extends ConsumerState<DivingLicense> {
         ref.watch(drivingLicenseProvider).imgDrivingLicenseBefore;
     imageDrivingLicenseAfter =
         ref.watch(drivingLicenseProvider).imgDrivingLicenseAfter;
-    // print('idDriver');
-    // print(imageBefore);
-    // print(imageAfter);
-    // print(licenseDateController.text);
-    // print(selectedPlaceOfIssue);
 
     if (imageDrivingLicenseBefore != null && imageDrivingLicenseAfter != null) {
       setState(() {
@@ -79,12 +75,9 @@ class _DivingLicenseState extends ConsumerState<DivingLicense> {
           data: dataImageAfter,
         );
 
-        // print('API');
-        // print(responseImgBefore.data);
-        // print(responseImgAfter.data);
-
         if (responseImgBefore.statusCode == 200 &&
             responseImgAfter.statusCode == 200) {
+          ref.read(statusProvider.notifier).setLicnese(true);
           setState(() {
             isLoading = false;
           });

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/providers/vehicle_image_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_back.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_front.dart';
@@ -115,6 +116,7 @@ class _IVehicleInfoState extends ConsumerState<VehicleInfo> {
             responseImgBack.statusCode == 200 &&
             responseImgRight.statusCode == 200 &&
             responseImgLeft.statusCode == 200) {
+          ref.read(statusProvider.notifier).setImgVehicle(true);
           setState(() {
             isLoading = false;
           });

@@ -7,6 +7,7 @@ import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driver_provider.dart';
+import 'package:driver/providers/status_provider.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
 import 'package:driver/services/dio_client.dart';
@@ -101,6 +102,7 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
         if (responseImgBefore.statusCode == 200 &&
             responseImgAfter.statusCode == 200 &&
             responseIdentity.statusCode == 200) {
+          ref.read(statusProvider.notifier).setIdentity(true);
           setState(() {
             isLoading = false;
           });

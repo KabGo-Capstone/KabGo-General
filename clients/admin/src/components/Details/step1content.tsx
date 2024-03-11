@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Cascader, Checkbox, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Table, Tag, TreeSelect, Typography, theme } from "antd";
-import { Content } from "antd/es/layout/layout";
-import { ReactComponent as UploadImg } from "../../assets/svg/Sidebar/upload_img.svg";
-import IDriver from "../../interfaces/driver";
+import { Form, Input, Typography, theme } from "antd";
+import NoImg from '../../assets/images/no_img.jpg';
 
 const Step1Content: React.FC<any> = ({ record }) => {
     const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
@@ -12,8 +10,7 @@ const Step1Content: React.FC<any> = ({ record }) => {
 
     useEffect(() => {
         if (record) {
-            //   const firstName = record.firstName;
-            console.log("Record: ", record);
+            console.log("Record step1: ", record);
         }
     }, [record]);
 
@@ -64,7 +61,10 @@ const Step1Content: React.FC<any> = ({ record }) => {
                 <div className="!flex !flex-col gap-8 !w-2/5">
                     <Typography.Text className="!font-bold !text-2xl !flex !justify-center">Ảnh đại diện</Typography.Text>
                     <div className="!flex !justify-center">
-                        <UploadImg />
+                        {record && record.personalImg ?
+                            <img src={record.personalImg} alt="Personal" className="rounded-full !w-60 !h-60" /> :
+                            <img src={NoImg} alt="Alternative" className="rounded-full !w-60 !h-60" />
+                        }
                     </div>
                 </div>
             </div>
