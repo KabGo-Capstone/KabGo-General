@@ -177,9 +177,20 @@ class ServiceApprovalController implements IController {
         next: NextFunction
     ) {
         const serviceApprovalData = await getServiceApprovalData();
-        const index = serviceApprovalData.findIndex(
-            (data) => data.id === req.params.id
+
+        const approvalIndex = serviceApprovalData.findIndex(
+            (el) => el.id === req.params.id
         )
+
+        const supply = await supplyClient.findById(serviceApprovalData[approvalIndex].supplyID)
+
+        if(supply && supply.email!== '') {
+            await GMailer.sendMail({
+                to: supply.email,
+                subject: 'Trạng thái hồ sơ',
+                html: '<h3>Hồ sơ không hợp lệ, bạn vui lòng thử lại sau</h3>',
+            });
+        }
 
         await ServiceApprovalModel.deleteOne({ id: req.params.id });
 
