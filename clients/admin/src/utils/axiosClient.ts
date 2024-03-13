@@ -5,9 +5,14 @@ const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_HOST ?? 'http://localhost:5003',
   headers: {
     'content-type': 'application/json',
+    // Authorization: Bearer ${accessToken},
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });
+
+// export const setAccessToken = (token: string) => {
+//   axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// };
 
 axiosClient.interceptors.request.use(async (config) => config);
 

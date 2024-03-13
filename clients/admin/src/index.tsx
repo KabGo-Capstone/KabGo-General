@@ -17,48 +17,51 @@ import { StyleProvider } from "@ant-design/cssinjs";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import {
-    ApolloClient,
-    InMemoryCache,
-    ApolloProvider,
-    gql,
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
 } from "@apollo/client";
+import { Auth0ProviderWithNavigate } from "./components/Authentication/auth0-provider-with-navigate";
 
 const client = new ApolloClient({
-    uri: `${process.env.REACT_APP_BACKEND_HOST ?? 'http://localhost:5003'}/graph`,
-    cache: new InMemoryCache(),
+  uri: `${process.env.REACT_APP_BACKEND_HOST ?? "http://localhost:5003"}/graph`,
+  cache: new InMemoryCache(),
 });
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-    <BrowserRouter>
-        {/* <Provider store={store}> */}
-        <ConfigProvider
-            theme={{
-                token: {
-                    fontFamily: "Montserrat",
-                    colorPrimary: "#F86C1D",
-                    fontSize: 13,
-                },
-                components: {
-                    Button: {
-                        colorPrimary: "#F86C1D",
-                    },
-                    Table: {
-                        rowHoverBg: "#FFF4EF",
-                    },
-                },
-            }}
-        >
-            <StyleProvider hashPriority="high">
-                <ApolloProvider client={client}>
-                    <App />
-                </ApolloProvider>
-            </StyleProvider>
-        </ConfigProvider>
-        {/* </Provider> */}
-    </BrowserRouter>
+  <BrowserRouter>
+    {/* <Provider store={store}> */}
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: "Montserrat",
+          colorPrimary: "#F86C1D",
+          fontSize: 13,
+        },
+        components: {
+          Button: {
+            colorPrimary: "#F86C1D",
+          },
+          Table: {
+            rowHoverBg: "#FFF4EF",
+          },
+        },
+      }}
+    >
+      <StyleProvider hashPriority="high">
+        <ApolloProvider client={client}>
+          <Auth0ProviderWithNavigate>
+            <App />
+          </Auth0ProviderWithNavigate>
+        </ApolloProvider>
+      </StyleProvider>
+    </ConfigProvider>
+    {/* </Provider> */}
+  </BrowserRouter>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -22,6 +22,10 @@ import { getServiceApprovalData } from '../dummy_data/service_approval_data'
 import { getServiceData } from '../dummy_data/service_data'
 import { getVehicleData } from '../dummy_data/vehicle_data'
 
+import * as dotenv from "dotenv";
+import { auth } from "express-oauth2-jwt-bearer";
+import { validateAccessToken } from '../middlewares/auth0.middleware'
+
 // const serviceApprovalData = DummyData.serviceApprovals
 // const vehicleData = DummyData.vehicles
 // const serviceData = DummyData.services
@@ -32,11 +36,12 @@ class ServiceApprovalController implements IController {
     readonly router: Router = Router()
 
     constructor() {
-        this.router.get('/', catchAsync(this.getServiceApprovals.bind(this)))
-        this.router.post('/approve/:id', catchAsync(this.approveDriver))
-        this.router.patch('/disapprove/:id', catchAsync(this.disapproveDriver))
+        this.router.get('/', validateAccessToken, catchAsync(this.getServiceApprovals.bind(this)))
+        this.router.post('/approve/:id', validateAccessToken, catchAsync(this.approveDriver.bind(this)))
+        this.router.patch('/disapprove/:id', validateAccessToken, catchAsync(this.disapproveDriver))
         this.router.delete(
             '/:id',
+            validateAccessToken,
             catchAsync(this.deleteDriverApproval.bind(this))
         )
         this.router.get('/create-db', catchAsync(this.createDB))
@@ -73,6 +78,7 @@ class ServiceApprovalController implements IController {
         res: Response,
         next: NextFunction
     ) {
+
         const serviceApprovals = await this.getDetailsServiceApproval()
 
         return res.status(200).json({ data: serviceApprovals })
