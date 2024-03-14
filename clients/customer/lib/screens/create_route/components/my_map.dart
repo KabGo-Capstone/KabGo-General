@@ -56,10 +56,13 @@ class _MyMapState extends ConsumerState<MyMap> {
   double zoom = 16.5;
   bool isDrawRoute = true;
 
+  int? route_width;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    route_width = 0;
     DefaultAssetBundle.of(context)
         .loadString('lib/assets/jsons/map.json')
         .then((value) => mapTheme = value);
@@ -207,6 +210,21 @@ class _MyMapState extends ConsumerState<MyMap> {
       polylineList.add(polyline);
       _setMapFitToTour();
     });
+    Future.delayed(Duration.zero, () {
+      drawStepByStep(result);
+    });
+  }
+
+  void drawStepByStep(List<PointLatLng> result) async {
+    route_width = 7;
+    polylineCoordinates.clear();
+    // print(1000/result.length);
+
+    for (var point in result) {
+      polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      setState(() {});
+      await Future.delayed(Duration(milliseconds: 1000~/result.length));
+    }
   }
 
   void _setMapFitToTour() {
@@ -296,7 +314,7 @@ class _MyMapState extends ConsumerState<MyMap> {
               polylineId: const PolylineId('route'),
               points: polylineCoordinates,
               color: const Color.fromARGB(255, 255, 113, 36),
-              width: 7,
+              width: route_width!,
             )
           },
           onCameraMove: (CameraPosition cameraPositiona) {
