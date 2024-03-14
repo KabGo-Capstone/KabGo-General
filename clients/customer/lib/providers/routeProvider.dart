@@ -3,7 +3,7 @@ import 'package:riverpod/riverpod.dart';
 import '../models/route_model.dart';
 
 class RouteNotifier extends StateNotifier<RouteModel> {
-  RouteNotifier() : super(RouteModel());
+  RouteNotifier() : super(RouteModel(distance: ''));
 
   void setRoute(RouteModel value) async {
     state = value;

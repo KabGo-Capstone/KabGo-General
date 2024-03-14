@@ -4,6 +4,7 @@ import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
+import 'package:customer/providers/mapProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/screens/search/search.dart';
 import 'package:customer/widgets/bottom_button.dart';
@@ -173,7 +174,10 @@ class _DepartureLocationPickerState
 
                 Navigator.pop(context);
               },
-              nextButton: () {},
+              nextButton: () {
+                ref.read(mapProvider.notifier).setMapAction('draw_route');
+                ref.read(stepProvider.notifier).setStep('create_trip');
+              },
               nextButtonText: 'Chọn điểm đón này',
               opacity: true),
         ],

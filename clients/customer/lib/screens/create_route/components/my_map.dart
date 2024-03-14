@@ -129,22 +129,107 @@ class _MyMapState extends ConsumerState<MyMap> {
     ref
         .read(currentLocationProvider.notifier)
         .setCurrentLocation(currentLocationModel);
-
-    // ignore: collection_methods_unrelated_type
-    // markers.remove(const MarkerId('currentLocation'));
-    // markers.add(Marker(
-    //   anchor: const Offset(0.5, 0.5),
-    //   markerId: const MarkerId('currentLocation'),
-    //   position: currentLocation!,
-    //   icon: BitmapDescriptor.fromBytes(
-    //       await getBytesFromAsset('lib/assets/images/my_location.png', 250)),
-    // ));
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: currentLocation!, zoom: 16.5),
       ),
     );
     setState(() {});
+  }
+
+  void drawRoute() async {
+    LocationModel arrival = ref.read(arrivalLocationProvider);
+    departureLocation = ref.read(departureLocationProvider).postion;
+    if (arrival.postion == null) {
+      arrivalLocation = await arrival.getLocation();
+    } else {
+      arrivalLocation = arrival.postion;
+    }
+    markers.clear();
+    if (markers.isEmpty) {
+      markers.add(
+        Marker(
+          markerId: const MarkerId('departureLocation'),
+          position:
+              LatLng(departureLocation!.latitude, departureLocation!.longitude),
+          icon: BitmapDescriptor.fromBytes(
+            await getBytesFromAsset(
+              'lib/assets/images/map_departure_icon.png',
+              80,
+            ),
+          ),
+        ),
+      );
+    }
+    markers.add(
+      Marker(
+        markerId: const MarkerId('arrivalLocation'),
+        position: LatLng(arrivalLocation!.latitude, arrivalLocation!.longitude),
+        icon: BitmapDescriptor.fromBytes(
+          await getBytesFromAsset('lib/assets/images/map_arrival_icon.png', 80),
+        ),
+      ),
+    );
+
+    Uri uri = Uri.https('maps.googleapis.com', 'maps/api/directions/json', {
+      'key': APIKey,
+      'origin':
+          '${departureLocation!.latitude},${departureLocation!.longitude}',
+      'destination':
+          '${arrivalLocation!.latitude},${arrivalLocation!.longitude}',
+    });
+
+    String? response = await NetworkUtility.fetchUrl(uri);
+    final parsed = json.decode(response!).cast<String, dynamic>();
+
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> result = polylinePoints.decodePolyline(
+        parsed['routes'][0]['overview_polyline']['points'] as String);
+    if (result.isNotEmpty) {
+      polylineCoordinates.clear();
+      for (var point in result) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    }
+
+    setState(() {
+      ref.read(routeProvider.notifier).setRoute(RouteModel(
+          departureLocation: LocationModel(),
+          arrivalLocation: LocationModel(),
+          time: parsed['routes'][0]['legs'][0]['duration']['text'] as String,
+          distance:
+              parsed['routes'][0]['legs'][0]['distance']['text'] as String));
+      Polyline polyline = Polyline(
+        polylineId: const PolylineId("poly"),
+        points: polylineCoordinates,
+      );
+      polylineList.clear();
+      polylineList.add(polyline);
+      _setMapFitToTour();
+    });
+  }
+
+  void _setMapFitToTour() {
+    double minLat = polylineList.first.points.first.latitude;
+    double minLong = polylineList.first.points.first.longitude;
+    double maxLat = polylineList.first.points.first.latitude;
+    double maxLong = polylineList.first.points.first.longitude;
+
+    for (var poly in polylineList) {
+      for (var point in poly.points) {
+        if (point.latitude < minLat) minLat = point.latitude;
+        if (point.latitude > maxLat) maxLat = point.latitude;
+        if (point.longitude < minLong) minLong = point.longitude;
+        if (point.longitude > maxLong) maxLong = point.longitude;
+      }
+    }
+
+    googleMapController.animateCamera(CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(minLat, minLong),
+          northeast: LatLng(maxLat, maxLong),
+        ),
+        70));
   }
 
   @override
@@ -172,7 +257,13 @@ class _MyMapState extends ConsumerState<MyMap> {
           } else if (next == 'GET_CURRENT_DEPARTURE_LOCATION') {
           } else if (next == 'GET_NEW_DEPARTURE_LOCATION') {
           } else if (next == 'LOCATION_PICKER') {
-          } else if (next == 'DRAW_ROUTE') {
+          } else if (next == 'draw_route') {
+            mapPaddingBottom = MediaQuery.of(context).size.height * 0.41;
+            mapPaddingTop = MediaQuery.of(context).size.height * 0.15;
+            setState(() {});
+            Future.delayed(Duration.zero, () {
+              drawRoute();
+            });
           } else if (next == 'CREATE_TRIP') {
           } else if (next == 'FIND_DRIVER') {
           } else if (next == 'WAIT_DRIVER') {}
@@ -205,7 +296,7 @@ class _MyMapState extends ConsumerState<MyMap> {
               polylineId: const PolylineId('route'),
               points: polylineCoordinates,
               color: const Color.fromARGB(255, 255, 113, 36),
-              width: 8,
+              width: 7,
             )
           },
           onCameraMove: (CameraPosition cameraPositiona) {
