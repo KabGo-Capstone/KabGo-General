@@ -5,14 +5,20 @@ import 'package:driver/constants/colors.dart';
 import 'package:driver/models/driver_service.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/screens/register_screen/info_register.dart';
-import 'package:driver/screens/register_screen/register_screen.dart';
 import 'package:driver/services/dio_client.dart';
+import 'package:driver/widgets/bottom_selector.dart';
 import 'package:driver/widgets/build_text.dart';
-import 'package:driver/widgets/service_bottomsheet.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectService extends ConsumerStatefulWidget {
+  static String path = '/service/select';
+  static String name = 'select_service';
+
   const SelectService({super.key});
 
   @override
@@ -20,11 +26,13 @@ class SelectService extends ConsumerStatefulWidget {
 }
 
 class _SelectServiceState extends ConsumerState<SelectService> {
-  late List<Service> services;
-  late String selectedServiceId;
-  String selectedService = 'Chọn 1 dịch vụ';
+  late List<Service> services = [];
+  late Service selectedService = Service('', '');
+
   bool isDataLoaded = false;
   late String? idDriver;
+
+  late bool isValid = false;
 
   Future<void> fetchData() async {
     var data = json.encode({'otp': '123456'});
@@ -42,8 +50,9 @@ class _SelectServiceState extends ConsumerState<SelectService> {
         setState(() {
           final List<dynamic> serviceListJson =
               response.data['data']['services'];
-          services =
-              serviceListJson.map((json) => Service.fromJson(json)).toList();
+          for (var json in serviceListJson) {
+            services.add(Service.fromJson(json));
+          }
           isDataLoaded = true;
         });
       } else {
@@ -70,7 +79,7 @@ class _SelectServiceState extends ConsumerState<SelectService> {
   handleRegister() async {
     final idDriver = ref.watch(driverInfoRegisterProvider).id;
     print(idDriver);
-    var data = json.encode({'id': idDriver, 'serviceId': selectedServiceId});
+    var data = json.encode({'id': idDriver, 'serviceId': selectedService.id});
     try {
       final dioClient = DioClient();
 
@@ -82,25 +91,53 @@ class _SelectServiceState extends ConsumerState<SelectService> {
       print(response.data);
 
       if (response.statusCode == 200) {
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => InfoRegister(
-              selectedService: selectedService,
-            ),
-          ),
-        );
+        SharedPreferences.getInstance().then((prefs) {
+          final userProfile = prefs.getString('user-profile')!;
+          final userProfileMap = jsonDecode(userProfile);
 
-        // print(response.data['data']['id']);
-      } else {
-        // Xử lý lỗi nếu có
-        print('Error: ${response.statusCode}');
+          userProfileMap['serviceID'] = selectedService.id;
+
+          prefs.setString('user-profile', jsonEncode(userProfileMap));
+
+          context.pushNamed(InfoRegister.name);
+        });
       }
     } catch (e) {
-      // Xử lý lỗi nếu có
       print('Error: $e');
     }
+  }
+
+  openServiceSelector() {
+    return showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (BuildContext context) {
+        return BottomSheetSelector(
+          height: (100.0 + (56.0 * services.length)),
+          label: const Text(
+            'Chọn thành phố',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          options: services.map((e) => e.name).toList(),
+          onSelected: (selectedOption) {
+            print(selectedOption);
+
+            setState(() {
+              final serviceIndex = services
+                  .indexWhere((element) => element.name == selectedOption);
+              if (serviceIndex != -1) {
+                selectedService = services[serviceIndex];
+                isValid = selectedService.id.isNotEmpty &&
+                    selectedService.name.isNotEmpty;
+              }
+            });
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -201,44 +238,47 @@ class _SelectServiceState extends ConsumerState<SelectService> {
                       children: [
                         Expanded(
                           child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ServiceBottomSheetWidget(
-                                    services: services,
-                                    onServiceSelected: (selectedService) {
-                                      setState(() {
-                                        this.selectedService =
-                                            selectedService.name;
-                                        selectedServiceId = selectedService.id;
-                                        print(
-                                            'Selected service ID: ${selectedService.id}');
-                                      });
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                            onTap: openServiceSelector,
                             child: Container(
-                              height: 50,
-                              width: double.infinity,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                                 border: Border.all(
-                                  color: const Color.fromARGB(255, 42, 41, 41),
-                                  width: 1,
+                                  color:
+                                      const Color.fromARGB(255, 219, 219, 219),
+                                  width: 1.0,
                                 ),
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(selectedService),
-                                  const Icon(Icons.arrow_drop_down),
-                                ],
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                  horizontal: 14,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      selectedService.name.isEmpty
+                                          ? 'Thành phố*'
+                                          : selectedService.name,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: selectedService.name.isEmpty
+                                            ? Colors.black54
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    const FaIcon(
+                                      FontAwesomeIcons.chevronRight,
+                                      size: 12,
+                                      color: Colors.black54,
+                                    ),
+                                    const SizedBox(width: 4),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -254,30 +294,30 @@ class _SelectServiceState extends ConsumerState<SelectService> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
-        child: ElevatedButton(
-          onPressed: selectedService != 'Chọn 1 dịch vụ'
-              ? () {
-                  debugPrint(selectedService);
-
-                  handleRegister();
-                }
-              : null,
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-              if (selectedService != 'Chọn 1 dịch vụ') {
-                return kOrange;
-              } else {
-                return const Color.fromARGB(255, 240, 240, 240);
-              }
-            }),
+        child: WButton(
+          width: double.infinity,
+          radius: 50,
+          shadow: const BoxShadow(
+            color: Colors.transparent,
           ),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: const Color.fromARGB(255, 63, 63, 63),
+            backgroundColor: Theme.of(context).primaryColor,
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            elevation: 0,
+            alignment: Alignment.center,
+          ),
+          onPressed: isValid ? handleRegister : null,
           child: Text(
             'Tiếp tục',
+            textAlign: TextAlign.left,
             style: TextStyle(
-              fontSize: 16,
-              color:
-                  selectedService == 'Chọn 1 dịch vụ' ? kOrange : kWhiteColor,
-              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: isValid ? Colors.white : null,
             ),
           ),
         ),

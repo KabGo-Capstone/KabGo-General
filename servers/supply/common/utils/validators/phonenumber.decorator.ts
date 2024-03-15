@@ -5,13 +5,12 @@ import {
     ValidationOptions,
     registerDecorator,
 } from 'class-validator'
+import { PHONENUMER_REGEX } from 'common/constants/regex'
 
 @ValidatorConstraint({ name: 'isPhoneNumber', async: false })
 class IsPhoneNumberConstraint implements ValidatorConstraintInterface {
     validate(value: string, args: ValidationArguments) {
-        return value
-            ? /(03|05|07|08|09|01[2|6|8|9])+(\d{8})\b/.test(value)
-            : true
+        return value ? PHONENUMER_REGEX.test(value) : true
     }
 
     defaultMessage(args: ValidationArguments) {

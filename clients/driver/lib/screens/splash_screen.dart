@@ -1,95 +1,66 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:video_player/video_player.dart';
+import 'dart:convert';
 
-class SplashScreen extends StatefulWidget {
+import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/screens/login_screen.dart';
+import 'package:driver/screens/register_screen/info_register.dart';
+import 'package:driver/screens/register_screen/select_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class SplashScreen extends ConsumerWidget {
   static const path = '/splash';
   static const name = 'splash_screen';
 
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    void checkingSession() {
+      SharedPreferences.getInstance().then((prefs) {
+        final userProfile = prefs.getString('user-profile');
 
-class _SplashScreenState extends State<SplashScreen> {
-  late final VideoPlayerController _splashVideoController;
-  late bool isLoggin = false;
+        if (userProfile != null && userProfile.isNotEmpty) {
+          final userProfileMap = jsonDecode(userProfile);
 
-  @override
-  void initState() {
-    super.initState();
-    _initializeSplashVideoPlayer();
-  }
+          final driverInfoNotifier =
+              ref.read(driverInfoRegisterProvider.notifier);
 
-  void _initializeSplashVideoPlayer() async {
-    // _splashVideoController = VideoPlayerController.networkUrl(Uri.https(
-    //     'res.cloudinary.com',
-    //     '/dfs9f0qbp/video/upload/f_auto:video,q_auto/r4hpe6nrrdyzf9iyz5mu'));
+          driverInfoNotifier.setIdDriver(userProfileMap['id']);
+          driverInfoNotifier.setLastName(userProfileMap['lastName']);
+          driverInfoNotifier.setFirstName(userProfileMap['firstName']);
+          driverInfoNotifier.setPhoneNumber(userProfileMap['phoneNumber']);
 
-    _splashVideoController = VideoPlayerController.asset('assets/animations/splash.mp4');
-
-    try {
-      await _splashVideoController.initialize();
-    } catch (error) {
-      if (kDebugMode) {
-        print("Error initializing video: $error");
-      }
-    }
-
-    if (mounted) {
-      Future.delayed(const Duration(milliseconds: 600), () {
-        setState(() {
-          _splashVideoController.setLooping(true);
-          _splashVideoController.addListener(() {
-            if (!_splashVideoController.value.isLooping &&
-                _splashVideoController.value.isCompleted) {
-              _splashVideoController.pause();
-              context.go('/login');
+          if (userProfileMap['serviceID'] != null &&
+              userProfileMap['serviceID'] != '') {
+            context.pushReplacement(SelectService.path);
+            context.push(InfoRegister.path);
+          }
+          else {
+            if (userProfileMap['verified'] == true) {
+              // context.go(Home);
+            } 
+            else {
+              context.go(SelectService.path);
             }
-          });
-          _splashVideoController.play();
-        });
-
-        // trigger is login
-        Future.delayed(const Duration(seconds: 3), () {
-          setState(() {
-            isLoggin = true;
-          });
-        });
+          }
+        } else {
+          context.go(LoginScreen.path);
+        }
       });
     }
-  }
 
-  @override
-  void dispose() {
-    _splashVideoController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final bool isSplashVideoLoaded = _splashVideoController.value.isInitialized;
-
-    // if is loggin then stop animation and redirect to home
-    if (isSplashVideoLoaded && isLoggin) {
-      _splashVideoController.setLooping(false);
-    }
-
-    final Widget child = isSplashVideoLoaded
-        ? AspectRatio(
-            aspectRatio: _splashVideoController.value.aspectRatio,
-            child: VideoPlayer(_splashVideoController),
-          )
-        : const CircularProgressIndicator(
-            color: Colors.white,
-          );
+    checkingSession();
 
     return Container(
       color: Colors.white,
-      child: Center(
-        child: child,
+      child: const Center(
+        child: Image(
+          image: AssetImage('assets/logo.png'),
+          width: 100,
+          height: 100,
+        ),
       ),
     );
   }

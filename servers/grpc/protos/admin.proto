@@ -83,4 +83,5 @@ service Admin {
     rpc createVehicleInformation(ReqCreateVehicleData) returns (ServiceApprovalInformation);
     rpc updateServiceApproval(ReqUpdateData) returns (ServiceApprovalInformation);
     rpc updateIdentityInfo(ReqUpdateIdentityInfo) returns (ServiceApprovalInformation);
+    rpc findApprovalById(ReqCreateData) returns (ServiceApprovalInformation);
 }

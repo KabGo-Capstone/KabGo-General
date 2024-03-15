@@ -1290,6 +1290,16 @@ export const AdminService = {
       Buffer.from(ServiceApprovalInformation.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
   },
+  findApprovalById: {
+    path: "/Admin/findApprovalById",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: ReqCreateData) => Buffer.from(ReqCreateData.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => ReqCreateData.decode(value),
+    responseSerialize: (value: ServiceApprovalInformation) =>
+      Buffer.from(ServiceApprovalInformation.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => ServiceApprovalInformation.decode(value),
+  },
 } as const;
 
 export interface AdminServer extends UntypedServiceImplementation {
@@ -1298,6 +1308,7 @@ export interface AdminServer extends UntypedServiceImplementation {
   createVehicleInformation: handleUnaryCall<ReqCreateVehicleData, ServiceApprovalInformation>;
   updateServiceApproval: handleUnaryCall<ReqUpdateData, ServiceApprovalInformation>;
   updateIdentityInfo: handleUnaryCall<ReqUpdateIdentityInfo, ServiceApprovalInformation>;
+  findApprovalById: handleUnaryCall<ReqCreateData, ServiceApprovalInformation>;
 }
 
 export interface AdminClient extends Client {
@@ -1372,6 +1383,21 @@ export interface AdminClient extends Client {
   ): ClientUnaryCall;
   updateIdentityInfo(
     request: ReqUpdateIdentityInfo,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  findApprovalById(
+    request: ReqCreateData,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  findApprovalById(
+    request: ReqCreateData,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,
+  ): ClientUnaryCall;
+  findApprovalById(
+    request: ReqCreateData,
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ServiceApprovalInformation) => void,

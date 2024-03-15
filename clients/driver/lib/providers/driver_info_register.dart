@@ -24,6 +24,10 @@ class DriverInfoRegisterNotifier
   void setEmailDriver(String email) {
     state.email = email;
   }
+  
+  void setPhoneNumber(String phoneNumber) {
+    state.phoneNumber = phoneNumber;
+  }
 }
 
 final driverInfoRegisterProvider =
