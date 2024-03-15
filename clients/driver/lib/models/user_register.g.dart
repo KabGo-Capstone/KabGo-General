@@ -7,18 +7,20 @@ part of 'user_register.dart';
 // **************************************************************************
 
 UserRegister _$UserRegisterFromJson(Map<String, dynamic> json) => UserRegister(
-      json['firstname'] as String,
-      json['lastname'] as String,
-      json['phonenumber'] as String,
+      json['firstName'] as String,
+      json['lastName'] as String,
+      json['phoneNumber'] as String,
       json['city'] as String,
-      json['referrer'] as String,
+      json['referrerCode'] as String,
+      json['email'] as String,
     );
 
 Map<String, dynamic> _$UserRegisterToJson(UserRegister instance) =>
     <String, dynamic>{
-      'firstname': instance.firstname,
-      'lastname': instance.lastname,
-      'phonenumber': instance.phonenumber,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'phoneNumber': instance.phoneNumber,
       'city': instance.city,
-      'referrer': instance.referrer,
+      'referrerCode': instance.referrerCode,
+      'email': instance.email,
     };

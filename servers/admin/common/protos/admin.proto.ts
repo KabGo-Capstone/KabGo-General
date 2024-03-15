@@ -62,7 +62,7 @@ class AdminService implements AdminServer {
         await ServiceApprovalModel.create({
             id: (maxId + 1).toString(),
             supplyID: call.request.supplyID,
-            serviceID: '1',
+            serviceID: '',
             vehicleID: '',
             status: 'pending',
             createdDate: new Date().toDateString(),
@@ -206,6 +206,32 @@ class AdminService implements AdminServer {
             }
         )
         // driver.verified = true
+
+        if (serviceApprovalIndex !== -1) {
+            callback(null, ServiceApprovalInformation.create(serviceApproval))
+        } else {
+            callback(
+                {
+                    message: 'Service approval not found',
+                    code: grpc.status.INVALID_ARGUMENT,
+                },
+                null
+            )
+        }
+    }
+
+    public async findApprovalById(
+        call: grpc.ServerUnaryCall<ReqCreateData, ServiceApprovalInformation>,
+        callback: grpc.sendUnaryData<ServiceApprovalInformation>
+    ) {
+        const SERVICEAPPROVALS = await getServiceApprovalData()
+
+        const serviceApprovalIndex = SERVICEAPPROVALS.findIndex(
+            (serviceApproval) =>
+                serviceApproval.supplyID === call.request.supplyID
+        )
+
+        const serviceApproval = SERVICEAPPROVALS[serviceApprovalIndex]
 
         if (serviceApprovalIndex !== -1) {
             callback(null, ServiceApprovalInformation.create(serviceApproval))

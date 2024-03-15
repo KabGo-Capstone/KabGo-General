@@ -18,6 +18,7 @@ message DriverInformation {
 	string email = 11;
 	string referralCode = 12;
 	string city = 13;
+	string googleId = 14;
 }
 
 message DriverList {

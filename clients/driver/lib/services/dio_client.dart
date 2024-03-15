@@ -19,9 +19,11 @@ class DioClient {
         options.baseUrl = baseURL;
         options.headers = {
           // 'Access-Token': accessToken,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          ...options.headers
         };
-
+        options.sendTimeout = const Duration(seconds: 60);
+        options.connectTimeout = const Duration(seconds: 60);
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -57,7 +59,7 @@ class DioClient {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
       throw const FormatException('Unable to process the data');
-    } catch (e) {
+    } on DioException {
       rethrow;
     }
   }

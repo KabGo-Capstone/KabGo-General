@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/status_provider.dart';
-import 'package:driver/screens/register_screen/info_detail/email_info.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_license.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_register.dart';
 import 'package:driver/screens/register_screen/info_detail/emergency_contact.dart';
@@ -22,27 +21,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class InfoRegister extends ConsumerStatefulWidget {
   static const path = '/info_register';
   static const name = 'info';
-  final String selectedService;
-  const InfoRegister({
-    super.key,
-    required this.selectedService,
-  });
+  const InfoRegister({super.key});
 
   @override
   ConsumerState<InfoRegister> createState() => _InfoRegisterState();
 }
 
 class _InfoRegisterState extends ConsumerState<InfoRegister> {
-  bool isCompletedAll = false;
-  bool isLoading = false;
-  String? idDriver;
-
   @override
   Widget build(BuildContext context) {
-    print('Infor register rebuilt');
-
     final status = ref.watch(statusProvider);
-    isCompletedAll = status.isCompletedEmergency &&
+
+    final isCompletedAll = status.isCompletedEmergency &&
         status.isCompletedID &&
         status.isCompletedImgPerson &&
         status.isCompletedImgVehicle &&
@@ -51,41 +41,26 @@ class _InfoRegisterState extends ConsumerState<InfoRegister> {
         status.isCompletedRegisterVehicle;
 
     handleRegister() async {
-      idDriver = ref.watch(driverInfoRegisterProvider).id ?? '6';
+      final idDriver = ref.watch(driverInfoRegisterProvider).id;
 
-      if (idDriver != null) {
-        setState(() {
-          isLoading = true;
-        });
+      var data = json.encode({
+        'id': idDriver,
+      });
 
-        var data = json.encode({
-          'id': idDriver,
-        });
+      try {
+        final dioClient = DioClient();
 
-        try {
-          final dioClient = DioClient();
+        final responseImgBefore = await dioClient.request(
+          '/submit-driver',
+          options: Options(method: 'POST'),
+          data: data,
+        );
 
-          final responseImgBefore = await dioClient.request(
-            '/submit-driver',
-            options: Options(method: 'POST'),
-            data: data,
-          );
-
-          if (responseImgBefore.statusCode == 200) {
-            ref.read(statusProvider.notifier).setInsurance(true);
-            setState(() {
-              isLoading = false;
-            });
-            // ignore: use_build_context_synchronously
-            // Navigator.pop(context);
-          } else {
-            // Handle error
-          }
-        } catch (e) {
-          // Handle error
+        if (responseImgBefore.statusCode == 200) {
+          ref.read(statusProvider.notifier).setInsurance(true);
         }
-      } else {
-        print('Image is null!');
+      } catch (e) {
+        // Handle error
       }
     }
 
@@ -118,7 +93,7 @@ class _InfoRegisterState extends ConsumerState<InfoRegister> {
                               TextOverflow.clip,
                             ),
                             buildText(
-                              'Bạn đang đăng ký gói ${widget.selectedService}. Hãy đảm bảo rằng tất cả tài liệu của bạn đã được cập nhật',
+                              'Bạn đang đăng ký gói ${'KabGo Premium'}. Hãy đảm bảo rằng tất cả tài liệu của bạn đã được cập nhật',
                               kBlackColor,
                               12,
                               FontWeight.w400,

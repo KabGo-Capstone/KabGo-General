@@ -7,7 +7,7 @@ import {
     ReqCreateData,
     VehicleInformation,
     ReqCreateVehicleData,
-    ReqUpdateIdentityInfo
+    ReqUpdateIdentityInfo,
 } from './../../../grpc/models/admin'
 
 import * as grpc from '@grpc/grpc-js'
@@ -63,9 +63,7 @@ class AdminStub {
         })
     }
 
-    public createServiceApproval(
-        supplyID: string,
-    ) {
+    public createServiceApproval(supplyID: string) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
             const message = ReqCreateData.create({
                 supplyID: supplyID,
@@ -91,7 +89,7 @@ class AdminStub {
         name: string,
         identityNumber: string,
         color: string,
-        brand: string,
+        brand: string
     ) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
             const message = ReqCreateVehicleData.create({
@@ -117,13 +115,16 @@ class AdminStub {
         })
     }
 
-
-    public updateServiceApproval(supplyID: string, property: string, value: string) {
+    public updateServiceApproval(
+        supplyID: string,
+        property: string,
+        value: string
+    ) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
             const message = ReqUpdateData.create({
                 supplyID: supplyID,
                 property: property,
-                value: value
+                value: value,
             })
 
             this.adminsStub.updateServiceApproval(
@@ -141,12 +142,16 @@ class AdminStub {
         })
     }
 
-    public updateIdentityInfo(supplyID: string, identityDate: string, identityLocation: string) {
+    public updateIdentityInfo(
+        supplyID: string,
+        identityDate: string,
+        identityLocation: string
+    ) {
         return new Promise<ServiceApprovalInformation>((resolve, reject) => {
             const message = ReqUpdateIdentityInfo.create({
                 supplyID: supplyID,
                 identityDate: identityDate,
-                identityLocation: identityLocation
+                identityLocation: identityLocation,
             })
 
             this.adminsStub.updateIdentityInfo(
@@ -164,6 +169,26 @@ class AdminStub {
         })
     }
 
+    public findApprovalById(supplyID: string) {
+        return new Promise<ServiceApprovalInformation>((resolve, reject) => {
+            const message = ReqCreateData.create({
+                supplyID: supplyID,
+            })
+
+            this.adminsStub.findApprovalById(
+                message,
+                (err: any, data: ServiceApprovalInformation) => {
+                    if (err) {
+                        reject(err)
+                        Logger.error(err)
+                    } else {
+                        resolve(data)
+                        // console.log(data)
+                    }
+                }
+            )
+        })
+    }
 }
 
 export default AdminStub
