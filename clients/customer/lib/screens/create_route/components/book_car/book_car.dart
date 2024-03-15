@@ -16,9 +16,12 @@ import 'choose_payment_method.dart';
 import 'discount_page.dart';
 
 class BookCar extends ConsumerStatefulWidget {
-  const BookCar({
+  const BookCar(
+    this.showFull, {
     super.key,
   });
+
+  final bool showFull;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -75,7 +78,6 @@ class _BookCarState extends ConsumerState<BookCar> {
   // socket.onDisconnect((_) => print('disconnect'));
   // socket.on('fromServer', (_) => print(_));
 
-
   @override
   void initState() {
     super.initState();
@@ -115,20 +117,73 @@ class _BookCarState extends ConsumerState<BookCar> {
             padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
             child: StatefulBuilder(
               builder: (context, setChooseItemState) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...listCarCard.map(
+                  AnimatedContainer(
+                    height: widget.showFull ? 60 : 0,
+                    duration: const Duration(milliseconds: 50),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bạn cần thay đổi loại xe?',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'Thường',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ...listCarCard1.map(
                     (e) => InkWell(
                       onTap: () {
                         setChoseItem(
-                            listCarCard.indexOf(e), setChooseItemState);
+                            listCarCard1.indexOf(e), setChooseItemState);
                       },
                       child: CarCardItem(
-                        isChosen: chosenItem == listCarCard.indexOf(e),
+                        isChosen: chosenItem == listCarCard1.indexOf(e),
                         data: e,
                         distance: routeModal.distance!,
                       ),
                     ),
-                  )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Nâng cao',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ...listCarCard2.map(
+                    (e) => InkWell(
+                      onTap: () {
+                        setChoseItem(
+                            listCarCard1.indexOf(e), setChooseItemState);
+                      },
+                      child: CarCardItem(
+                        isChosen: chosenItem == listCarCard1.indexOf(e),
+                        data: e,
+                        distance: routeModal.distance!,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

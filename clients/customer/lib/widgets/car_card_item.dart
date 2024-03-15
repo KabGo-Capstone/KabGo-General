@@ -34,16 +34,23 @@ class _CarCardItemState extends ConsumerState<CarCardItem> {
     }
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       color: widget.isChosen
           ? const Color.fromARGB(255, 255, 240, 233)
           : Colors.transparent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            widget.data['image'].toString(),
-            height: 45,
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  widget.data['image'].toString(),
+                ),
+              ),
+            ),
           ),
           const SizedBox(
             width: 18,

@@ -29,11 +29,12 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
   double minHeightPanel = 0;
   double maxHeightPanel = 0;
 
+  bool showFull = false;
+
   bool locationPicker = false;
   bool currentLocation = true;
 
   Widget bottomPanel = const SizedBox();
-  Widget panelBuilder = const SizedBox();
 
   final PanelController panelController = PanelController();
   final PanelController bottomController = PanelController();
@@ -118,7 +119,6 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
               bottomPanel = const SizedBox();
               minHeightPanel = screenSize.height * 0.45;
               maxHeightPanel = screenSize.height * 0.7;
-              panelBuilder = const BookCar();
             } else if (next == 'find_driver') {
             } else if (next == 'wait_driver') {
             } else if (next == 'comming_driver') {
@@ -288,6 +288,14 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SlidingUpPanel(
+                    onPanelClosed: () {
+                      showFull = false;
+                      setState(() {});
+                    },
+                    onPanelOpened: () {
+                      showFull = true;
+                      setState(() {});
+                    },
                     onPanelSlide: (position) {
                       bottomController.animatePanelToPosition(1 - position,
                           duration: Duration.zero);
@@ -308,7 +316,7 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                         offset: Offset(1, 0),
                       ),
                     ],
-                    panelBuilder: (sc) => panelBuilder,
+                    panelBuilder: (sc) => BookCar(showFull),
                   ),
                 ),
               if (ref.read(stepProvider) == 'create_trip')
