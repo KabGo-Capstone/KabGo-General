@@ -463,13 +463,6 @@ const ContentComponent: React.FC = () => {
   };
 
   const handleDelete = async (record: IDriver) => {
-    // try {
-    //   setIsTableLoading(true);
-    //   await axiosClient.delete("/v1/driver/approval/" + record?.id);
-    //   updateData();
-    // } catch (error) {
-    //   console.error("Error delete driver:", error);
-    // }
 
     setIsTableLoading(true);
 
