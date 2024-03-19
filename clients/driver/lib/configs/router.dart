@@ -1,5 +1,4 @@
 import 'package:driver/models/user_register.dart';
-import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_license.dart';
 import 'package:driver/screens/register_screen/info_detail/driving_register.dart';
