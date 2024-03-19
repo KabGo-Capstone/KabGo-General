@@ -5,19 +5,28 @@ import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/status_provider.dart';
 import 'package:driver/providers/vehicle_register_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_certificate_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_certificate_before.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/build_text_field.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrivingRegister extends ConsumerStatefulWidget {
+  static const path = '/driving_register';
+  static const name = 'driving_register';
   const DrivingRegister({super.key});
 
   @override
@@ -173,7 +182,7 @@ class _DrivingRegisterState extends ConsumerState<DrivingRegister> {
     }
 
     return Scaffold(
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       backgroundColor: kWhiteColor,
       body: Stack(
         children: [

@@ -63,3 +63,28 @@ CustomTransitionPage buildPageWithSlideUpTransition<T>({
     },
   );
 }
+
+CustomTransitionPage buildPageWithSlideInTransition<T>({
+  required BuildContext context,
+  required LocalKey key,
+  required Widget child,
+  required Duration transitionDuration,
+  required Duration reverseTransitionDuration,
+}) {
+  return CustomTransitionPage<T>(
+    key: key,
+    child: child,
+    transitionDuration: transitionDuration,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final Animatable<Offset> slideInTween = 
+        Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(
+          CurveTween(curve: Curves.easeInOutCubic),
+      );
+
+      return SlideTransition(
+        position: animation.drive(slideInTween),
+        child: child,
+      );
+    },
+  );
+}

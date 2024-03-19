@@ -2,14 +2,21 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/status_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/build_text_field.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BankInfo extends ConsumerStatefulWidget {
   const BankInfo({super.key});
@@ -107,13 +114,15 @@ class _BankInfoState extends ConsumerState<BankInfo> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     if (ref.watch(driverInfoRegisterProvider).email != null) {
       nameEmail.text = ref.watch(driverInfoRegisterProvider).email!;
     }
     return Scaffold(
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       backgroundColor: kWhiteColor,
       body: Stack(
         children: [
