@@ -6,8 +6,8 @@
     "scripts": {
         "start:dev": "nodemon server.ts",
         "start": "node dist/app/server.js",
-        "build:prod": "npm run ts-check && rimraf dist && tsc && cp -r common/templates dist",
-        "build": "npm run ts-check && rimraf dist && cp -r ../grpc ./ && tsc && cp -r common/templates dist",
+        "build:prod": "npm run ts-check && rimraf dist && tsc && cp -r common/templates dist && cp -r common/firebase/firebase-adminsdk.json dist/supply/common/firebase",
+        "build": "npm run ts-check && rimraf dist && cp -r ../grpc ./ && tsc && cp -r common/templates dist && cp -r common/firebase/firebase-adminsdk.json dist/supply/common/firebase",
         "add-build": "git add dist",
         "test": "cross-env NODE_ENV=test jest --runInBand --force-exit --testTimeout=10000",
         "ts-check": "tsc --project tsconfig.json",
