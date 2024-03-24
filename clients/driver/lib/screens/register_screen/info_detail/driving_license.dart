@@ -2,18 +2,27 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driving_license.dart';
 import 'package:driver/providers/status_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_license_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_license_before.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
 import 'package:driver/widgets/build_text.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DivingLicense extends ConsumerStatefulWidget {
+  static const path = '/driver_license';
+  static const name = 'driver_license';
   const DivingLicense({super.key});
 
   @override
@@ -94,6 +103,8 @@ class _DivingLicenseState extends ConsumerState<DivingLicense> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     print('DivingLicense rebuild');
@@ -102,7 +113,7 @@ class _DivingLicenseState extends ConsumerState<DivingLicense> {
     imageDrivingLicenseAfter =
         ref.watch(drivingLicenseProvider).imgDrivingLicenseAfter;
     return Scaffold(
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       backgroundColor: kWhiteColor,
       body: Stack(
         children: [

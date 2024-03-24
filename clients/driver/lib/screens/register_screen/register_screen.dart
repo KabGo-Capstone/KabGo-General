@@ -193,7 +193,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       children: [
                         const Image(
                           image: AssetImage('assets/logo-hori.png'),
-                          width: 120,
+                          width: 110,
                         ),
                         const Spacer(),
                         InkWell(

@@ -1,16 +1,17 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/screens/register_screen/info_register.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
-import 'package:driver/screens/register_screen/register_screen.dart';
-import 'package:driver/services/dio_client.dart';
+import 'package:driver/screens/register_screen/select_service.dart';
 import 'package:driver/widgets/login_screen/footer/footer.dart';
 import 'package:driver/widgets/login_screen/header/header.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends ConsumerWidget {
   static const path = '/login';
@@ -37,18 +38,46 @@ class LoginScreen extends ConsumerWidget {
             if (data['redirect'] == OTPScreen.path) {
               ref.watch(phoneAuthProvider).signIn(data['user']['phoneNumber']);
 
-              context.push(data['redirect'], extra: {
-                'firstName': data['user']['firstName'].toString(),
-                'lastName': data['user']['lastName'].toString(),
-                'phoneNumber': data['user']['phoneNumber'].toString(),
-                'city': data['user']['city'].toString(),
-                'referrerCode': data['user']['refererCode'].toString(),
-                'email': data['user']['email'].toString(),
+              GoogleSignInController.signOut().then((value) {
+                context.push(data['redirect'], extra: {
+                  'firstName': data['user']['firstName'].toString(),
+                  'lastName': data['user']['lastName'].toString(),
+                  'phoneNumber': data['user']['phoneNumber'].toString(),
+                  'city': data['user']['city'].toString(),
+                  'referrerCode': data['user']['refererCode'].toString(),
+                  'email': data['user']['email'].toString(),
+                });
               });
 
               return;
             }
-            context.push(data['redirect']);
+            GoogleSignInController.signOut().then((value) {
+              if (data['redirect'] == LoginScreen.path) {
+                context.push(data['redirect']);
+              } else {
+                SharedPreferences.getInstance().then((prefs) {
+                  if (data['user'] != null) {
+                    prefs.setString('user-profile', jsonEncode(data['user']));
+                  }
+
+                  final driverInfoNotifier =
+                      ref.read(driverInfoRegisterProvider.notifier);
+
+                  driverInfoNotifier.setIdDriver(data['user']['id']);
+                  driverInfoNotifier.setLastName(data['user']['lastName']);
+                  driverInfoNotifier.setFirstName(data['user']['firstName']);
+                  driverInfoNotifier
+                      .setPhoneNumber(data['user']['phoneNumber']);
+
+                  if (data['redirect'] == InfoRegister.path) {
+                    context.pushReplacement(SelectService.path);
+                    context.push(data['redirect']);
+                  } else {
+                    context.go(data['redirect']);
+                  }
+                });
+              }
+            });
           });
         });
       });

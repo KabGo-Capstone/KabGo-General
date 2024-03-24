@@ -4,7 +4,6 @@ import 'package:driver/constants/colors.dart';
 import 'package:driver/models/user_register.dart';
 import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/providers/driver_info_register.dart';
-import 'package:driver/screens/register_screen/select_service.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/shake_error.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +35,11 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
 
       phoneProvider.phoneValidate(OTPScreen.path).then((data) {
         SharedPreferences.getInstance().then((prefs) {
-          if (data['user'] != null)
+          if (data['user'] != null) {
             prefs.setString('user-profile', jsonEncode(data['user']));
+          }
 
-          final driverInfoNotifier =
-              ref.read(driverInfoRegisterProvider.notifier);
+          final driverInfoNotifier = ref.read(driverInfoRegisterProvider.notifier);
 
           driverInfoNotifier.setIdDriver(data['user']['id']);
           driverInfoNotifier.setLastName(data['user']['lastName']);
@@ -108,13 +107,11 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
                     TextAlign.start,
                     TextOverflow.clip,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 8),
                   buildText(
                     'Vui lòng nhập mã OTP với 6 chữ số được gửi đến số điện thoại +84 ${widget.user.phoneNumber.substring(0, 4)}******',
                     Colors.black54,
-                    13,
+                    12,
                     FontWeight.w400,
                     TextAlign.start,
                     TextOverflow.clip,

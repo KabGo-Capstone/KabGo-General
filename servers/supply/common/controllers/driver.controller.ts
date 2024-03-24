@@ -167,7 +167,7 @@ class DriverController implements IController {
         const driverWithGoogle = await DriverModel.findOne({
             googleId: googleId,
             email: decodedGoogleUser.email,
-        })
+        }).lean()
 
         if (
             driverWithGoogle &&
@@ -175,25 +175,35 @@ class DriverController implements IController {
             driverWithGoogle.phoneNumber !== '' &&
             PHONENUMER_REGEX.test(driverWithGoogle.phoneNumber) === true
         ) {
-            if (driverWithGoogle.verified) {
-                return res.status(200).json({
-                    message: 'Account has been verified',
-                    step: 'OTP',
-                    data: driverWithGoogle,
-                })
-            }
-
             try {
                 const getAprrovals = await adminClient.findApprovalById(
                     driverWithGoogle.id
                 )
 
                 if (getAprrovals.serviceID && getAprrovals.serviceID !== '') {
+                    if (driverWithGoogle.verified) {
+                        return res.status(200).json({
+                            message: 'Account has been verified',
+                            step: 'OTP',
+                            data: {
+                                ...driverWithGoogle,
+                                serviceID: getAprrovals.serviceID,
+                                vehicleID: getAprrovals.vehicleID,
+                                status: getAprrovals.status,
+                            },
+                        })
+                    }
+
                     return res.status(200).json({
                         message:
                             'Account has been registered but has not applied yet',
                         step: 'INFO',
-                        data: driverWithGoogle,
+                        data: {
+                            ...driverWithGoogle,
+                            serviceID: getAprrovals.serviceID,
+                            vehicleID: getAprrovals.vehicleID,
+                            status: getAprrovals.status,
+                        },
                     })
                 }
 
@@ -252,20 +262,25 @@ class DriverController implements IController {
             driverWithGoogle.phoneNumber !== '' &&
             PHONENUMER_REGEX.test(driverWithGoogle.phoneNumber) === true
         ) {
-            if (driverWithGoogle.verified) {
-                return res.status(200).json({
-                    message: 'Account has been verified',
-                    step: 'HOME',
-                    data: driverWithGoogle,
-                })
-            }
-
             try {
                 const getAprrovals = await adminClient.findApprovalById(
                     driverWithGoogle.id
                 )
 
                 if (getAprrovals.serviceID && getAprrovals.serviceID !== '') {
+                    if (driverWithGoogle.verified) {
+                        return res.status(200).json({
+                            message: 'Account has been verified',
+                            step: 'HOME',
+                            data: {
+                                ...driverWithGoogle,
+                                serviceID: getAprrovals.serviceID,
+                                vehicleID: getAprrovals.vehicleID,
+                                status: getAprrovals.status,
+                            },
+                        })
+                    }
+
                     return res.status(200).json({
                         message:
                             'Account has been registered but has not applied yet',

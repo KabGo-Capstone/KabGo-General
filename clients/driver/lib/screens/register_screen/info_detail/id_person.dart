@@ -5,18 +5,25 @@ import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/font.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driver_provider.dart';
 import 'package:driver/providers/status_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_after.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_id_before.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
 import 'package:driver/widgets/build_pick_date.dart';
 import 'package:driver/widgets/build_text.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IdPersonInfo extends ConsumerStatefulWidget {
   static const path = '/id_person';
@@ -119,6 +126,8 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     print('id_person rebuild');
@@ -133,7 +142,7 @@ class _IdPersonInfoState extends ConsumerState<IdPersonInfo> {
     // _image = ref.read(driverProvider).file;
     print(ref.watch(driverProvider).fileIdImgBefore);
     return Scaffold(
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       backgroundColor: kWhiteColor,
       body: Stack(
         children: [

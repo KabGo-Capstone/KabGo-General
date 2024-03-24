@@ -28,7 +28,7 @@ class _RemindVehicleLeftState extends ConsumerState<RemindVehicleLeft> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       body: GestureDetector(
         child: Column(children: [
           Expanded(

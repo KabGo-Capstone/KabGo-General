@@ -2,20 +2,29 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/status_provider.dart';
 import 'package:driver/providers/vehicle_image_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_back.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_front.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_left.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_vehicle_right.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
 import 'package:driver/widgets/build_text.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VehicleInfo extends ConsumerStatefulWidget {
+  static const path = '/vehicle_info';
+  static const name = 'vehicle_info';
   const VehicleInfo({super.key});
 
   @override
@@ -145,7 +154,7 @@ class _IVehicleInfoState extends ConsumerState<VehicleInfo> {
     imageVehicleRight = ref.watch(vehicleImageProvider).vehicleImageRight;
 
     return Scaffold(
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       backgroundColor: kWhiteColor,
       body: Stack(
         children: [
