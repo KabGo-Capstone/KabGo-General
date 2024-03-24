@@ -26,11 +26,15 @@ class _ArrivalLocationPickerState extends ConsumerState<ArrivalLocationPicker> {
     super.initState();
   }
 
+  bool loading = true;
+
   @override
   Widget build(BuildContext context) {
     LocationModel locationPicker = ref.watch(arrivalLocationProvider);
-    if (locationPicker.structuredFormatting == null) {
-      locationPicker = ref.read(currentLocationProvider);
+    LocationModel currentLocation = ref.watch(currentLocationProvider);
+    if (locationPicker.placeId == null && currentLocation.placeId != null) {
+      locationPicker = currentLocation;
+      loading = false;
     }
 
     return Container(
@@ -95,70 +99,85 @@ class _ArrivalLocationPickerState extends ConsumerState<ArrivalLocationPicker> {
                   color: const Color(0xffF2F2F2),
                 ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 18,
-                    height: 18,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const FaIcon(
-                      FontAwesomeIcons.solidCircleDot,
-                      size: 16,
-                      color: Color(0xffED6C66),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 14,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(locationPicker.structuredFormatting!.mainText!,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(color: Colors.black)),
-                        const SizedBox(
-                          height: 5,
+              child: loading
+                  ? const Center(
+                      child: SizedBox(
+                        width: 28,
+                        height: 28,
+                        child: CircularProgressIndicator(
+                          color: Color(0xffFE8248),
+                          strokeWidth: 4,
                         ),
-                        Text(
-                            '${locationPicker.structuredFormatting!.mainText!}, ${(locationPicker.structuredFormatting!.secondaryText!)}',
-                            maxLines: 2,
-                            style: Theme.of(context).textTheme.displaySmall),
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Container(
+                          width: 18,
+                          height: 18,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const FaIcon(
+                            FontAwesomeIcons.solidCircleDot,
+                            size: 16,
+                            color: Color(0xffED6C66),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 14,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  locationPicker
+                                      .structuredFormatting!.mainText!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(color: Colors.black)),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                  '${locationPicker.structuredFormatting!.mainText!}, ${(locationPicker.structuredFormatting!.secondaryText!)}',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
             ),
           ),
           const Spacer(),
           BottomButton(
-              backButton: () {
-                ref.read(stepProvider.notifier).setStep('default');
-                ref
-                    .read(arrivalLocationProvider.notifier)
-                    .setArrivalLocation(LocationModel());
-                Navigator.pop(context);
-              },
-              nextButton: () {
-                ref
-                    .read(stepProvider.notifier)
-                    .setStep('departure_location_picker');
-                ref
-                    .read(mapProvider.notifier)
-                    .setMapAction('departure_location_picker');
-              },
-              nextButtonText: 'Chọn điểm đón này',
-              opacity: true),
+            backButton: () {
+              ref.read(stepProvider.notifier).setStep('default');
+              ref
+                  .read(arrivalLocationProvider.notifier)
+                  .setArrivalLocation(LocationModel());
+              Navigator.pop(context);
+            },
+            nextButton: () {
+              ref
+                  .read(stepProvider.notifier)
+                  .setStep('departure_location_picker');
+              ref
+                  .read(mapProvider.notifier)
+                  .setMapAction('departure_location_picker');
+            },
+            nextButtonText: 'Chọn điểm đến này',
+            opacity: !loading,
+          ),
         ],
       ),
     );

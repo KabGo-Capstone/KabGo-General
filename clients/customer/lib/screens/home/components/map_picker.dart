@@ -47,7 +47,7 @@ class MapPicker extends ConsumerWidget {
                     ),
                     onPressed: () {
                       ref.read(stepProvider.notifier).setStep('arrival_location_picker');
-                      ref.read(mapProvider.notifier).setMapAction('arrival_location_picker');
+                      // ref.read(mapProvider.notifier).setMapAction('arrival_location_picker');
                       Navigator.push(
                           context,
                           PageRouteBuilder(

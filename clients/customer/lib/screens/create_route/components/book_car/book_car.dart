@@ -8,7 +8,9 @@ import 'package:customer/providers/routeProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/widgets/bottom_button.dart';
 import 'package:customer/widgets/car_card_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,12 +18,9 @@ import 'choose_payment_method.dart';
 import 'discount_page.dart';
 
 class BookCar extends ConsumerStatefulWidget {
-  const BookCar(
-    this.showFull, {
+  const BookCar({
     super.key,
   });
-
-  final bool showFull;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -33,10 +32,10 @@ class _BookCarState extends ConsumerState<BookCar> {
   String? minute;
   dynamic listCoupon;
 
-  int chosenItem = 0;
-  void setChoseItem(int index, StateSetter stateSetter) {
+  dynamic chosenItem = listCarCard1.first;
+  void setChoseItem(dynamic item, StateSetter stateSetter) {
     stateSetter(() {
-      chosenItem = index;
+      chosenItem = item;
     });
   }
 
@@ -119,71 +118,32 @@ class _BookCarState extends ConsumerState<BookCar> {
               builder: (context, setChooseItemState) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AnimatedContainer(
-                    height: widget.showFull ? 60 : 0,
-                    duration: const Duration(milliseconds: 50),
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Bạn cần thay đổi loại xe?',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Text(
-                          'Thường',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
                   ...listCarCard1.map(
                     (e) => InkWell(
                       onTap: () {
                         setChoseItem(
-                            listCarCard1.indexOf(e), setChooseItemState);
+                            e, setChooseItemState);
                       },
                       child: CarCardItem(
-                        isChosen: chosenItem == listCarCard1.indexOf(e),
+                        isChosen: chosenItem == e,
                         data: e,
                         distance: routeModal.distance!,
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Nâng cao',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ...listCarCard2.map(
-                    (e) => InkWell(
-                      onTap: () {
-                        setChoseItem(
-                            listCarCard1.indexOf(e), setChooseItemState);
-                      },
-                      child: CarCardItem(
-                        isChosen: chosenItem == listCarCard1.indexOf(e),
-                        data: e,
-                        distance: routeModal.distance!,
-                      ),
-                    ),
-                  ),
+                  // ...listCarCard2.map(
+                  //   (e) => InkWell(
+                  //     onTap: () {
+                  //       setChoseItem(
+                  //           e, setChooseItemState);
+                  //     },
+                  //     child: CarCardItem(
+                  //       isChosen: chosenItem == e,
+                  //       data: e,
+                  //       distance: routeModal.distance!,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

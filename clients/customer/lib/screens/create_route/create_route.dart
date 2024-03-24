@@ -8,12 +8,11 @@ import 'package:customer/screens/create_route/components/book_car/book_car.dart'
 import 'package:customer/screens/create_route/components/book_car/choose_payment_method.dart';
 import 'package:customer/screens/create_route/components/book_car/discount_page.dart';
 import 'package:customer/screens/create_route/components/departure_location_picker.dart';
+import 'package:customer/screens/create_route/components/find_driver/find_driver_screen.dart';
 import 'package:customer/widgets/bottom_button.dart';
 import 'package:customer/widgets/current_location_button.dart';
 import 'package:customer/screens/create_route/components/my_map.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -28,8 +27,6 @@ class CreateRoute extends ConsumerStatefulWidget {
 class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
   double minHeightPanel = 0;
   double maxHeightPanel = 0;
-
-  bool showFull = false;
 
   bool locationPicker = false;
   bool currentLocation = true;
@@ -94,9 +91,11 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
     if (ref.read(stepProvider) == 'arrival_location_picker') {
       bottomPanel = const ArrivalLocationPicker();
       locationPicker = true;
+      bottomPadding = 0.25;
     } else if (ref.read(stepProvider) == 'departure_location_picker') {
       bottomPanel = const DepartureLocationPicker();
       locationPicker = true;
+      bottomPadding = 0.3;
     }
 
     final screenSize = MediaQuery.of(context).size;
@@ -118,8 +117,10 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
               currentLocation = false;
               bottomPanel = const SizedBox();
               minHeightPanel = screenSize.height * 0.45;
-              maxHeightPanel = screenSize.height * 0.7;
+              maxHeightPanel = screenSize.height * 0.65;
             } else if (next == 'find_driver') {
+              minHeightPanel = screenSize.height * 0.15;
+              maxHeightPanel = screenSize.height * 0.38;
             } else if (next == 'wait_driver') {
             } else if (next == 'comming_driver') {
             } else if (next == 'moving') {
@@ -288,14 +289,6 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SlidingUpPanel(
-                    onPanelClosed: () {
-                      showFull = false;
-                      setState(() {});
-                    },
-                    onPanelOpened: () {
-                      showFull = true;
-                      setState(() {});
-                    },
                     onPanelSlide: (position) {
                       bottomController.animatePanelToPosition(1 - position,
                           duration: Duration.zero);
@@ -316,7 +309,26 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                         offset: Offset(1, 0),
                       ),
                     ],
-                    panelBuilder: (sc) => BookCar(showFull),
+                    panelBuilder: (sc) => const BookCar(),
+                  ),
+                ),
+              if (ref.read(stepProvider) == 'find_driver')
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SlidingUpPanel(
+                    minHeight: minHeightPanel,
+                    maxHeight: maxHeightPanel,
+                    color: Colors.transparent,
+                    defaultPanelState: PanelState.CLOSED,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(80, 217, 217, 217),
+                        spreadRadius: 3,
+                        blurRadius: 3,
+                        offset: Offset(1, 0),
+                      ),
+                    ],
+                    panelBuilder: (sc) => const FindDriver(),
                   ),
                 ),
               if (ref.read(stepProvider) == 'create_trip')
@@ -329,7 +341,6 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                     defaultPanelState: PanelState.OPEN,
                     isDraggable: false,
                     panelBuilder: (sc) => Container(
-                      // height: 144,
                       padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -440,7 +451,12 @@ class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
                               Navigator.pop(context);
                             },
                             nextButton: () {
-                              panelController.animatePanelToPosition(0.5);
+                              ref
+                                  .read(stepProvider.notifier)
+                                  .setStep('find_driver');
+                              ref
+                                  .read(mapProvider.notifier)
+                                  .setMapAction('find_driver');
                             },
                             nextButtonText: 'đặt xe',
                             opacity: true,

@@ -124,6 +124,24 @@ List<Map<String, String>> listCarCard1 = [
     'description': 'Tối đa 7 chỗ ngồi',
     'price/m': '13.8',
   },
+    {
+    'image': 'lib/assets/images/car4comfort.png',
+    'name': 'KabCar Economy',
+    'description': 'Tối đa 4 chỗ ngồi',
+    'price/m': '11',
+  },
+  {
+    'image': 'lib/assets/images/car7comfort.png',
+    'name': 'KabCar Comfort Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '14.6',
+  },
+    {
+    'image': 'lib/assets/images/car7economy.png',
+    'name': 'KabCar Economy Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '13',
+  },
 ];
 
 List<Map<String, String>> listCarCard2 = [

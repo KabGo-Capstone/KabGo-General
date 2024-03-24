@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:customer/providers/coupon_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +36,7 @@ class _CarCardItemState extends ConsumerState<CarCardItem> {
     }
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: Platform.isIOS ? 15:14),
       color: widget.isChosen
           ? const Color.fromARGB(255, 255, 240, 233)
           : Colors.transparent,
