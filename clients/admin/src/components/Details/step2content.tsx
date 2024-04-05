@@ -6,6 +6,7 @@ import CCCD from '../../assets/images/identity card.jpg';
 import CCCD2 from '../../assets/images/motocycle.png';
 
 const Step2Content: React.FC<any> = ({ record }) => {
+  console.log(record);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
