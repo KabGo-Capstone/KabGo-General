@@ -2,16 +2,25 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/firebase/auth/google_sign_in.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/providers/driver_provider.dart';
 import 'package:driver/providers/status_provider.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/remind_info/remind_person_infor.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/app_bar.dart';
+import 'package:driver/widgets/bottom_menu.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonImage extends ConsumerStatefulWidget {
+  static const path = '/person_image';
+  static const name = 'person_image';
   const PersonImage({super.key});
 
   @override
@@ -74,7 +83,7 @@ class _PersonImageState extends ConsumerState<PersonImage> {
     image = ref.watch(driverProvider).personImage;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       body: Stack(
         children: [
           GestureDetector(

@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
 import 'package:driver/constants/regex.dart';
 import 'package:driver/data/data.dart';
+import 'package:driver/models/user_register.dart';
+import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
 import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/bottom_selector.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,53 +37,58 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final TextEditingController lastnameDriver = TextEditingController();
   final TextEditingController phonenumberDriver = TextEditingController();
   final TextEditingController referrerDriver = TextEditingController();
-  late String selectedCity = '';
 
+  late String selectedCity = '';
   late bool isChecked = false;
   late bool isValid = false;
+  late bool isPhoneRegistered = false;
 
-  void sendCategory(var data) async {
-    try {
-      final dioClient = DioClient();
-      // String baseURL = dotenv.env['API_BASE_URL']!;
-      // print('$baseURL/register');
-      // print(data);
+  void sendCategory(var data, String token) {
+    final dioClient = DioClient();
+    // String baseURL = dotenv.env['API_BASE_URL']!;
+    // print('$baseURL/register');
+    // print(data);
 
-      final response = await dioClient.request(
-        '/register',
-        options: Options(method: 'POST'),
-        data: data,
-      );
-      // print(response.data['data']['id']);
-
+    dioClient
+        .request(
+      '/register',
+      options: Options(
+        method: 'POST',
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+      data: data,
+    )
+        .then((response) {
       if (response.statusCode == 200) {
-        ref
-            .read(driverInfoRegisterProvider.notifier)
-            .setIdDriver(response.data['data']['id']);
-        ref
-            .read(driverInfoRegisterProvider.notifier)
-            .setLastName(response.data['data']['lastName']);
+        final driverInfoNotifier =
+            ref.read(driverInfoRegisterProvider.notifier);
+        final driverInfo = ref.watch(driverInfoRegisterProvider);
 
-        // ignore: use_build_context_synchronously
+        driverInfoNotifier.setIdDriver(response.data['data']['id']);
+        driverInfoNotifier.setLastName(response.data['data']['lastName']);
+        driverInfoNotifier.setFirstName(response.data['data']['firstName']);
+
+        ref.read(phoneAuthProvider).signIn(phonenumberDriver.text);
         context.pushNamed(OTPScreen.name, extra: {
-          'firstname': firstnameDriver.text,
-          'lastname': lastnameDriver.text,
-          'phonenumber': phonenumberDriver.text,
+          'firstName': firstnameDriver.text,
+          'lastName': lastnameDriver.text,
+          'phoneNumber': phonenumberDriver.text,
           'city': selectedCity,
-          'referrer': referrerDriver.text,
+          'referrerCode': referrerDriver.text,
+          'email': driverInfo.email!,
         });
-        // print(response.data['data']['id']);
-      } else {
-        // Xử lý lỗi nếu có
-        print('Error: ${response.statusCode}');
       }
-    } catch (e) {
-      // Xử lý lỗi nếu có
-      print('Error: $e');
-    }
+    }).catchError((e) {
+      if (e.response?.statusCode == 401) {
+        setState(() {
+          isPhoneRegistered = true;
+        });
+      }
+      return null;
+    }, test: (e) => e is DioException);
   }
 
-  void saveForm() {
+  saveForm() async {
     print('===== SAVE =====');
     // print(firstnameDriver.text);
     // print(lastnameDriver.text);
@@ -91,11 +101,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       'lastName': lastnameDriver.text,
       'phoneNumber': phonenumberDriver.text,
       'referralCode': referrerDriver.text,
-      'city': selectedCity,
-      'email': 'htvinh201@gmail.com'
+      'city': selectedCity
     });
 
-    sendCategory(data);
+    final token = await FirebaseAuth.instance.currentUser!.getIdToken();
+
+    sendCategory(data, token!);
   }
 
   validFormField() {
@@ -121,7 +132,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (_formKey.currentState != null &&
         validFormField() &&
         _formKey.currentState!.validate()) {
-      saveForm();
+      await saveForm();
     }
   }
 
@@ -182,13 +193,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       children: [
                         const Image(
                           image: AssetImage('assets/logo-hori.png'),
-                          width: 120,
+                          width: 110,
                         ),
                         const Spacer(),
                         InkWell(
                           child: const FaIcon(FontAwesomeIcons.xmark),
                           onTap: () {
-                            context.pop();
+                            if (context.canPop()) {
+                              context.pop();
+                            } else {
+                              context.goNamed(LoginScreen.name);
+                            }
                           },
                         )
                       ],
@@ -324,6 +339,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
                                   if (value != null && value.isNotEmpty) {
+                                    if (phonenumerRegex.hasMatch(value) &&
+                                        isPhoneRegistered) {
+                                      return 'Số điện thoại đã được đăng ký';
+                                    }
+
+                                    if (isPhoneRegistered) {
+                                      isPhoneRegistered = false;
+                                    }
+
                                     return phonenumerRegex.hasMatch(value)
                                         ? null
                                         : 'Số điện thoại không tồn tại';

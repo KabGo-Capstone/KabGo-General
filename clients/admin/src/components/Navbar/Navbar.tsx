@@ -22,6 +22,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu, theme, Button, Typography, Divider } from "antd";
 import Sidebar from "~/components/Sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -31,6 +32,16 @@ const NavBar: React.FC = () => {
   } = theme.useToken();
 
   const navigate = useNavigate();
+
+  const { logout } = useAuth0();
+
+  const handleLogout = () => {
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
+  };
 
   return (
     <Header
@@ -63,7 +74,7 @@ const NavBar: React.FC = () => {
             <SettingOutlined />
           </Button>
           <Button className="!w-auto !h-auto !flex !items-center !justify-center !p-0 !mr-2 !rounded-full">
-            <LogOutSvgIcon />
+            <LogOutSvgIcon onClick={handleLogout}/>
           </Button>
         </div>
         <div className="!flex !items-center !justify-center gap-2" style={{ lineHeight: '0px' }}>

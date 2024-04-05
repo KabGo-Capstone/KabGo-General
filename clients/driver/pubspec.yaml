@@ -54,6 +54,7 @@ dependencies:
     flutter_riverpod: ^2.4.10
     firebase_core: ^2.26.0
     riverpod: ^2.5.0
+    shared_preferences: ^2.2.2
 
 dev_dependencies:
     flutter_test:

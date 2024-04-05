@@ -6,8 +6,10 @@ import 'package:driver/providers/vehicle_register_provider.dart';
 import 'package:driver/widgets/app_bar.dart';
 import 'package:driver/widgets/build_bullet_point.dart';
 import 'package:driver/widgets/build_text.dart';
+import 'package:driver/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RemindCertificateAfter extends ConsumerStatefulWidget {
   static const path = 'remind_person_image';
@@ -28,11 +30,13 @@ class _RemindCertificateAfterState
     // setState(() {});
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarCustom(title: ''),
+      appBar: const AppBarCustom(),
       body: GestureDetector(
         child: Column(children: [
           Expanded(

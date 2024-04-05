@@ -78,6 +78,15 @@ class SearchSuggestions extends ConsumerWidget {
                             .read(mapProvider.notifier)
                             .setMapAction('departure_location_picker');
                       }
+                      else {
+                        ref
+                            .read(arrivalLocationProvider.notifier)
+                            .setArrivalLocation(e);
+                        Navigator.pop(context);
+                        ref
+                            .read(mapProvider.notifier)
+                            .setMapAction('arrival_location_picker');
+                      }
                     }
                   },
                   child: e.structuredFormatting!.secondaryText!

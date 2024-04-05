@@ -12,6 +12,9 @@ const CorsCustomOptions = {
             callback(null, true)
         else callback(new AppError('Not allowed by CORS', 401))
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
+    allowedHeaders: ["Authorization", "Content-Type"],
+    maxAge: 86400,
     optionsSuccessStatus: 200,
 } as CorsOptions
 

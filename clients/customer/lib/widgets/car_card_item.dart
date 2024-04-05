@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:customer/providers/coupon_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,30 +29,30 @@ class _CarCardItemState extends ConsumerState<CarCardItem> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isChosen) {
+    if (widget.isChosen && widget.distance.isNotEmpty) {
       ref.read(routeProvider.notifier).setPrice(
           '${convertDistanceToMeters(widget.data['price/m']!, widget.distance, coupon).replaceAll(',', '.')}đ');
       ref.read(routeProvider.notifier).setService(widget.data['name']!);
     }
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-      decoration: BoxDecoration(
-        color: widget.isChosen ? const Color(0xffFFF0EA) : const Color(0xffFCFCFC),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12),
-        ),
-        border: Border.all(
-          width: 1,
-          color: widget.isChosen ? const Color(0xffF86C1D) : const Color(0xffEEEEEE),
-        ),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: Platform.isIOS ? 15:14),
+      color: widget.isChosen
+          ? const Color.fromARGB(255, 255, 240, 233)
+          : Colors.transparent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            widget.data['image'].toString(),
-            height: 56,
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  widget.data['image'].toString(),
+                ),
+              ),
+            ),
           ),
           const SizedBox(
             width: 18,
@@ -61,12 +63,9 @@ class _CarCardItemState extends ConsumerState<CarCardItem> {
               Text(
                 widget.data['name'].toString(),
                 style: GoogleFonts.montserrat(
-                    color: const Color(0xffF86C1D),
+                    color: Colors.black,
                     fontWeight: FontWeight.w600,
                     fontSize: 16),
-              ),
-              const SizedBox(
-                height: 4,
               ),
               Text(
                 widget.data['description'].toString(),
@@ -87,23 +86,27 @@ class _CarCardItemState extends ConsumerState<CarCardItem> {
                 children: [
                   if (coupon > 0)
                     Text(
-                      '${convertDistanceToMeters(widget.data['price/m']!, widget.distance, 0).replaceAll(',', '.')}đ',
+                      widget.distance.isEmpty
+                          ? '0'
+                          : '${convertDistanceToMeters(widget.data['price/m']!, widget.distance, 0).replaceAll(',', '.')}đ',
                       style: GoogleFonts.montserrat(
                           decoration: TextDecoration.lineThrough,
                           color: const Color(0xff6A6A6A),
                           fontWeight: FontWeight.w500,
-                          fontSize: 14),
+                          fontSize: 13),
                     ),
                   if (coupon > 0)
                     const SizedBox(
                       height: 6,
                     ),
                   Text(
-                    '${convertDistanceToMeters(widget.data['price/m']!, widget.distance, coupon).replaceAll(',', '.')}đ',
+                    widget.distance.isEmpty
+                        ? '0'
+                        : '${convertDistanceToMeters(widget.data['price/m']!, widget.distance, coupon).replaceAll(',', '.')}đ',
                     style: GoogleFonts.montserrat(
-                      color: const Color(0xffF86C1D),
+                      color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 ],

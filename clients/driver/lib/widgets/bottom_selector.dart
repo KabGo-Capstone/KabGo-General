@@ -7,18 +7,21 @@ class BottomSheetSelector extends StatelessWidget {
   final void Function(String) onSelected;
   final Text label;
   final bool divider;
+  final double height;
 
   const BottomSheetSelector({
     super.key,
     required this.onSelected,
     required this.options,
     required this.label,
+    this.height = double.infinity,
     this.divider = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       padding: const EdgeInsets.only(left: 15, right: 15, bottom: 12, top: 12),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -62,7 +65,8 @@ class BottomSheetSelector extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
+                                      vertical: 12,
+                                    ),
                                     child: Text(
                                       option,
                                       style: const TextStyle(

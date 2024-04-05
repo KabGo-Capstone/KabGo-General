@@ -99,30 +99,69 @@ List<Map<String, Object>> favoriteLocationData = [
   {'icon': FontAwesomeIcons.solidHeart, 'title': 'Mới'},
 ];
 
-List<Map<String, String>> listCarCard = [
+List<Map<String, String>> listCarCard1 = [
   {
-    'image': 'lib/assets/images/motorbike_1.png',
-    'name': 'Xe máy',
+    'image': 'lib/assets/images/moto.png',
+    'name': 'KabRide',
     'description': 'Tối đa 1 chỗ ngồi',
     'price/m': '5.5',
   },
-  {
-    'image': 'lib/assets/images/motorbike_2.png',
-    'name': 'Xe tay ga',
+    {
+    'image': 'lib/assets/images/moto_comfort.png',
+    'name': 'KabRide Comfort',
     'description': 'Tối đa 1 chỗ ngồi',
     'price/m': '6.3',
   },
   {
-    'image': 'lib/assets/images/oto_mini.png',
-    'name': 'Xe Ô tô con',
-    'description': 'Từ 2 - 4 chỗ ngồi',
+    'image': 'lib/assets/images/car4.png',
+    'name': 'KabCar',
+    'description': 'Tối đa 4 chỗ ngồi',
     'price/m': '11.8',
   },
   {
-    'image': 'lib/assets/images/oto.png',
-    'name': 'Xe Ô tô',
-    'description': 'Từ 7 - 9 chỗ ngồi',
+    'image': 'lib/assets/images/car7.png',
+    'name': 'KabCar Big',
+    'description': 'Tối đa 7 chỗ ngồi',
     'price/m': '13.8',
+  },
+    {
+    'image': 'lib/assets/images/car4comfort.png',
+    'name': 'KabCar Economy',
+    'description': 'Tối đa 4 chỗ ngồi',
+    'price/m': '11',
+  },
+  {
+    'image': 'lib/assets/images/car7comfort.png',
+    'name': 'KabCar Comfort Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '14.6',
+  },
+    {
+    'image': 'lib/assets/images/car7economy.png',
+    'name': 'KabCar Economy Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '13',
+  },
+];
+
+List<Map<String, String>> listCarCard2 = [
+  {
+    'image': 'lib/assets/images/car4comfort.png',
+    'name': 'KabCar Economy',
+    'description': 'Tối đa 4 chỗ ngồi',
+    'price/m': '11',
+  },
+  {
+    'image': 'lib/assets/images/car7comfort.png',
+    'name': 'KabCar Comfort Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '14.6',
+  },
+    {
+    'image': 'lib/assets/images/car7economy.png',
+    'name': 'KabCar Economy Big',
+    'description': 'Tối đa 7 chỗ ngồi',
+    'price/m': '13',
   },
 ];
 

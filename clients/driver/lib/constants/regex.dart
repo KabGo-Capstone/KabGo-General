@@ -1,1 +1,1 @@
-final phonenumerRegex = RegExp(r'^(03|05|07|08|09)\d{8}$');
+final phonenumerRegex = RegExp(r'(03|05|07|08|09|01[2|6|8|9])+(\d{8})\b');

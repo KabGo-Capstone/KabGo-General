@@ -42,13 +42,13 @@ const renderCard = (title: string, imageSource: any) => (
   <div className="flex flex-col items-center">
     <Typography.Text className="!text-lg !mb-2">{title}</Typography.Text>
     <Image
-      width={300}
+      width={200}
       src={imageSource || NoImg} 
       placeholder={
         <Image
           preview={false}
           src={imageSource || NoImg}
-          width={200}
+          // width={200}
         />
       }
     />

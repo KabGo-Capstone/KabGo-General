@@ -4,6 +4,7 @@ import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
+import 'package:customer/providers/mapProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/screens/search/search.dart';
 import 'package:customer/widgets/bottom_button.dart';
@@ -22,12 +23,18 @@ class DepartureLocationPicker extends ConsumerStatefulWidget {
 
 class _DepartureLocationPickerState
     extends ConsumerState<DepartureLocationPicker> {
+  bool loading = true;
+
   @override
   Widget build(BuildContext context) {
     LocationModel locationPicker = ref.watch(departureLocationProvider);
-    if (locationPicker.structuredFormatting == null) {
-      locationPicker = ref.read(currentLocationProvider);
+    LocationModel currentLocation = ref.watch(currentLocationProvider);
+
+    if (locationPicker.placeId == null && currentLocation.placeId != null) {
+      locationPicker = currentLocation;
+      loading = false;
     }
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.30,
       width: double.infinity,
@@ -90,49 +97,63 @@ class _DepartureLocationPickerState
                   color: const Color(0xffF2F2F2),
                 ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 18,
-                    height: 18,
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const FaIcon(
-                      FontAwesomeIcons.solidCircleDot,
-                      size: 16,
-                      color: Color(0xff4F96FF),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 14,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(locationPicker.structuredFormatting!.mainText!,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium!
-                                .copyWith(color: Colors.black)),
-                        const SizedBox(
-                          height: 5,
+              child: loading
+                  ? const Center(
+                      child: SizedBox(
+                        width: 28,
+                        height: 28,
+                        child: CircularProgressIndicator(
+                          color: Color(0xffFE8248),
+                          strokeWidth: 4,
                         ),
-                        Text(
-                            '${locationPicker.structuredFormatting!.mainText!}, ${(locationPicker.structuredFormatting!.secondaryText!)}',
-                            maxLines: 2,
-                            style: Theme.of(context).textTheme.displaySmall),
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Container(
+                          width: 18,
+                          height: 18,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const FaIcon(
+                            FontAwesomeIcons.solidCircleDot,
+                            size: 16,
+                            color: Color(0xff4F96FF),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 14,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  locationPicker
+                                      .structuredFormatting!.mainText!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium!
+                                      .copyWith(color: Colors.black)),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                  '${locationPicker.structuredFormatting!.mainText!}, ${(locationPicker.structuredFormatting!.secondaryText!)}',
+                                  maxLines: 2,
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
             ),
           ),
           const SizedBox(
@@ -173,9 +194,12 @@ class _DepartureLocationPickerState
 
                 Navigator.pop(context);
               },
-              nextButton: () {},
+              nextButton: () {
+                ref.read(mapProvider.notifier).setMapAction('draw_route');
+                ref.read(stepProvider.notifier).setStep('create_trip');
+              },
               nextButtonText: 'Chọn điểm đón này',
-              opacity: true),
+              opacity: !loading),
         ],
       ),
     );

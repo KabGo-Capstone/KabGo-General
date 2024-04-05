@@ -66,6 +66,10 @@ services:
         environment:
             DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
             DEMAND_GRPC_CLIENT_PORT: "50051"
+
+            ADMIN_GRPC_CLIENT_HOST: "admin.kabgo.mtech.id.vn"
+            ADMIN_GRPC_CLIENT_PORT: "50053"
+
             FORCE_COLOR: 1
             DEBUG_COLORS: "true"
             TERM: xterm-256color

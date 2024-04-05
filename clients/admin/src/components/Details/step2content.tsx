@@ -44,8 +44,8 @@ const renderCard = (title: string, subTitle: string, imageSource: any) => (
     <Typography.Text className="!text-2xl font-bold !mb-2">{title}</Typography.Text>
     <Typography.Text className="!text-lg !mb-2">{subTitle}</Typography.Text>
     <Image
-      height={200}
-      width={300}
+      // height={200}
+      width={200}
       src={imageSource || NoImg}
       // className="!bg-cover"
       placeholder={
