@@ -1,0 +1,39 @@
+FROM node:alpine
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+
+WORKDIR /usr/src/grpc
+
+COPY ./grpc ./
+
+COPY ./grpc/package*.json ../
+
+
+WORKDIR /usr/src
+
+RUN npm ci
+
+RUN npm run proto:generate
+
+RUN cp -r ./grpc ./app
+
+
+WORKDIR /usr/src/app
+
+RUN npm run format-fix
+
+RUN npm run build:prod
+
+RUN rm -rf grpc
+
+
+EXPOSE 5002 50052
+
+CMD ["npm", "run", "start"]
