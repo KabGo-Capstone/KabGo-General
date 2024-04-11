@@ -1,6 +1,5 @@
 import 'package:customer/data/data.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
-import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/widgets/current_location_item.dart';
 import 'package:customer/widgets/saved_location_item.dart';
 import 'package:customer/widgets/recently_arrival_item.dart';
@@ -193,7 +192,7 @@ class _RecentlySuggestionsState extends ConsumerState<RecentlySuggestions> {
                   ),
             ],
           ),
-                  const SizedBox(
+        const SizedBox(
           height: 40,
         ),
       ],

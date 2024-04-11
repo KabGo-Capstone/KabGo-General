@@ -5,6 +5,7 @@ import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
 import 'package:customer/providers/mapProvider.dart';
 import 'package:customer/providers/routeProvider.dart';
+import 'package:customer/providers/socketProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/widgets/bottom_button.dart';
 import 'package:customer/widgets/car_card_item.dart';
@@ -39,17 +40,18 @@ class _BookCarState extends ConsumerState<BookCar> {
     });
   }
 
-  Future<void> bookCar() async {
-    // SocketClient socketClient = ref.read(socketClientProvider.notifier);
-    // LocationModel departure = ref.read(departureLocationProvider);
-    // LocationModel arrival = ref.read(arrivalLocationProvider);
-    // RouteModel routeModel = ref.read(routeProvider);
-    // CustomerModel customerModel = ref.read(customerProvider);
-    // socketClient.emitBookingCar(departure, arrival, routeModel, customerModel);
-    // ref.read(stepProvider.notifier).setStep('find_driver');
-    // ref.read(mapProvider.notifier).setMapAction('FIND_DRIVER');
-    // ref.read(couponProvider.notifier).setCoupon(0);
-  }
+  // Future<void> bookCar() async {
+  //   SocketClient socketClient = ref.read(socketClientProvider.notifier);
+  //   socketClient.emitBookingCar(ref.read(departureLocationProvider).postion!);
+  //   // LocationModel departure = ref.read(departureLocationProvider);
+  //   // LocationModel arrival = ref.read(arrivalLocationProvider);
+  //   // RouteModel routeModel = ref.read(routeProvider);
+  //   // CustomerModel customerModel = ref.read(customerProvider);
+  //   // socketClient.emitBookingCar(departure, arrival, routeModel, customerModel);
+  //   ref.read(stepProvider.notifier).setStep('find_driver');
+  //   ref.read(mapProvider.notifier).setMapAction('FIND_DRIVER');
+  //   // ref.read(couponProvider.notifier).setCoupon(0);
+  // }
 
   // var dio = Dio();
   // var response = await dio.request(

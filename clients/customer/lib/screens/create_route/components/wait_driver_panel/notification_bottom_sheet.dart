@@ -42,7 +42,7 @@ class NotificationBottomSheet extends ConsumerWidget {
                     Radius.circular(10),
                   ),
                 ),
-                child: Image.network(driverModel.avatar!),
+                // child: Image.network(driverModel.avatar!),
               ),
               const SizedBox(
                 width: 12,
@@ -56,7 +56,8 @@ class NotificationBottomSheet extends ConsumerWidget {
                     SizedBox(
                       width: 170,
                       child: Text(
-                        driverModel.name!,
+                        // driverModel.name!,
+                          'Nguyễn Đức Minh',
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -68,7 +69,8 @@ class NotificationBottomSheet extends ConsumerWidget {
                     SizedBox(
                       width: 170,
                       child: Text(
-                        driverModel.vehicle['name'],
+                        // driverModel.vehicle['name'],
+                          'Honda Wave RSX',
                         style: const TextStyle(
                           color: Color(0xff6A6A6A),
                           fontWeight: FontWeight.w700,
@@ -123,7 +125,8 @@ class NotificationBottomSheet extends ConsumerWidget {
                       ),
                     ),
                     child: Text(
-                      driverModel.vehicle['number'],
+                      // driverModel.vehicle['number'],
+                        '68S164889',
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ),

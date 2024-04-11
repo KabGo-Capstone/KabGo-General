@@ -1,6 +1,7 @@
 import 'package:customer/models/location_model.dart';
 import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/departureLocationProvider.dart';
+import 'package:customer/providers/stepProvider.dart';
 import 'package:customer/widgets/loading_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class _FindDriverState extends ConsumerState<FindDriver> {
     super.initState();
     // Future.delayed(const Duration(seconds: 10), () {
     //   showBottomModalLoading();
+    // });
+    // Future.delayed(const Duration(seconds: 5), () {
+    //   ref.read(stepProvider.notifier).setStep('wait_driver');
     // });
   }
 

@@ -42,7 +42,7 @@ class _InputSearchState extends State<SearchInput> {
       'key': APIKey,
       'components': 'country:vn',
       'city': 'Ho Chi Minh City',
-      'locationbias': 'circle:5000@10.791043518001057, 106.64709564391066',
+      'locationbias': 'circle:5000@10.79104351800`````1057, 106.64709564391066',
       'language': 'vi',
     });
 

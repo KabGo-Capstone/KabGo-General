@@ -13,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class WaitDriverPanel extends ConsumerStatefulWidget {
   const WaitDriverPanel({Key? key}) : super(key: key);
 
@@ -26,9 +25,12 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
   Widget widgetText = Text(
     'Tài xế của bạn đang đến...',
     style: GoogleFonts.montserrat(
-        color: const Color(0xff6A6A6A), fontWeight: FontWeight.w600, fontSize: 18),
+        color: const Color(0xff6A6A6A),
+        fontWeight: FontWeight.w600,
+        fontSize: 18),
     textAlign: TextAlign.start,
   );
+
   void showDriverNotification(DriverModel driverModel) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -39,10 +41,19 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     RouteModel routeModel = ref.read(routeProvider);
     LocationModel departure = ref.read(departureLocationProvider);
     LocationModel arrival = ref.read(arrivalLocationProvider);
+
+    print(departure.structuredFormatting!.mainText);
+    print(arrival.structuredFormatting!.mainText);
     DriverModel driverModel = ref.read(driverProvider);
     print('===========> WAIT_DRIVER_PANEL BUILD');
 
@@ -79,7 +90,7 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
               ),
             ),
             const SizedBox(
-              height: 24,
+              height: 16,
             ),
             ///////////////////////////////////////////////////// LOCATION INPUT
             Align(
@@ -143,7 +154,7 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
                       Radius.circular(10),
                     ),
                   ),
-                  child: Image.network(driverModel.avatar!),
+                  // child: Image.network(driverModel.avatar!),
                 ),
                 const SizedBox(
                   width: 12,
@@ -157,7 +168,7 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
                       SizedBox(
                         width: 170,
                         child: Text(
-                          driverModel.name!,
+                          '${driverModel.driver!.lastname} ${driverModel.driver!.firstname}',
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
@@ -224,7 +235,7 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
                         ),
                       ),
                       child: Text(
-                        driverModel.vehicle['number'],
+                        driverModel.vehicle['identity_number'],
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
@@ -298,118 +309,143 @@ class _WaitDriverPanelState extends ConsumerState<WaitDriverPanel> {
             const SizedBox(
               height: 21,
             ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 15,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Lộ trình của bạn',
-                    style: Theme.of(context).textTheme.titleSmall,
-                    textAlign: TextAlign.start,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Lộ trình của bạn',
+                      style: Theme.of(context).textTheme.titleSmall,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  width: 15,
-                ),
-                Image.asset(
-                  'lib/assets/trip_icon.png',
-                  height: 120,
-                ),
-                const SizedBox(
-                  width: 13,
-                ),
-                Expanded(
-                  child: Column(
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
                     children: [
                       Container(
-                        height: 70,
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
+                        width: 24,
+                        height: 24,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xffF9F9F9),
-                          border: Border.all(
-                            width: 1,
-                            color: const Color(0xffF2F2F2),
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(departure.structuredFormatting!.mainText!,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style:
-                                    Theme.of(context).textTheme.displayMedium),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                                '${departure.structuredFormatting!.mainText!}, ${(departure.structuredFormatting!.secondaryText!).replaceFirst(RegExp(r',[^,]*$'), ', TP.HCM')}',
-                                style:
-                                    Theme.of(context).textTheme.displaySmall),
-                          ],
+                        child: const FaIcon(
+                          FontAwesomeIcons.solidCircleDot,
+                          size: 21,
+                          color: Color(0xff006FD5),
                         ),
                       ),
                       const SizedBox(
-                        height: 14,
+                        width: 6,
                       ),
-                      Container(
-                        height: 70,
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xffF9F9F9),
-                          border: Border.all(
-                            width: 1,
-                            color: const Color(0xffF2F2F2),
+                      Expanded(
+                        child: Container(
+                          height: 70,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
                           ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              arrival.structuredFormatting!.mainText!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: Theme.of(context).textTheme.displayMedium,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffF9F9F9),
+                            border: Border.all(
+                              width: 1,
+                              color: const Color(0xffF2F2F2),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              '${arrival.structuredFormatting!.mainText!}, ${(arrival.structuredFormatting!.secondaryText!).replaceFirst(RegExp(r',[^,]*$'), ', TP.HCM')}',
-                              style: Theme.of(context).textTheme.displaySmall,
-                            ),
-                          ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(departure.structuredFormatting!.mainText!,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                  '${departure.structuredFormatting!.mainText!}, ${(departure.structuredFormatting!.secondaryText!)}',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const FaIcon(
+                          FontAwesomeIcons.solidCircleDot,
+                          size: 21,
+                          color: Color(0xffFA4848),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 70,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffF9F9F9),
+                            border: Border.all(
+                              width: 1,
+                              color: const Color(0xffF2F2F2),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                arrival.structuredFormatting!.mainText!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                '${arrival.structuredFormatting!.mainText!}, ${(arrival.structuredFormatting!.secondaryText!)}',
+                                style: Theme.of(context).textTheme.displaySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            const Spacer(),
             if (cancelButton)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),

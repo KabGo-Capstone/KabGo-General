@@ -2,8 +2,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Future<LatLng> determinePosition() async {
-  //check PERMISSION
 
+  //check PERMISSION
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -11,8 +11,6 @@ Future<LatLng> determinePosition() async {
 
   if (!serviceEnabled) {
     Geolocator.requestPermission();
-    // Geolocator.openLocationSettings();
-    // return Future.error('Location services are disabled');
   }
   permission = await Geolocator.checkPermission();
 
