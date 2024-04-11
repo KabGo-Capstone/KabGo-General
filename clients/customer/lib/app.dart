@@ -1,4 +1,5 @@
 import 'package:customer/providers/app_language.dart';
+import 'package:customer/screens/authen/login/login_screen.dart';
 import 'package:customer/screens/create_route/create_route.dart';
 import 'package:customer/screens/home/home.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -132,7 +133,7 @@ class App extends ConsumerWidget {
               ), //place holder
             ),
       ),
-      home: const Home(),
+      home: const LoginScreen(),
       // home: const Search(),
       // home: const CreateRoute(),
     );
