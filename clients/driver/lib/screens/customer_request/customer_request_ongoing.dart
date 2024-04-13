@@ -183,7 +183,7 @@ class _CustomerRequestGoingState extends ConsumerState<CustomerRequestGoing> {
                                       PAYMENT_METHODS[customerRequest
                                           .customer_infor
                                           .customer
-                                          .default_payment_method]!,
+                                          .default_payment_method] ?? '',
                                       style: ThemeText.bookingDetails),
                                 ],
                               ),
@@ -246,6 +246,7 @@ class _CustomerRequestGoingState extends ConsumerState<CustomerRequestGoing> {
                                     driver: driverInfoNotifier,
                                     rotate: 0.0)
                                 .toJson()));
+
                           requestStatusNotifier.cancelRequest();
 
                           WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -170,7 +170,7 @@ class _CustomerRequestCommingState
                                       PAYMENT_METHODS[customerRequest
                                           .customer_infor
                                           .customer
-                                          .default_payment_method]!,
+                                          .default_payment_method] ?? '',
                                       style: ThemeText.bookingDetails),
                                 ],
                               ),

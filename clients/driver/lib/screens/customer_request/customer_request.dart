@@ -151,7 +151,7 @@ class _CustomerRequestState extends ConsumerState<CustomerRequest> {
                             const SizedBox(width: 6),
                             Text(
                                 PAYMENT_METHODS[customerRequest.customer_infor
-                                    .customer.default_payment_method]!,
+                                    .customer.default_payment_method] ?? '',
                                 style: ThemeText.bookingDetails),
                           ],
                         ),
@@ -337,9 +337,9 @@ class _CustomerRequestState extends ConsumerState<CustomerRequest> {
                         isReverseAnimation: false,
                         autoStart: true,
                         onComplete: () {
-                          // requestStatusNotifier.cancelRequest();
-                          // customerRequestNotifier.cancelRequest();
-                          // context.go(HomeDashboard.path);
+                          requestStatusNotifier.cancelRequest();
+                          customerRequestNotifier.cancelRequest();
+                          context.go(HomeDashboard.path);
                         },
                         timeFormatterFunction:
                             (defaultFormatterFunction, duration) {
