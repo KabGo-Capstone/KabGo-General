@@ -65,6 +65,7 @@ dependencies:
   easy_localization: ^3.0.4 # Add by Quang Thanh on 2024-25-02 to handle localization
   shared_preferences: ^2.2.2 # Add by Quang Thanh on 2024-25-02 to save local storage
   flutter_svg: ^2.0.9
+  logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

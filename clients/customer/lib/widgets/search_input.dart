@@ -1,7 +1,7 @@
 import 'package:customer/functions/networkUtility.dart';
 import 'package:customer/models/location_model.dart';
 import 'package:customer/models/place_auto_complate_response.dart';
-import 'package:customer/utils/Google_Api_Key.dart';
+import 'package:customer/utils/google_api_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,7 +42,7 @@ class _InputSearchState extends State<SearchInput> {
       'key': APIKey,
       'components': 'country:vn',
       'city': 'Ho Chi Minh City',
-      'locationbias': 'circle:5000@10.791043518001057, 106.64709564391066',
+      'locationbias': 'circle:5000@10.79104351800`````1057, 106.64709564391066',
       'language': 'vi',
     });
 

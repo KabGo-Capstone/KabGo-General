@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../functions/networkUtility.dart';
-import '../utils/Google_Api_Key.dart';
+import '../utils/google_api_key.dart';
 
 class LocationModel {
   final String? placeId;

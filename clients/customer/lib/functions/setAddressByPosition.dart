@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/location_model.dart';
-import '../utils/Google_Api_Key.dart';
+import '../utils/google_api_key.dart';
 import 'networkUtility.dart';
 
 Future<LocationModel> setAddressByPosition(LatLng latlng) async {

@@ -17,4 +17,9 @@ class RouteModel {
     this.distance,
     this.time,
   });
+
+  @override
+  String toString() {
+    return 'RouteModel(departureLocation: $departureLocation, arrivalLocation: $arrivalLocation, distance: $distance, time: $time, service: $service, price: $price, coupon: $coupon, paymentMethod: $paymentMethod)';
+  }
 }

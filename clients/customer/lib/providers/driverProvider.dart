@@ -3,9 +3,7 @@ import 'package:riverpod/riverpod.dart';
 import '../models/driver_model.dart';
 
 class DriverNotifier extends StateNotifier<DriverModel> {
-  DriverNotifier()
-      : super(
-            DriverModel(vehicle: "", coordinate: "", rating: "", rotation: ""));
+  DriverNotifier() : super(DriverModel());
 
   void setDriver(DriverModel value) async {
     state = value;

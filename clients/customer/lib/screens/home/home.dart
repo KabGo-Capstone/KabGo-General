@@ -3,9 +3,11 @@ import 'package:customer/data/data.dart';
 import 'package:customer/functions/determinePosition.dart';
 import 'package:customer/functions/setAddressByPosition.dart';
 import 'package:customer/models/location_model.dart';
-import 'package:customer/providers/arrivalLocationProvider.dart';
 import 'package:customer/providers/currentLocationProvider.dart';
-import 'package:customer/providers/departureLocationProvider.dart';
+import 'package:customer/providers/mapProvider.dart';
+import 'package:customer/providers/socketProvider.dart';
+import 'package:customer/providers/stepProvider.dart';
+import 'package:customer/screens/create_route/create_route.dart';
 import 'package:customer/screens/home/components/bottom_navigation.dart';
 import 'package:customer/screens/home/components/favorite_location.dart';
 import 'package:customer/screens/home/components/find_arrival_button.dart';
@@ -76,6 +78,42 @@ class _HomeState extends ConsumerState<Home> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     // bookingHistory();
+    SocketClient socketClient = ref.read(socketClientProvider.notifier);
+    socketClient.subscribe('state-change', (dynamic data) {
+      print('socket change');
+      if (data != null) {
+        print(data);
+        if (data['state'] == 'LOCATING') {
+          print('LOCATING');
+        } else if (data['status'] == 'CREATED') {
+          print('CREATED');
+          socketClient.emitLocateDriver(data);
+          if (ref.read(stepProvider) == 'default') {
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                  transitionDuration: const Duration(milliseconds: 0),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const CreateRoute(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(1, 0);
+                    const end = Offset(0, 0);
+
+                    final tween = Tween(begin: begin, end: end);
+                    return SlideTransition(
+                      position: tween.animate(animation),
+                      child: child,
+                    );
+                  },
+                ));
+          }
+          ref.read(stepProvider.notifier).setStep('find_driver');
+          ref.read(mapProvider.notifier).setMapAction('find_driver');
+        }
+      }
+    });
+
     initLocation();
   }
 
@@ -106,13 +144,15 @@ class _HomeState extends ConsumerState<Home> {
     LatLng latLng = await determinePosition();
     LocationModel currentLocationModel = await setAddressByPosition(latLng);
     currentLocationModel.structuredFormatting!.formatSecondaryText();
-    ref.read(currentLocationProvider.notifier).setCurrentLocation(currentLocationModel);
+    ref
+        .read(currentLocationProvider.notifier)
+        .setCurrentLocation(currentLocationModel);
     // ref
     //     .read(departureLocationProvider.notifier)
     //     .setDepartureLocation(currentLocationModel);
-        // ref
-        // .read(arrivalLocationProvider.notifier)
-        // .setArrivalLocation(currentLocationModel);
+    // ref
+    // .read(arrivalLocationProvider.notifier)
+    // .setArrivalLocation(currentLocationModel);
   }
 
   @override

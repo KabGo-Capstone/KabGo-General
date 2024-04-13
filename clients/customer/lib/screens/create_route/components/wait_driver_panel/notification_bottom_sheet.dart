@@ -1,4 +1,6 @@
+import 'package:customer/models/driver_accept_model.dart';
 import 'package:customer/models/driver_model.dart';
+import 'package:customer/providers/driverAcceptProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,13 +11,16 @@ class NotificationBottomSheet extends ConsumerWidget {
   const NotificationBottomSheet({Key? key, required this.driverModel})
       : super(key: key);
 
-  final DriverModel driverModel;
+  final DriverAcceptedModel driverModel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (ref.watch(stepProvider) == 'moving') {
       Navigator.pop(context);
     }
+
+    DriverAcceptedModel driverAcceptedModel  = ref.read(driverAcceptProvider);
+
     return Container(
       height: 300,
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 15),
@@ -42,7 +47,7 @@ class NotificationBottomSheet extends ConsumerWidget {
                     Radius.circular(10),
                   ),
                 ),
-                child: Image.network(driverModel.avatar!),
+                child: Image.network(driverAcceptedModel.driver!.avatar),
               ),
               const SizedBox(
                 width: 12,
@@ -56,7 +61,7 @@ class NotificationBottomSheet extends ConsumerWidget {
                     SizedBox(
                       width: 170,
                       child: Text(
-                        driverModel.name!,
+                        driverModel.driver!.firstName + ' ' + driverModel.driver!.lastName,
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -68,7 +73,8 @@ class NotificationBottomSheet extends ConsumerWidget {
                     SizedBox(
                       width: 170,
                       child: Text(
-                        driverModel.vehicle['name'],
+                        // driverModel.vehicle['name'],
+                          'Honda Wave RSX',
                         style: const TextStyle(
                           color: Color(0xff6A6A6A),
                           fontWeight: FontWeight.w700,
@@ -123,7 +129,8 @@ class NotificationBottomSheet extends ConsumerWidget {
                       ),
                     ),
                     child: Text(
-                      driverModel.vehicle['number'],
+                      // driverModel.vehicle['number'],
+                        '68S164889',
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                   ),

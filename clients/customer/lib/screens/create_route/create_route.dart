@@ -1,17 +1,15 @@
-import 'package:customer/models/location_model.dart';
-import 'package:customer/providers/arrivalLocationProvider.dart';
-import 'package:customer/providers/departureLocationProvider.dart';
-import 'package:customer/providers/mapProvider.dart';
 import 'package:customer/providers/stepProvider.dart';
-import 'package:customer/screens/create_route/components/arrival_location_picker.dart';
-import 'package:customer/screens/create_route/components/book_car/book_car.dart';
-import 'package:customer/screens/create_route/components/book_car/choose_payment_method.dart';
-import 'package:customer/screens/create_route/components/book_car/discount_page.dart';
-import 'package:customer/screens/create_route/components/departure_location_picker.dart';
+import 'package:customer/screens/create_route/components/complete_panel/complete_panel.dart';
+import 'package:customer/screens/create_route/components/wait_driver_panel/wait_driver_panel.dart';
+import 'package:customer/screens/create_route/components/widgets/arrival_location_picker.dart';
+import 'package:customer/screens/create_route/components/widgets/book_car_panel.dart';
+import 'package:customer/screens/create_route/components/widgets/car_selection_panel.dart';
+import 'package:customer/screens/create_route/components/widgets/current_location_widget.dart';
+import 'package:customer/screens/create_route/components/widgets/departure_location_picker.dart';
 import 'package:customer/screens/create_route/components/find_driver/find_driver_screen.dart';
-import 'package:customer/widgets/bottom_button.dart';
-import 'package:customer/widgets/current_location_button.dart';
-import 'package:customer/screens/create_route/components/my_map.dart';
+import 'package:customer/screens/create_route/components/widgets/location_picker_widget.dart';
+import 'package:customer/screens/create_route/components/widgets/route_information_widget.dart';
+import 'package:customer/screens/create_route/components/widgets/my_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,451 +23,192 @@ class CreateRoute extends ConsumerStatefulWidget {
 }
 
 class _ArrivalLocationPickerState extends ConsumerState<CreateRoute> {
-  double minHeightPanel = 0;
-  double maxHeightPanel = 0;
+  Widget bottomDialog = const SizedBox();
 
   bool locationPicker = false;
   bool currentLocation = true;
 
   Widget bottomPanel = const SizedBox();
+  double minHeightPanel = 0;
+  double maxHeightPanel = 0;
 
   final PanelController panelController = PanelController();
   final PanelController bottomController = PanelController();
 
-  LocationModel? departure;
   double bottomPadding = 0.25;
   double heightIconPicker = 44;
 
-  String paymentMethod = 'Tiền mặt';
-  String paymentImage = 'lib/assets/images/cash_icon.png';
-  String discount = '';
+  bool bottomNavigationBar = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    departure = ref.read(departureLocationProvider);
-  }
-
-  void showPaymentMethod(StateSetter stateSetter) {
-    showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (ctx) => ChoosePaymentMethod((int value) {
-              stateSetter(
-                () {
-                  if (value == 1) {
-                    paymentMethod = 'Tiền mặt';
-                    paymentImage = 'lib/assets/images/cash_icon.png';
-                  } else if (value == 2) {
-                    paymentMethod = 'Thẻ ngân hàng';
-                    paymentImage = 'lib/assets/images/master_card_icon.png';
-                  } else if (value == 3) {
-                    paymentMethod = 'ZaloPay';
-                    paymentImage = 'lib/assets/images/zalo_pay_icon.png';
-                  }
-                },
-              );
-            }));
-  }
-
-  void showDiscountList(StateSetter stateSetter) {
-    showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (ctx) => DiscountPage(chooseItem: (String value) {
-              stateSetter(
-                () {
-                  discount = value;
-                },
-              );
-            }));
   }
 
   @override
   Widget build(BuildContext context) {
-    if (ref.read(stepProvider) == 'arrival_location_picker') {
-      bottomPanel = const ArrivalLocationPicker();
-      locationPicker = true;
-      bottomPadding = 0.25;
-    } else if (ref.read(stepProvider) == 'departure_location_picker') {
-      bottomPanel = const DepartureLocationPicker();
-      locationPicker = true;
-      bottomPadding = 0.3;
-    }
+    print('CREATE_ROUTE_REBUILD');
 
     final screenSize = MediaQuery.of(context).size;
 
-    return Consumer(
-      builder: (context, ref, child) {
-        ref.listen(stepProvider, (previous, next) {
-          setState(() {
-            if (next == 'arrival_location_picker') {
-              bottomPadding = 0.25;
-              bottomPanel = const ArrivalLocationPicker();
-              locationPicker = true;
-            } else if (next == 'departure_location_picker') {
-              bottomPadding = 0.3;
-              bottomPanel = const DepartureLocationPicker();
-              locationPicker = true;
-            } else if (next == 'create_trip') {
-              locationPicker = false;
-              currentLocation = false;
-              bottomPanel = const SizedBox();
-              minHeightPanel = screenSize.height * 0.45;
-              maxHeightPanel = screenSize.height * 0.65;
-            } else if (next == 'find_driver') {
-              minHeightPanel = screenSize.height * 0.15;
-              maxHeightPanel = screenSize.height * 0.38;
-            } else if (next == 'wait_driver') {
-            } else if (next == 'comming_driver') {
-            } else if (next == 'moving') {
-            } else if (next == 'complete') {}
-          });
-        });
-        return Scaffold(
-          body: Stack(
-            children: [
-              const MyMap(),
-              ////////////////////////////////////////////////////// LOCATION BUTTON
-              if (currentLocation)
-                AnimatedAlign(
-                  duration: const Duration(milliseconds: 40),
-                  alignment: Alignment(0.92, 0.95 - bottomPadding * 2),
-                  child: CurrentLocationButton(getCurrentLocation: () {
-                    ref
-                        .read(mapProvider.notifier)
-                        .setMapAction('get_current_location');
-                  }),
+    String step = ref.watch(stepProvider);
+    if (step == 'arrival_location_picker') {
+      bottomPadding = 0.25;
+      bottomDialog = const ArrivalLocationPicker();
+      locationPicker = true;
+      setState(() {});
+    } else if (step == 'departure_location_picker') {
+      bottomPadding = 0.3;
+      bottomDialog = const DepartureLocationPicker();
+      locationPicker = true;
+      setState(() {});
+    } else if (step == 'create_trip') {
+      locationPicker = false;
+      currentLocation = false;
+      bottomDialog = const SizedBox();
+      minHeightPanel = screenSize.height * 0.45;
+      maxHeightPanel = screenSize.height * 0.65;
+      setState(() {});
+    } else if (step == 'find_driver') {
+      minHeightPanel = screenSize.height * 0.15;
+      maxHeightPanel = screenSize.height * 0.38;
+      bottomPanel = const FindDriver();
+      setState(() {});
+    } else if (step == 'wait_driver') {
+      bottomNavigationBar = true;
+      minHeightPanel = screenSize.height * 0.26;
+      maxHeightPanel = screenSize.height * 0.6;
+      bottomPanel = const WaitDriverPanel();
+      setState(() {});
+    } else if (step == 'comming_driver') {
+    } else if (step == 'moving') {
+    } else if (step == 'complete') {
+      minHeightPanel = 0;
+      maxHeightPanel = 0;
+      bottomDialog = const CompletePanel();
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          const MyMap(),
+          if (currentLocation)
+            CurrentLocationWidget(bottomPadding: bottomPadding),
+          if (locationPicker)
+            LocationPickerWidget(heightIconPicker: heightIconPicker),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: bottomDialog,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SlidingUpPanel(
+              minHeight: minHeightPanel,
+              maxHeight: maxHeightPanel,
+              color: Colors.transparent,
+              defaultPanelState: PanelState.CLOSED,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromARGB(80, 217, 217, 217),
+                  spreadRadius: 3,
+                  blurRadius: 3,
+                  offset: Offset(1, 0),
                 ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: bottomPanel,
-              ),
-              if (ref.read(stepProvider) == 'create_trip')
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.08,
-                  left: 0,
-                  right: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+              ],
+              panelBuilder: (sc) => bottomPanel,
+            ),
+          ),
+          if (ref.read(stepProvider) == 'create_trip')
+            const RouteInformationWidget(),
+          if (ref.read(stepProvider) == 'create_trip')
+            CarSelectionPanel(
+                bottomController: bottomController,
+                panelController: panelController,
+                minHeightPanel: minHeightPanel,
+                maxHeightPanel: maxHeightPanel),
+          if (ref.read(stepProvider) == 'create_trip')
+            BookCarPanel(bottomController: bottomController),
+        ],
+      ),
+      bottomNavigationBar: bottomNavigationBar
+          ? (ref.read(stepProvider) == 'wait_driver' ||
+                  ref.read(stepProvider) == 'comming_driver')
+              ? Container(
+                  color: Colors.white,
+                  child: SafeArea(
                     child: Container(
+                      height: (ref.read(stepProvider) == 'wait_driver' ||
+                              ref.read(stepProvider) == 'comming_driver')
+                          ? 80
+                          : 0,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 12),
+                          vertical: 0, horizontal: 15),
                       decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(80, 220, 220, 220),
-                            spreadRadius: 3,
-                            blurRadius: 3,
-                            offset: Offset(0, 0),
+                        border: Border(
+                          top: BorderSide(
+                            color: Color(0xffEAEAEA), // Màu của border top
+                            width: 1, // Độ dày của border top
                           ),
-                        ],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
                         ),
                       ),
                       child: Row(
                         children: [
+                          SizedBox(
+                            width: 54,
+                            height: 54,
+                            child: OutlinedButton(
+                              onPressed: () {},
+                              child: const FaIcon(
+                                FontAwesomeIcons.solidComment,
+                                color: Color(0xffFE8248),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const FaIcon(
-                                      FontAwesomeIcons.solidCircleDot,
-                                      size: 16,
-                                      color: Color(0xff006FD5),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        ref
-                                            .read(departureLocationProvider)
-                                            .structuredFormatting!
-                                            .mainText!,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
+                            child: SizedBox(
+                              height: 54,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xff29BD11)),
+                                onPressed: () {},
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.phone,
+                                  size: 21,
+                                  color: Colors.white,
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(27, 8, 0, 8),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 1,
-                                    color: const Color.fromARGB(
-                                        255, 225, 225, 225),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    const FaIcon(
-                                      FontAwesomeIcons.solidCircleDot,
-                                      size: 16,
-                                      color: Color(0xffFA4848),
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        ref
-                                            .read(arrivalLocationProvider)
-                                            .structuredFormatting!
-                                            .mainText!,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 11, vertical: 6),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0)),
-                                side: const BorderSide(
-                                    color: Color.fromARGB(255, 225, 225, 225))),
-                            child: const Row(
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.circlePlus,
-                                  color: Color(0xffFA4848),
-                                  size: 18,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  'Thêm',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              if (locationPicker)
-                Center(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(bottom: 175 + heightIconPicker / 2),
-                    child: Image.asset(
-                      ref.read(stepProvider) == 'departure_location_picker'
-                          ? 'lib/assets/images/map_departure_icon.png'
-                          : 'lib/assets/images/map_arrival_icon.png',
-                      height: heightIconPicker,
-                    ),
-                  ),
-                ),
-              if (ref.read(stepProvider) == 'create_trip')
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SlidingUpPanel(
-                    onPanelSlide: (position) {
-                      bottomController.animatePanelToPosition(1 - position,
-                          duration: Duration.zero);
-                    },
-                    backdropColor: Colors.black,
-                    backdropOpacity: 0.5,
-                    backdropEnabled: true,
-                    controller: panelController,
-                    minHeight: minHeightPanel,
-                    maxHeight: maxHeightPanel,
-                    color: Colors.transparent,
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(80, 217, 217, 217),
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: Offset(1, 0),
-                      ),
-                    ],
-                    panelBuilder: (sc) => const BookCar(),
-                  ),
-                ),
-              if (ref.read(stepProvider) == 'find_driver')
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SlidingUpPanel(
-                    minHeight: minHeightPanel,
-                    maxHeight: maxHeightPanel,
-                    color: Colors.transparent,
-                    defaultPanelState: PanelState.CLOSED,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(80, 217, 217, 217),
-                        spreadRadius: 3,
-                        blurRadius: 3,
-                        offset: Offset(1, 0),
-                      ),
-                    ],
-                    panelBuilder: (sc) => const FindDriver(),
-                  ),
-                ),
-              if (ref.read(stepProvider) == 'create_trip')
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SlidingUpPanel(
-                    minHeight: 0,
-                    maxHeight: 144,
-                    controller: bottomController,
-                    defaultPanelState: PanelState.OPEN,
-                    isDraggable: false,
-                    panelBuilder: (sc) => Container(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          top: BorderSide(
-                            color: Color(0xffEAEAEA),
-                            width: 1,
-                          ),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color.fromARGB(80, 230, 230, 230),
-                            spreadRadius: 5,
-                            blurRadius: 5,
-                            offset: Offset(1, 0),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              StatefulBuilder(
-                                builder: (context, setPaymentMethodState) =>
-                                    InkWell(
-                                  onTap: () {
-                                    showPaymentMethod(setPaymentMethodState);
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        paymentImage,
-                                        width: 24,
-                                      ),
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        paymentMethod,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
-                                      ),
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                      const FaIcon(
-                                        FontAwesomeIcons.angleDown,
-                                        size: 18,
-                                        color: Color.fromARGB(255, 93, 93, 93),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                label: Text('gọi điện'.toUpperCase(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium),
                               ),
-                              StatefulBuilder(
-                                builder: (context, setDiscountState) => InkWell(
-                                  onTap: () {
-                                    showDiscountList(setDiscountState);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'lib/assets/images/discount_icon.png',
-                                        width: 24,
-                                      ),
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                      Container(
-                                        constraints:
-                                            const BoxConstraints(maxWidth: 160),
-                                        child: Text(
-                                          discount.isEmpty
-                                              ? 'Ưu đãi'
-                                              : discount,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 24,
-                          ),
-                          BottomButton(
-                            backButton: () {
-                              ref
-                                  .read(stepProvider.notifier)
-                                  .setStep('default');
-                              ref
-                                  .read(departureLocationProvider.notifier)
-                                  .setDepartureLocation(LocationModel());
-                              ref
-                                  .read(arrivalLocationProvider.notifier)
-                                  .setArrivalLocation(LocationModel());
-
-                              Navigator.pop(context);
-                            },
-                            nextButton: () {
-                              ref
-                                  .read(stepProvider.notifier)
-                                  .setStep('find_driver');
-                              ref
-                                  .read(mapProvider.notifier)
-                                  .setMapAction('find_driver');
-                            },
-                            nextButtonText: 'đặt xe',
-                            opacity: true,
-                          ),
+                            ),
+                          )
                         ],
                       ),
                     ),
                   ),
                 )
-            ],
-          ),
-        );
-      },
+              : Container(
+                  decoration: const BoxDecoration(color: Color(0xffFE8248)),
+                  child: SafeArea(
+                    child: Container(
+                      height: (ref.read(stepProvider) == 'moving') ? 80 : 0,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Đang di chuyển',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                )
+          : const SizedBox(),
     );
   }
 }

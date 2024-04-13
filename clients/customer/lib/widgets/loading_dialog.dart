@@ -21,7 +21,7 @@ class LoadingDialog extends StatelessWidget {
         children: [
           SizedBox(
             height: 120,
-            child: Lottie.asset('lib/assets/finding.json'),
+            child: Lottie.asset('lib/assets/jsons/finding.json'),
           ),
           Text(
             'Hệ thống vẫn đang tìm kiếm tài xế, bạn vui lòng chờ thêm giây lát',
