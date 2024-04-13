@@ -1,4 +1,4 @@
-// columns: 
+// columns:
 // tên tài xế, dịch vụ, phương tiện (name), ngày, trạng thái
 // actions:
 // duyệt/hủy, xóa, xem chi tiết. Duyệt là thay đổi trạng thái thành "đã duyệt", hủy là thay đổi trạng thái thành "hủy"
@@ -22,7 +22,7 @@ export const services = [
         description: 'lorem ipsum',
         basePrice: 15000,
     },
-];
+]
 
 export const vehicles = [
     {
@@ -48,11 +48,11 @@ export const vehicles = [
     },
     {
         id: '4',
-        name: 'Honda Civic',
+        name: 'Honda Wave RSX',
         identityNumber: '62-Z499999',
         color: 'màu đen',
         brand: 'Honda',
-    },   
+    },
     {
         id: '5',
         name: 'Vinfast Lux SA2.0',
@@ -80,8 +80,8 @@ export const vehicles = [
         identityNumber: '66-Z499999',
         color: 'màu xanh',
         brand: 'Honda',
-    }
-];
+    },
+]
 
 export const serviceApprovals = [
     {
@@ -100,13 +100,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM",  
+        currentAddress: '25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     // Add more objects as needed
     {
@@ -125,14 +125,14 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM",  
+        currentAddress: '1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
-    },  
+        identityLocation: '',
+    },
     {
         id: '3',
         supplyID: '3',
@@ -149,13 +149,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM",  
+        currentAddress: '22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     {
         id: '4',
@@ -173,13 +173,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM",  
+        currentAddress: '22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     {
         id: '5',
@@ -197,13 +197,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        currentAddress: '227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     {
         id: '6',
@@ -221,13 +221,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "229 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        currentAddress: '229 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     {
         id: '7',
@@ -245,13 +245,13 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "331 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
+        currentAddress: '331 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
     {
         id: '8',
@@ -269,92 +269,97 @@ export const serviceApprovals = [
         vehicleImgBacksight: '',
         vehicleImgLeftsight: '',
         vehicleImgRightsight: '',
-        currentAddress: "335 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",
+        currentAddress: '335 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM',
         vehicleRegistrationFrontsight: '',
         vehicleRegistrationBacksight: '',
         vehicleInsuranceFrontsight: '',
         vehicleInsuranceBacksight: '',
         identityDate: '',
-        identityLocation: ''
+        identityLocation: '',
     },
-];
+]
 
 export const supplies = [
     {
-      id: '1',
-      firstName: "Minh",
-      lastName: "Nguyen",
-      phoneNumber: '0703350120',
-      password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
-      dob: "2002-10-15",
-      gender: "male",
-      address: "25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM",  
-      verified: false,
-      avatar: '',
-      email: "nguyenducminh@gmail.com",
-      referralCode: '123',
-      city: 'Thành phố Hồ Chí Minh'
+        id: '1',
+        firstName: 'Minh',
+        lastName: 'Nguyen',
+        phoneNumber: '0703350120',
+        password:
+            '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+        dob: '2002-10-15',
+        gender: 'male',
+        address: '25 Đào Trí, Phường Phú Thuận, Quận 7, TP.HCM',
+        verified: false,
+        avatar: '',
+        email: 'nguyenducminh@gmail.com',
+        referralCode: '123',
+        city: 'Thành phố Hồ Chí Minh',
     },
     {
-      id: '2',
-      firstName: "Khoa",
-      lastName: "Nguyen",
-      phoneNumber: '0703350121',
-      password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
-      dob: "2002-4-14",
-      gender: "male",
-      address: "1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM",  
-      verified: true,
-      avatar: '',
-      email: "khoanguyen@gmail.com",
-      referralCode: '123',
-      city: 'Thành phố Hồ Chí Minh'
-    },  
-    {
-      id: '3',
-      firstName: "Huy",
-      lastName: "Nguyen",
-      phoneNumber: '0703350122',
-      password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
-      dob: "2002-10-15",
-      gender: "male",
-      address: "22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM",  
-      verified: false,
-      avatar: '',
-      email: "huynguyen@gmail.com",
-      referralCode: '123',
-      city: 'Thành phố Hồ Chí Minh'
+        id: '2',
+        firstName: 'Khoa',
+        lastName: 'Nguyen',
+        phoneNumber: '0703350121',
+        password:
+            '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+        dob: '2002-4-14',
+        gender: 'male',
+        address: '1647 Phạm Thế Hiển, Phường 6, Quận 8, TP.HCM',
+        verified: true,
+        avatar: '',
+        email: 'khoanguyen@gmail.com',
+        referralCode: '123',
+        city: 'Thành phố Hồ Chí Minh',
     },
     {
-       id: '4',
-       firstName: "Khang",
-       lastName: "Dinh",
-       phoneNumber: '0703350123',
-       password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
-       dob: "2002-4-21",
-       gender: "male",
-       address: "22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM",  
-       verified: true,
-       avatar: '',
-       email: "khangdinh@gmail.com",
-       referralCode: '123',
-       city: 'Thành phố Hồ Chí Minh'
+        id: '3',
+        firstName: 'Huy',
+        lastName: 'Nguyen',
+        phoneNumber: '0703350122',
+        password:
+            '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+        dob: '2002-10-15',
+        gender: 'male',
+        address: '22 Huỳnh Đình Hai, Phường 24, Quận Bình Thạnh, TP.HCM',
+        verified: false,
+        avatar: '',
+        email: 'huynguyen@gmail.com',
+        referralCode: '123',
+        city: 'Thành phố Hồ Chí Minh',
     },
     {
-       id: '5',
-       firstName: "Thanh",
-       lastName: "Bui",
-       phoneNumber: '0703350124',
-       password: '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
-       dob: "2002-10-15",
-       gender: "male",
-       address: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",  
-       verified: true,
-       avatar: '',
-       email: "thanhbui@gmail.com",
-       referralCode: '123',
-       city: 'Thành phố Hồ Chí Minh'
+        id: '4',
+        firstName: 'Khang',
+        lastName: 'Dinh',
+        phoneNumber: '0703350123',
+        password:
+            '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+        dob: '2002-4-21',
+        gender: 'male',
+        address: '22 Đường Số 10, Phường Thảo Điền, Quận 2, TP.HCM',
+        verified: true,
+        avatar: '',
+        email: 'khangdinh@gmail.com',
+        referralCode: '123',
+        city: 'Thành phố Hồ Chí Minh',
     },
-];
+    {
+        id: '5',
+        firstName: 'Thanh',
+        lastName: 'Bui',
+        phoneNumber: '0703350124',
+        password:
+            '$2a$04$4F68GFkr7Dt.hsRNRJ.dDeqixqtGMYrh0CKdMfdh1Y8EE9yHsnfam',
+        dob: '2002-10-15',
+        gender: 'male',
+        address: '227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM',
+        verified: true,
+        avatar: '',
+        email: 'thanhbui@gmail.com',
+        referralCode: '123',
+        city: 'Thành phố Hồ Chí Minh',
+    },
+]
 
-export default { services, vehicles, serviceApprovals, supplies };
+export default { services, vehicles, serviceApprovals, supplies }

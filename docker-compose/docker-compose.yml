@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 networks:
     kabgo-network:
@@ -211,3 +211,8 @@ services:
     #     - COLORTERM=truecolor
     #   depends_on:
     #     - zookeeper
+volumes:
+    eventstore-volume-data:
+    eventstore-volume-index:
+    eventstore-volume-logs:
+

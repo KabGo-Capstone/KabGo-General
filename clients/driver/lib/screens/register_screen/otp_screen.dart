@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:driver/constants/colors.dart';
+import 'package:driver/models/driver_service.dart';
 import 'package:driver/models/user_register.dart';
 import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/screens/home_dashboard/home_dashboard.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:driver/widgets/build_text.dart';
 import 'package:driver/widgets/shake_error.dart';
 import 'package:flutter/material.dart';
@@ -36,17 +40,46 @@ class _OTPScreenState extends ConsumerState<OTPScreen> {
       phoneProvider.phoneValidate(OTPScreen.path).then((data) {
         SharedPreferences.getInstance().then((prefs) {
           if (data['user'] != null) {
+            if (data['redirect'] == HomeDashboard.path) {
+              data['user']['verified'] = true;
+            }
             prefs.setString('user-profile', jsonEncode(data['user']));
           }
 
-          final driverInfoNotifier = ref.read(driverInfoRegisterProvider.notifier);
+          final driverInfoNotifier =
+              ref.read(driverInfoRegisterProvider.notifier);
 
           driverInfoNotifier.setIdDriver(data['user']['id']);
           driverInfoNotifier.setLastName(data['user']['lastName']);
           driverInfoNotifier.setFirstName(data['user']['firstName']);
           driverInfoNotifier.setPhoneNumber(data['user']['phoneNumber']);
 
-          context.go(data['redirect']);
+          if (data['redirect'] == HomeDashboard.path) {
+            driverInfoNotifier.setAvatar(data['user']['avatar']);
+            final dioClient = DioClient();
+              final response = dioClient.request('/verify-user-registration',
+                  options: Options(method: 'POST'), data: {}).then((response) {
+                if (response.statusCode == 200) {
+                  final services = [];
+                  final List<dynamic> serviceListJson =
+                      response.data['data']['services'];
+                  for (var json in serviceListJson) {
+                    services.add(Service.fromJson(json));
+                  }
+
+                  for (var service in services) {
+                    if (service.id == data['user']['serviceID']) {
+                      driverInfoNotifier.setServiceName(service.name);
+                      break;
+                    }
+                  }
+                }
+                context.go(data['redirect']);
+              });
+          }
+          else {
+            context.go(data['redirect']);
+          }
         });
       });
     }).catchError((e) {

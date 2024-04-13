@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:driver/models/driver_service.dart';
 import 'package:driver/providers/driver_info_register.dart';
+import 'package:driver/screens/home_dashboard/home_dashboard.dart';
 import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/info_register.dart';
 import 'package:driver/screens/register_screen/select_service.dart';
+import 'package:driver/services/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,15 +37,35 @@ class SplashScreen extends ConsumerWidget {
           driverInfoNotifier.setPhoneNumber(userProfileMap['phoneNumber']);
 
           if (userProfileMap['serviceID'] != null &&
-              userProfileMap['serviceID'] != '') {
+              userProfileMap['serviceID'] != '' &&
+              !userProfileMap['verified']) {
             context.pushReplacement(SelectService.path);
             context.push(InfoRegister.path);
-          }
-          else {
+          } else {
             if (userProfileMap['verified'] == true) {
-              // context.go(Home);
-            } 
-            else {
+              driverInfoNotifier.setAvatar(userProfileMap['avatar']);
+
+              final dioClient = DioClient();
+              final response = dioClient.request('/verify-user-registration',
+                  options: Options(method: 'POST'), data: {}).then((response) {
+                if (response.statusCode == 200) {
+                  final services = [];
+                  final List<dynamic> serviceListJson =
+                      response.data['data']['services'];
+                  for (var json in serviceListJson) {
+                    services.add(Service.fromJson(json));
+                  }
+
+                  for (var service in services) {
+                    if (service.id == userProfileMap['serviceID']) {
+                      driverInfoNotifier.setServiceName(service.name);
+                      break;
+                    }
+                  }
+                }
+                context.go(HomeDashboard.path);
+              });
+            } else {
               context.go(SelectService.path);
             }
           }

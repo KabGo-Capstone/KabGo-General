@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:driver/screens/home_dashboard/home_dashboard.dart';
+import 'package:driver/screens/home_screen/index.dart';
 import 'package:driver/screens/login_screen.dart';
 import 'package:driver/screens/register_screen/info_register.dart';
 import 'package:driver/screens/register_screen/register_screen.dart';
@@ -81,6 +83,9 @@ class PhoneSignInController extends ChangeNotifier {
           case 'REGISTER':
             signOut();
             _redirectPath = LoginScreen.path;
+            break;
+          case 'HOME':
+            _redirectPath = HomeDashboard.path;
             break;
           default:
             signOut();

@@ -28,6 +28,14 @@ class DriverInfoRegisterNotifier
   void setPhoneNumber(String phoneNumber) {
     state.phoneNumber = phoneNumber;
   }
+  
+  void setServiceName(String serviceName) {
+    state.serviceName = serviceName;
+  }
+  
+  void setAvatar(String avatar) {
+    state.avatar = avatar;
+  }
 }
 
 final driverInfoRegisterProvider =

@@ -1,1 +1,5 @@
-export { default as ConnectEvent } from './connect.example.event'
+// export { default as ConnectEvent } from './connect.example.event'
+export { default as BookingTrip } from './booking.event'
+export { default as JoinServerEvent } from './join-server.event'
+export { default as LocateDriverEvent } from './locate-driver.event'
+export { default as DisconnectEvent } from './disconnect.event'

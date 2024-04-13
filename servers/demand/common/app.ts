@@ -25,6 +25,7 @@ import { ConfigOptions } from 'cloudinary'
 import Logger from './utils/logger'
 import gRPC from './services/grpc'
 import SupplyStub from './services/supply.service'
+import { connectConsumer, connectProducer } from './utils/kafka'
 
 type MongoConnection = {
     uri: string
@@ -75,6 +76,9 @@ class Application {
             this.mongoConnection.uri,
             this.mongoConnection.options
         )
+
+        this.kafkaConsumerConnect();
+        this.kafkaProducerConnect();
 
         this.setup()
     }
@@ -175,6 +179,16 @@ class Application {
             .catch((error: Error) => {
                 Logger.error('Could not connect to the redis', error)
             })
+    }
+
+    private async kafkaProducerConnect() {
+        await connectProducer().then(() => {
+            Logger.info(chalk.green('Producer connected to Kafka successfully'))
+        });
+    }
+
+    private async kafkaConsumerConnect() {
+        await connectConsumer();
     }
 
     public run(callback: () => void = () => {}): Server {

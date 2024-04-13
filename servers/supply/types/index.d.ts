@@ -1,4 +1,5 @@
 import { IUser } from '../common/models/user.example.model'
+import { IDriverSocket } from '../common/interfaces/driver.socket'
 import { UploadApiResponse } from 'cloudinary'
 import { Options as otpOptions } from '../common/utils/otp-generator'
 declare global {
@@ -14,13 +15,12 @@ declare global {
 }
 
 declare module 'socket.io' {
-    interface Socket {
-        //example
-        user: IUser
+    interface IODriverSocket {
+        [key: string]: IDriverSocket
     }
+
     interface Server {
-        //example
-        socket_list: Socket[]
+        driver_sockets: IODriverSocket
     }
 }
 

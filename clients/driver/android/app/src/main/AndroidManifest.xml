@@ -3,10 +3,13 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <application
     android:label="driver"
     android:name="${applicationName}"
     android:icon="@mipmap/launcher_icon">
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD3fu-OQgBf4sHhbccl52E9L0XBVXBwAbM" />
+
     <activity
       android:name=".MainActivity"
       android:exported="true"

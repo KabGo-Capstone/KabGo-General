@@ -3,8 +3,10 @@
         "proto:generate": "sh ./grpc/build.sh"
     },
     "dependencies": {
+        "@eventstore/db-client": "^6.1.0",
         "@grpc/grpc-js": "^1.10.1",
-        "google-protobuf": "^3.21.2"
+        "google-protobuf": "^3.21.2",
+        "mongodb": "^6.5.0"
     },
     "devDependencies": {
         "@types/google-protobuf": "^3.15.12",

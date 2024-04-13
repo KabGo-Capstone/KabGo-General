@@ -8,6 +8,8 @@ class DriverInfoRegisterModel {
   String? referralCode;
   String? city;
   String? email;
+  String? serviceName;
+  String? avatar;
 
   DriverInfoRegisterModel({
     this.id,
@@ -17,6 +19,8 @@ class DriverInfoRegisterModel {
     this.referralCode,
     this.city,
     this.email,
+    this.serviceName,
+    this.avatar,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,7 +31,9 @@ class DriverInfoRegisterModel {
       'phoneNumber': phoneNumber,
       'referralCode': referralCode,
       'city': city,
-      'email': email
+      'email': email,
+      'avatar': avatar,
+      'serviceName': serviceName,
     };
   }
 
@@ -41,6 +47,9 @@ class DriverInfoRegisterModel {
       referralCode:
           map['referralCode'] != null ? map['referralCode'] as String : null,
       city: map['city'] != null ? map['city'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      avatar: map['avatar'] != null ? map['avatar'] as String : null,
+      serviceName: map['serviceName'] != null ? map['serviceName'] as String : null,
     );
   }
 

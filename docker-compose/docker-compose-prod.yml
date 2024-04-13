@@ -1,147 +1,125 @@
 version: "3"
 
 services:
-    # nginx:
-    #   build:
-    #     context: ./nginx
-    #   hostname: nginx
-    #   container_name: kabgo-nginx-proxy
-    #   ports:
-    #     - "80:80"
-    #   volumes:
-    #     - ./nginx:/etc/nginx
-    #   depends_on:
-    #     - api-auth
-    #     - api-driver
-    #     - api-customer
-    #     - api-admin
-    #     - api-call-center
-    #     - api-call-center-s2
-    #     - api-call-center-s3
-    #     - gps-coordinates
-    #     - admin
-    #     - call-center
-    #     - rabbitmq
+  demand-service:
+    build:
+      context: ../servers/demand
+      dockerfile: Dockerfile.production
+    image: wgmin/demand-service
+    container_name: demand-service
+    hostname: localhost
+    networks:
+      - proxy
+    ports:
+      - "5010:5001"
+      - "50051:50051"
+    environment:
+      SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
+      SUPPLY_GRPC_CLIENT_PORT: "50052"
+      FORCE_COLOR: 1
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.demand-service.rule=Host(`demand.kabgo.mtech.id.vn`)
+      - traefik.http.routers.demand-service.entrypoints=websecure
+      - traefik.http.routers.demand-service.tls=true
+      - traefik.http.routers.demand-service.tls.certresolver=letsencrypt
+    restart: unless-stopped
 
-    demand-service:
-        build:
-            context: ../servers/demand
-            dockerfile: Dockerfile.production
-        image: wgmin/demand-service
-        container_name: demand-service
-        hostname: localhost
-        networks:
-            - proxy
-        ports:
-            - "5010:5001"
-            - "50051:50051"
-        environment:
-            SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
-            SUPPLY_GRPC_CLIENT_PORT: "50052"
-            FORCE_COLOR: 1
-            DEBUG_COLORS: "true"
-            TERM: xterm-256color
-            COLORTERM: truecolor
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=proxy
-            - traefik.http.routers.demand-service.rule=Host(`demand.kabgo.mtech.id.vn`)
-            - traefik.http.routers.demand-service.entrypoints=websecure
-            - traefik.http.routers.demand-service.tls=true
-            - traefik.http.routers.demand-service.tls.certresolver=letsencrypt
-        restart: unless-stopped
+  supply-service:
+    build:
+      context: ../servers/supply
+      dockerfile: Dockerfile.production
+    image: wgmin/supply-service
+    container_name: supply-service
+    hostname: localhost
+    networks:
+      - proxy
+    ports:
+      - "5020:5002"
+      - "50052:50052"
+    environment:
+      DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
+      DEMAND_GRPC_CLIENT_PORT: "50051"
 
-    supply-service:
-        build:
-            context: ../servers/supply
-            dockerfile: Dockerfile.production
-        image: wgmin/supply-service
-        container_name: supply-service
-        hostname: localhost
-        networks:
-            - proxy
-        ports:
-            - "5020:5002"
-            - "50052:50052"
-        environment:
-            DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
-            DEMAND_GRPC_CLIENT_PORT: "50051"
+      ADMIN_GRPC_CLIENT_HOST: "admin.kabgo.mtech.id.vn"
+      ADMIN_GRPC_CLIENT_PORT: "50053"
 
-            ADMIN_GRPC_CLIENT_HOST: "admin.kabgo.mtech.id.vn"
-            ADMIN_GRPC_CLIENT_PORT: "50053"
+      FORCE_COLOR: 1
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.supply-service.rule=Host(`supply.kabgo.mtech.id.vn`)
+      - traefik.http.routers.supply-service.entrypoints=websecure
+      - traefik.http.routers.supply-service.tls=true
+      - traefik.http.routers.supply-service.tls.certresolver=letsencrypt
+    restart: unless-stopped
 
-            FORCE_COLOR: 1
-            DEBUG_COLORS: "true"
-            TERM: xterm-256color
-            COLORTERM: truecolor
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=proxy
-            - traefik.http.routers.supply-service.rule=Host(`supply.kabgo.mtech.id.vn`)
-            - traefik.http.routers.supply-service.entrypoints=websecure
-            - traefik.http.routers.supply-service.tls=true
-            - traefik.http.routers.supply-service.tls.certresolver=letsencrypt
-        restart: unless-stopped
+  admin-service:
+    build:
+      context: ../servers/admin
+      dockerfile: Dockerfile.production
+    image: wgmin/admin-service
+    container_name: admin-service
+    hostname: localhost
+    ports:
+      - "5030:5003"
+      - "50053:50053"
+    networks:
+      - proxy
+    environment:
+      DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
+      DEMAND_GRPC_CLIENT_PORT: "50051"
 
-    admin-service:
-        build:
-            context: ../servers/admin
-            dockerfile: Dockerfile.production
-        image: wgmin/admin-service
-        container_name: admin-service
-        hostname: localhost
-        ports:
-            - "5030:5003"
-            - "50053:50053"
-        networks:
-            - proxy
-        environment:
-            DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
-            DEMAND_GRPC_CLIENT_PORT: "50051"
+      SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
+      SUPPLY_GRPC_CLIENT_PORT: "50052"
 
-            SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
-            SUPPLY_GRPC_CLIENT_PORT: "50052"
+      FORCE_COLOR: 1
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.admin-service.rule=Host(`admin.kabgo.mtech.id.vn`)
+      - traefik.http.routers.admin-service.entrypoints=websecure
+      - traefik.http.routers.admin-service.tls=true
+      - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
+    restart: unless-stopped
 
-            FORCE_COLOR: 1
-            DEBUG_COLORS: "true"
-            TERM: xterm-256color
-            COLORTERM: truecolor
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=proxy
-            - traefik.http.routers.admin-service.rule=Host(`admin.kabgo.mtech.id.vn`)
-            - traefik.http.routers.admin-service.entrypoints=websecure
-            - traefik.http.routers.admin-service.tls=true
-            - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
-        restart: unless-stopped
-
-    admin-client:
-        build:
-            context: ../clients/admin
-            dockerfile: Dockerfile.prod
-            args:
-                REACT_APP_BACKEND_HOST: "https://admin.kabgo.mtech.id.vn"
-        image: wgmin/admin-client
-        container_name: admin-client
-        hostname: localhost
-        networks:
-            - proxy
-        ports:
-            - "3003:80"
-        environment:
-            FORCE_COLOR: 1
-            DEBUG_COLORS: "true"
-            TERM: xterm-256color
-            COLORTERM: truecolor
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=proxy
-            - traefik.http.routers.admin-client.rule=Host(`admin-panel.kabgo.mtech.id.vn`)
-            - traefik.http.routers.admin-client.entrypoints=websecure
-            - traefik.http.routers.admin-client.tls=true
-            - traefik.http.routers.admin-client.tls.certresolver=letsencrypt
-        restart: unless-stopped
+  admin-client:
+    build:
+      context: ../clients/admin
+      dockerfile: Dockerfile.prod
+      args:
+        REACT_APP_BACKEND_HOST: "https://admin.kabgo.mtech.id.vn"
+    image: wgmin/admin-client
+    container_name: admin-client
+    hostname: localhost
+    networks:
+      - proxy
+    ports:
+      - "3003:80"
+    environment:
+      FORCE_COLOR: 1
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.admin-client.rule=Host(`admin-panel.kabgo.mtech.id.vn`)
+      - traefik.http.routers.admin-client.entrypoints=websecure
+      - traefik.http.routers.admin-client.tls=true
+      - traefik.http.routers.admin-client.tls.certresolver=letsencrypt
+    restart: unless-stopped
 
 networks:
-    proxy:
-        external: true
+  proxy:
+    external: true
