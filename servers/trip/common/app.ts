@@ -226,13 +226,13 @@ class Application {
                 })
             })
 
-            try {
-                await SubscriptionToAllWithMongoCheckpoints('sub_trips', [
-                    storeCheckpointInCollection(projectToTrip),
-                ])
-            } catch (error) {
-                Logger.error(error)
-            }
+            // try {
+            //     await SubscriptionToAllWithMongoCheckpoints('sub_trips', [
+            //         storeCheckpointInCollection(projectToTrip),
+            //     ])
+            // } catch (error) {
+            //     Logger.error(error)
+            // }
 
             callback()
         })
