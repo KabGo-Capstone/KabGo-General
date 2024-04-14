@@ -78,21 +78,21 @@ class TripController implements IController {
 
     private async bookTrip(req: Request, res: Response, next: NextFunction) {
         const tripId = new mongoose.Types.ObjectId()
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        const result = await create(getEventStore(), createTrip)(streamName, {
-            tripId,
-            ...req.body.tripInfo,
-        })
+        // const result = await create(getEventStore(), createTrip)(streamName, {
+        //     tripId,
+        //     ...req.body.tripInfo,
+        // })
 
-        const etag = result.nextExpectedRevision
+        // const etag = result.nextExpectedRevision
 
         res.json({
             message: 'success',
             data: {
                 tripId,
                 ...req.body.tripInfo,
-                Etag: etag.toString(),
+                Etag: 1,
             },
         })
     }
@@ -104,21 +104,21 @@ class TripController implements IController {
     ) {
         const tripInfo = req.body.tripInfo
         const tripId = tripInfo.tripId
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        const result = await update(getEventStore(), driverLocatingForTrip)(
-            streamName,
-            req.body.tripInfo,
-            tripInfo.Etag ?? tripInfo.revision + 1
-        )
+        // const result = await update(getEventStore(), driverLocatingForTrip)(
+        //     streamName,
+        //     req.body.tripInfo,
+        //     tripInfo.Etag ?? tripInfo.revision + 1
+        // )
 
-        const etag = result.nextExpectedRevision
+        // const etag = result.nextExpectedRevision
 
         res.json({
             message: 'success',
             data: {
                 ...req.body.tripInfo,
-                Etag: etag.toString(),
+                Etag: 1,
             },
         })
     }
@@ -127,25 +127,25 @@ class TripController implements IController {
         const tripInfo = req.body.tripInfo
         const tripId = tripInfo.tripId
 
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        const result = await update(getEventStore(), driverAcceptForTrip)(
-            streamName,
-            {
-                tripId,
-                driverId: tripInfo.driverId,
-                status: tripInfo.status,
-            },
-            tripInfo.Etag ?? tripInfo.revision + 1
-        )
+        // const result = await update(getEventStore(), driverAcceptForTrip)(
+        //     streamName,
+        //     {
+        //         tripId,
+        //         driverId: tripInfo.driverId,
+        //         status: tripInfo.status,
+        //     },
+        //     tripInfo.Etag ?? tripInfo.revision + 1
+        // )
 
-        const etag = result.nextExpectedRevision
+        // const etag = result.nextExpectedRevision
 
         res.json({
             message: 'success',
             data: {
                 ...req.body.tripInfo,
-                Etag: etag.toString(),
+                Etag: 1,
             },
         })
     }
@@ -154,27 +154,27 @@ class TripController implements IController {
         const tripInfo = req.body.tripInfo
         const tripId = tripInfo.tripId
 
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        console.log(tripInfo)
-        console.log(tripId)
-        console.log(tripInfo.status)
+        // console.log(tripInfo)
+        // console.log(tripId)
+        // console.log(tripInfo.status)
 
         try {
-            const result = await update(getEventStore(), driverComeForTrip)(
-                streamName,
-                {
-                    tripId,
-                    status: tripInfo.status,
-                },
-                tripInfo.Etag ?? tripInfo.revision + 1
-            )
-            const etag = result.nextExpectedRevision
+            // const result = await update(getEventStore(), driverComeForTrip)(
+            //     streamName,
+            //     {
+            //         tripId,
+            //         status: tripInfo.status,
+            //     },
+            //     tripInfo.Etag ?? tripInfo.revision + 1
+            // )
+            // const etag = result.nextExpectedRevision
             res.json({
                 message: 'success',
                 data: {
                     ...req.body.tripInfo,
-                    Etag: etag.toString(),
+                    Etag: 1,
                 },
             })
         } catch (err) {
@@ -190,24 +190,24 @@ class TripController implements IController {
         const tripInfo = req.body.tripInfo
         const tripId = tripInfo.tripId
 
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        const result = await update(getEventStore(), startTrip)(
-            streamName,
-            {
-                tripId,
-                status: tripInfo.status,
-            },
-            tripInfo.Etag ?? tripInfo.revision + 1
-        )
+        // const result = await update(getEventStore(), startTrip)(
+        //     streamName,
+        //     {
+        //         tripId,
+        //         status: tripInfo.status,
+        //     },
+        //     tripInfo.Etag ?? tripInfo.revision + 1
+        // )
 
-        const etag = result.nextExpectedRevision
+        // const etag = result.nextExpectedRevision
 
         res.json({
             message: 'success',
             data: {
                 ...req.body.tripInfo,
-                Etag: etag.toString(),
+                Etag: 1,
             },
         })
     }
@@ -216,24 +216,24 @@ class TripController implements IController {
         const tripInfo = req.body.tripInfo
         const tripId = tripInfo.tripId
 
-        const streamName = toTripStreamName(tripId.toString())
+        // const streamName = toTripStreamName(tripId.toString())
 
-        const result = await update(getEventStore(), finishTrip)(
-            streamName,
-            {
-                tripId,
-                status: tripInfo.status,
-            },
-            tripInfo.Etag ?? tripInfo.revision + 1
-        )
+        // const result = await update(getEventStore(), finishTrip)(
+        //     streamName,
+        //     {
+        //         tripId,
+        //         status: tripInfo.status,
+        //     },
+        //     tripInfo.Etag ?? tripInfo.revision + 1
+        // )
 
-        const etag = result.nextExpectedRevision
+        // const etag = result.nextExpectedRevision
 
         res.json({
             message: 'success',
             data: {
                 ...req.body.tripInfo,
-                Etag: etag.toString(),
+                Etag: 1,
             },
         })
     }
