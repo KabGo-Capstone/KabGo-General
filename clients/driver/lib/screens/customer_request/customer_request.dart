@@ -298,7 +298,7 @@ class _CustomerRequestState extends ConsumerState<CustomerRequest> {
                   child: Icon(FontAwesomeIcons.xmark, color: Color(0xFFF42525)),
                 )),
             const SizedBox(width: 16),
-            Expanded(
+            Expanded( 
               child: Stack(
                 alignment: Alignment.centerRight,
                 children: [

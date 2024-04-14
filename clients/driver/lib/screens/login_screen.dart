@@ -5,6 +5,7 @@ import 'package:driver/providers/auth_provider.dart';
 import 'package:driver/providers/driver_info_register.dart';
 import 'package:driver/screens/register_screen/info_register.dart';
 import 'package:driver/screens/register_screen/otp_screen.dart';
+import 'package:driver/screens/register_screen/register_screen.dart';
 import 'package:driver/screens/register_screen/select_service.dart';
 import 'package:driver/widgets/login_screen/footer/footer.dart';
 import 'package:driver/widgets/login_screen/header/header.dart';
@@ -35,6 +36,11 @@ class LoginScreen extends ConsumerWidget {
             final email = googleProvider.user!.email;
             driverInfoProvider.setEmailDriver(email!);
 
+            if (data['redirect'] == RegisterScreen.path) {
+              context.go(data['redirect']);
+              return;
+            }
+
             if (data['redirect'] == OTPScreen.path) {
               ref.watch(phoneAuthProvider).signIn(data['user']['phoneNumber']);
 
@@ -51,6 +57,7 @@ class LoginScreen extends ConsumerWidget {
 
               return;
             }
+
             GoogleSignInController.signOut().then((value) {
               if (data['redirect'] == LoginScreen.path) {
                 context.push(data['redirect']);
