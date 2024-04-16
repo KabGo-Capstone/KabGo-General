@@ -69,21 +69,40 @@ services:
     hostname: localhost
     ports:
       - "5030:5003"
-      - "5031:5004"
-      - "5032:5005"
-      - "5033:5006"
-      - "5034:5007"
-      - "5035:5008"
       - "50053:50053"
-      - "50054:50054"
-      - "50055:50055"
-      - "50056:50056"
-      - "50057:50057"
-      - "50058:50058"
     networks:
       - proxy
-    deploy:
-      replicas: 5
+    environment:
+      DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
+      DEMAND_GRPC_CLIENT_PORT: "50051"
+
+      SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
+      SUPPLY_GRPC_CLIENT_PORT: "50052"
+
+      FORCE_COLOR: 1
+      DEBUG_COLORS: "true"
+      TERM: xterm-256color
+      COLORTERM: truecolor
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.admin-service.rule=Host(`admin.kabgo.mtech.id.vn`)
+      - traefik.http.routers.admin-service.entrypoints=websecure
+      - traefik.http.routers.admin-service.tls=true
+      - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
+    restart: unless-stopped
+
+  admin-service-2:
+    build:
+      context: ../servers/admin
+      dockerfile: Dockerfile.production
+    image: wgmin/admin-service
+    hostname: localhost
+    ports:
+      - "5031:5003"
+      - "50153:50053"
+    networks:
+      - proxy
     environment:
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"
