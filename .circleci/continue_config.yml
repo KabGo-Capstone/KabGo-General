@@ -307,7 +307,7 @@ jobs:
           command: |
             cd docker-compose
             docker login -u ${DOCKER_ACCOUNT} -p ${DOCKER_TOKEN}
-            docker-compose -f docker-compose-prod.yml push admin-service
+            docker-compose -f docker-compose-prod.yml push admin-service admin-service-2
 
   admin-deploy-service:
     docker:
