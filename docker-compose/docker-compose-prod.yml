@@ -73,6 +73,8 @@ services:
       - "50053:50053"
     networks:
       - proxy
+    deploy:
+      replicas: 5
     environment:
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"

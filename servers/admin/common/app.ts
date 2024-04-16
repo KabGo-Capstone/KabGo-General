@@ -123,7 +123,7 @@ class Application {
                 server: this.appName.replace(/\[(.*)\]/, '$1'),
                 status: '200 - OK',
                 message: 'Server is running ...',
-                version: 'v1',
+                ip: req.socket.address
             })
         })
 
