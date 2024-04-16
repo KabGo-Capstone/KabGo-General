@@ -91,14 +91,14 @@ services:
       - traefik.http.routers.admin-service.entrypoints=websecure
       - traefik.http.routers.admin-service.tls=true
       - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
-      - traefik.http.routers.admin-service.loadbalancer.server.port=5003
+      - traefik.http.routers.admin-service.loadbalancer.server.port=80
     restart: unless-stopped
 
   admin-service-2:
     build:
       context: ../servers/admin
       dockerfile: Dockerfile.production
-    image: wgmin/admin-service
+    image: wgmin/admin-service-2
     container_name: admin-service-2
     hostname: localhost
     ports:
