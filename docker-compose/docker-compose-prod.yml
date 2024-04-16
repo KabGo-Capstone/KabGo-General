@@ -74,6 +74,7 @@ services:
     networks:
       - proxy
     environment:
+      SERVICE: "admin-service-1"
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"
 
@@ -107,6 +108,7 @@ services:
     networks:
       - proxy
     environment:
+      SERVICE: "admin-service-2"
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"
 
