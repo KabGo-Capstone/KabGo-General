@@ -68,8 +68,8 @@ services:
     image: wgmin/admin-service
     hostname: localhost
     ports:
-      - "5030:5003-5035:5003"
-      - "50053:50053-50058:50053"
+      - 5030:5003-5035:5003
+      - 50053:50053-50058:50053
     networks:
       - proxy
     deploy:
