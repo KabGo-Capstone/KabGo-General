@@ -67,6 +67,9 @@ services:
       dockerfile: Dockerfile.production
     image: wgmin/admin-service
     hostname: localhost
+    ports:
+      - "5030:5003"
+      - "50053:50053"
     networks:
       - proxy
     environment:
@@ -96,6 +99,9 @@ services:
       dockerfile: Dockerfile.production
     image: wgmin/admin-service
     hostname: localhost
+    ports:
+      - "5031:5003"
+      - "50054:50053"
     networks:
       - proxy
     environment:
