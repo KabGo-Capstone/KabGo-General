@@ -124,7 +124,6 @@ services:
       - traefik.enable=true
       - traefik.weight=10
       - traefik.docker.network=proxy
-      - traefik.http.routers.admin-service-2.service=admin-service
       - traefik.http.routers.admin-service-2.rule=Host(`admin-2.kabgo.mtech.id.vn`)
       - traefik.http.routers.admin-service-2.entrypoints=websecure
       - traefik.http.routers.admin-service-2.tls=true
