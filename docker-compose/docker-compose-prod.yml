@@ -88,7 +88,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      - traefik.weight=10
+      - traefik.weight=40
       - traefik.http.routers.admin-service.rule=Host(`admin.kabgo.mtech.id.vn`)
       - traefik.http.routers.admin-service.entrypoints=websecure
       - traefik.http.routers.admin-service.tls=true
@@ -122,7 +122,7 @@ services:
       COLORTERM: truecolor
     labels:
       - traefik.enable=true
-      - traefik.weight=40
+      - traefik.weight=10
       - traefik.docker.network=proxy
       - traefik.http.routers.admin-service-2.service=admin-service
       - traefik.http.routers.admin-service-2.rule=Host(`admin-2.kabgo.mtech.id.vn`)
