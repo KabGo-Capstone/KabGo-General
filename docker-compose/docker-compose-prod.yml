@@ -123,7 +123,7 @@ services:
       - traefik.http.routers.admin-service-2.entrypoints=websecure
       - traefik.http.routers.admin-service-2.tls=true
       - traefik.http.routers.admin-service-2.tls.certresolver=letsencrypt
-      - traefik.http.routers.admin-service-2.loadbalancer.server.port=5003
+      - traefik.http.services.admin-service-2.loadbalancer.server.port=5003
     restart: unless-stopped
 
   admin-client:
