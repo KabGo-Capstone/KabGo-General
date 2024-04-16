@@ -123,7 +123,6 @@ services:
       - traefik.http.routers.admin-service-2.tls=true
       - traefik.http.routers.admin-service-2.tls.certresolver=letsencrypt
       - traefik.http.routers.admin-service-2.loadbalancer.server.port=5030
-
     restart: unless-stopped
 
   admin-client:
