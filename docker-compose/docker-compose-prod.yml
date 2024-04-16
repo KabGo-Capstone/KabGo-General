@@ -124,12 +124,11 @@ services:
       - traefik.enable=true
       - traefik.weight=10
       - traefik.docker.network=proxy
-      - traefik.http.routers.admin-service-2.service=admin-service
-      - traefik.http.routers.admin-service-2.rule=Host(`admin.kabgo.mtech.id.vn`)
-      - traefik.http.routers.admin-service-2.entrypoints=websecure
-      - traefik.http.routers.admin-service-2.tls=true
-      - traefik.http.routers.admin-service-2.tls.certresolver=letsencrypt
-      - traefik.http.services.admin-service-2.loadbalancer.server.port=5003
+      - traefik.http.routers.admin-service.rule=Host(`admin.kabgo.mtech.id.vn`)
+      - traefik.http.routers.admin-service.entrypoints=websecure
+      - traefik.http.routers.admin-service.tls=true
+      - traefik.http.routers.admin-service.tls.certresolver=letsencrypt
+      - traefik.http.services.admin-service.loadbalancer.server.port=5003
     restart: unless-stopped
 
   admin-client:
