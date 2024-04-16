@@ -101,7 +101,7 @@ services:
     hostname: localhost
     ports:
       - "5030:5003"
-      - "50053:50053"
+      - "50054:50053"
     networks:
       - proxy
     environment:
