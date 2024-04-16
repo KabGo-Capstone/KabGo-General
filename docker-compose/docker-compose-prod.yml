@@ -77,10 +77,8 @@ services:
       SERVICE: "admin-service-1"
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"
-
       SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
       SUPPLY_GRPC_CLIENT_PORT: "50052"
-
       FORCE_COLOR: 1
       DEBUG_COLORS: "true"
       TERM: xterm-256color
@@ -112,10 +110,8 @@ services:
       SERVICE: "admin-service-2"
       DEMAND_GRPC_CLIENT_HOST: "demand.kabgo.mtech.id.vn"
       DEMAND_GRPC_CLIENT_PORT: "50051"
-
       SUPPLY_GRPC_CLIENT_HOST: "supply.kabgo.mtech.id.vn"
       SUPPLY_GRPC_CLIENT_PORT: "50052"
-
       FORCE_COLOR: 1
       DEBUG_COLORS: "true"
       TERM: xterm-256color
